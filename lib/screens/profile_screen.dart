@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/profile.dart';
+import 'details.dart';
 
 class ProfilesScreen extends StatelessWidget {
   final List<Profile> profiles;
@@ -28,10 +29,15 @@ class ProfilesScreen extends StatelessWidget {
             ),
             subtitle: Text('${patient.age} yrs old • ${patient.primaryCondition}'),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DetailsPage(profile: patient)),
+              );
+            },
           ),
         );
       },
     );
   }
-}
+} 
