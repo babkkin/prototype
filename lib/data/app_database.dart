@@ -10,8 +10,8 @@ part 'app_database.g.dart';
 /// ---------------------------------------------------------------------
 /// TABLE
 /// One row per profile (a person being tracked in the app).
-/// `id` auto-increments, so once Medications/Appointments tables exist,
-/// they can each store a `profileId` column pointing back to a row here.
+/// `id` auto-increments, so other tables (Vitals, Medications, etc.)
+/// each store a `profileId` column pointing back to a row here.
 /// ---------------------------------------------------------------------
 
 class Profiles extends Table {
@@ -43,6 +43,60 @@ class VitalsTable extends Table {
   TextColumn get pain => text().nullable()();
   DateTimeColumn get recordedAt =>
       dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// ---------------------------------------------------------------------
+/// TABLE
+/// One row per prescribed medication, linked back to a profile.
+///
+/// `prescriptionType` covers maintenance / temporary / PRN (as-needed).
+/// Almost every field applies to all three types — only `prnIndication`
+/// and `maxPrnDoseFrequency` are meaningful when prescriptionType is
+/// PRN, so they're left nullable and simply unused otherwise, rather
+/// than splitting this into separate tables.
+/// ---------------------------------------------------------------------
+
+/// Keep this in sync with the check constraint below if you add a type.
+enum PrescriptionType { maintenance, temporary, prn }
+
+class Medications extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get profileId =>
+      integer().references(Profiles, #id, onDelete: KeyAction.cascade)();
+
+  // Prescription status / type (maintenance, temporary, or PRN)
+  TextColumn get prescriptionType =>
+      textEnum<PrescriptionType>()();
+
+  // Core identification
+  TextColumn get medicationName => text()();
+  TextColumn get brandName => text().nullable()(); // often blank — generic only on script
+  TextColumn get strength => text().nullable()(); // e.g. "300 mg"
+
+  // Dosing
+  TextColumn get dosage => text()(); // e.g. "1 tablet"
+  TextColumn get dosageForm => text()(); // tablet, capsule, syrup, etc.
+  TextColumn get route => text()(); // oral, topical, etc.
+  TextColumn get frequency => text()(); // e.g. "twice a day"
+  TextColumn get specificTime => text().nullable()(); // e.g. "7:00 AM" — free text since
+  // patients may have multiple times a day; store as comma-separated or
+  // move to its own table later if you need structured multi-time schedules.
+  TextColumn get relationToMeals => text().nullable()(); // before/with/after meals
+
+  // Duration
+  DateTimeColumn get startDate => dateTime()();
+  DateTimeColumn get endDate => dateTime().nullable()(); // null = ongoing
+
+  // PRN-only fields (leave null for maintenance/temporary)
+  TextColumn get prnIndication => text().nullable()(); // e.g. "for pain"
+  TextColumn get maxPrnDoseFrequency => text().nullable()(); // e.g. "max 4x/day"
+
+  // Shared extras
+  TextColumn get specialInstructions => text().nullable()(); // e.g. "Hold if active bleeding"
+  TextColumn get prescriberName => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -113,22 +167,61 @@ class VitalsDao extends DatabaseAccessor<AppDatabase> with _$VitalsDaoMixin {
   }
 }
 
+@DriftAccessor(tables: [Medications])
+class MedicationsDao extends DatabaseAccessor<AppDatabase>
+    with _$MedicationsDaoMixin {
+  MedicationsDao(super.db);
+
+  /// Live list of all medications for a profile, grouped implicitly by
+  /// prescriptionType in the UI layer (query just returns everything,
+  /// ordered by name).
+  Stream<List<Medication>> watchAllForProfile(int profileId) {
+    return (select(medications)
+          ..where((t) => t.profileId.equals(profileId))
+          ..orderBy([(t) => OrderingTerm(expression: t.medicationName)]))
+        .watch();
+  }
+
+  /// Live list filtered to just one prescription type, e.g. showing
+  /// only PRN meds in a "as needed" tab.
+  Stream<List<Medication>> watchByType(
+    int profileId,
+    PrescriptionType type,
+  ) {
+    return (select(medications)
+          ..where((t) =>
+              t.profileId.equals(profileId) &
+              t.prescriptionType.equalsValue(type))
+          ..orderBy([(t) => OrderingTerm(expression: t.medicationName)]))
+        .watch();
+  }
+
+  Future<int> insertMedication(MedicationsCompanion entry) {
+    return into(medications).insert(entry);
+  }
+
+  Future<void> updateMedication(Medication medication) {
+    return update(medications).replace(medication);
+  }
+
+  Future<void> deleteMedication(int id) {
+    return (delete(medications)..where((t) => t.id.equals(id))).go();
+  }
+}
+
 /// ---------------------------------------------------------------------
 /// DATABASE
-/// Add more tables here later, e.g.:
-///   @DriftDatabase(tables: [Profiles, VitalsTable, Medications, Appointments],
-///                   daos: [ProfilesDao, VitalsDao, MedicationsDao, AppointmentsDao])
 /// ---------------------------------------------------------------------
 
 @DriftDatabase(
-  tables: [Profiles, VitalsTable],
-  daos: [ProfilesDao, VitalsDao],
+  tables: [Profiles, VitalsTable, Medications],
+  daos: [ProfilesDao, VitalsDao, MedicationsDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -137,9 +230,12 @@ class AppDatabase extends _$AppDatabase {
         },
         onUpgrade: (m, from, to) async {
           if (from < 2) {
-            // Existing installs (schema v1) only had Profiles.
-            // Add the new VitalsTable without touching existing data.
+            // v1 -> v2: added VitalsTable.
             await m.createTable(vitalsTable);
+          }
+          if (from < 3) {
+            // v2 -> v3: added Medications.
+            await m.createTable(medications);
           }
         },
       );
