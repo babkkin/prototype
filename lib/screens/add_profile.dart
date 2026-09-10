@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/profile.dart';
+import '../data/app_database.dart';
 
 class AddProfileScreen extends StatefulWidget {
   const AddProfileScreen({super.key});
@@ -22,17 +22,19 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
     super.dispose();
   }
 
-void _submit() {
-  if (_formKey.currentState!.validate()) {
-    final newProfile = Profile(
-      id: DateTime.now().millisecondsSinceEpoch.toString(), // simple unique id
-      name: _nameController.text,
-      age: int.parse(_ageController.text),
-      primaryCondition: _conditionController.text,
-    );
-    Navigator.pop(context, newProfile);
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      // A Companion is Drift's way of describing "the fields for one
+      // row, minus the auto-generated id" — the database assigns the
+      // id itself when we insert this.
+      final newProfile = ProfilesCompanion.insert(
+        name: _nameController.text,
+        age: int.parse(_ageController.text),
+        primaryCondition: _conditionController.text,
+      );
+      Navigator.pop(context, newProfile);
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +56,22 @@ void _submit() {
                 controller: _ageController,
                 decoration: const InputDecoration(labelText: 'Age'),
                 keyboardType: TextInputType.number,
-                validator: (value) =>
-                    (value == null || value.isEmpty) ? 'Enter an age' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Enter an age';
+                  if (int.tryParse(value) == null) {
+                    return 'Enter a valid number';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _conditionController,
-                decoration: const InputDecoration(labelText: 'Primary Condition'),
+                decoration:
+                    const InputDecoration(labelText: 'Primary Condition'),
                 validator: (value) =>
-                    (value == null || value.isEmpty) ? 'Enter a condition' : null,
+                    (value == null || value.isEmpty)
+                        ? 'Enter a condition'
+                        : null,
               ),
               const SizedBox(height: 24),
               ElevatedButton(
