@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import '../models/profile.dart';
+import 'profile_screen.dart';
+import 'add_profile.dart';
 
-class ManageProfilesScreen extends StatelessWidget {
+class ManageProfilesScreen extends StatefulWidget {
   const ManageProfilesScreen({super.key});
+
+  @override
+  State<ManageProfilesScreen> createState() => _ManageProfilesScreenState();
+}
+
+class _ManageProfilesScreenState extends State<ManageProfilesScreen> {
+  final List<Profile> profiles = [
+    Profile(id: '1', name: 'Grandma Maria', age: 78, primaryCondition: 'Hypertension'),
+    Profile(id: '2', name: 'Uncle Ben', age: 54, primaryCondition: 'Type 2 Diabetes'),
+    Profile(id: '3', name: 'Baby Liam', age: 1, primaryCondition: 'Asthma'),
+  ];
+
+  void _addProfile(Profile newProfile) {
+    setState(() {
+      profiles.add(newProfile);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,8 +29,19 @@ class ManageProfilesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Manage Profiles'),
       ),
-      body: const Center(
-        child: Text('Manage Profiles Content'),
+      body: ProfilesScreen(profiles: profiles),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final newProfile = await Navigator.push<Profile>(
+            context,
+            MaterialPageRoute(builder: (context) => const AddProfileScreen()),
+          );
+
+          if (newProfile != null) {
+            _addProfile(newProfile);
+          }
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

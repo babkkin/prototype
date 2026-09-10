@@ -3,6 +3,7 @@ import 'manage_profiles.dart';
 import 'medicine.dart';
 import 'symptom.dart';
 
+
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 

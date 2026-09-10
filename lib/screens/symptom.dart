@@ -77,7 +77,7 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
               final symptom = symptoms[index];
               return ListTile(
                 title: Text(symptom.name),
-                // The list row now previews the summary, not a bullet.
+                // The list row previews the summary, not a bullet.
                 subtitle: Text(
                   symptom.summary,
                   maxLines: 1,
