@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/profile.dart';
+import '../data/app_database.dart';
 
 class ProfilesScreen extends StatelessWidget {
   final List<Profile> profiles;
@@ -26,7 +26,8 @@ class ProfilesScreen extends StatelessWidget {
               patient.name,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text('${patient.age} yrs old • ${patient.primaryCondition}'),
+            subtitle:
+                Text('${patient.age} yrs old • ${patient.primaryCondition}'),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {},
           ),
