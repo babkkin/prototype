@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/app_database.dart'; // provides Profile, VitalsTableData, VitalsDao
+import 'manage_medications.dart';
+import 'symptom.dart';
 
 class DetailsPage extends StatelessWidget {
   final Profile profile;
@@ -27,7 +29,7 @@ class DetailsPage extends StatelessWidget {
             },
           ),
           _ProfileInfoContainer(profile: profile),
-          _TabButtonsRow(),
+          _TabButtonsRow(profile: profile),
           const Divider(height: 1),
           Expanded(
             child: _PrescriptionContainer(),
@@ -126,7 +128,30 @@ class _ProfileInfoContainer extends StatelessWidget {
 
 // ── Tab buttons row ────────────────────────────────────────────
 class _TabButtonsRow extends StatelessWidget {
-  const _TabButtonsRow();
+  final Profile profile;
+  const _TabButtonsRow({required this.profile});
+
+  void _onTabPressed(BuildContext context, String label) {
+    switch (label) {
+      case 'Medication':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ManageMedicationsScreen(profile: profile),
+          ),
+        );
+        break;
+      case 'Symptoms':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SymptomsScreen()),
+        );
+        break;
+      default:
+        // TODO: wire up once AppointmentScreen / VitalsScreen exist
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,10 +163,7 @@ class _TabButtonsRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: tabs.map((label) {
           return OutlinedButton(
-            onPressed: () {
-              // TODO: Navigator.push to the respective screen once built
-              // e.g. MedicationScreen, SymptomsScreen, AppointmentScreen, VitalsScreen
-            },
+            onPressed: () => _onTabPressed(context, label),
             child: Text(label),
           );
         }).toList(),
