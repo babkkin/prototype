@@ -1,44 +1,40 @@
 import 'package:flutter/material.dart';
-import '../models/profile.dart';
+import 'package:provider/provider.dart';
+import '../data/app_database.dart';
 import 'profile_screen.dart';
 import 'add_profile.dart';
 
-class ManageProfilesScreen extends StatefulWidget {
+class ManageProfilesScreen extends StatelessWidget {
   const ManageProfilesScreen({super.key});
 
   @override
-  State<ManageProfilesScreen> createState() => _ManageProfilesScreenState();
-}
-
-class _ManageProfilesScreenState extends State<ManageProfilesScreen> {
-  final List<Profile> profiles = [
-    Profile(id: '1', name: 'Grandma Maria', age: 78, primaryCondition: 'Hypertension'),
-    Profile(id: '2', name: 'Uncle Ben', age: 54, primaryCondition: 'Type 2 Diabetes'),
-    Profile(id: '3', name: 'Baby Liam', age: 1, primaryCondition: 'Asthma'),
-  ];
-
-  void _addProfile(Profile newProfile) {
-    setState(() {
-      profiles.add(newProfile);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final dao = context.watch<AppDatabase>().profilesDao;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Profiles'),
       ),
-      body: ProfilesScreen(profiles: profiles),
+      // StreamBuilder rebuilds this automatically whenever the
+      // profiles table changes — no setState needed here anymore.
+      body: StreamBuilder<List<Profile>>(
+        stream: dao.watchAll(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return ProfilesScreen(profiles: snapshot.data!);
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final newProfile = await Navigator.push<Profile>(
+          final newProfile = await Navigator.push<ProfilesCompanion>(
             context,
             MaterialPageRoute(builder: (context) => const AddProfileScreen()),
           );
 
           if (newProfile != null) {
-            _addProfile(newProfile);
+            await dao.insertProfile(newProfile);
           }
         },
         child: const Icon(Icons.add),

@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'data/app_database.dart';
 import 'screens/landing_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  final database = AppDatabase();
+
+  runApp(
+    // Provider makes the database available to any screen below this
+    // point in the widget tree via context.watch<AppDatabase>() or
+    // context.read<AppDatabase>() — that's how ManageProfilesScreen
+    // gets access to it without it being passed in manually.
+    Provider<AppDatabase>(
+      create: (_) => database,
+      dispose: (_, db) => db.close(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
