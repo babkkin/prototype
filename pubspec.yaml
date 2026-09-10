@@ -33,3 +33,4 @@ flutter:
 
   assets:
     - assets/symptoms.json
+    - assets/medicines.json
