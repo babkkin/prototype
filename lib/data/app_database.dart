@@ -25,6 +25,30 @@ class Profiles extends Table {
 }
 
 /// ---------------------------------------------------------------------
+/// TABLE
+/// One row per vitals reading, linked back to a profile via `profileId`.
+/// A profile can have many readings over time (history), so this is a
+/// separate table rather than columns on Profiles.
+/// ---------------------------------------------------------------------
+
+class VitalsTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get profileId =>
+      integer().references(Profiles, #id, onDelete: KeyAction.cascade)();
+  TextColumn get bp => text().nullable()();
+  TextColumn get temperature => text().nullable()();
+  TextColumn get pulseRate => text().nullable()();
+  TextColumn get respiratoryRate => text().nullable()();
+  TextColumn get oxygenSaturation => text().nullable()();
+  TextColumn get pain => text().nullable()();
+  DateTimeColumn get recordedAt =>
+      dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// ---------------------------------------------------------------------
 /// DAO
 /// Drift auto-generates a data class called `Profile` from the
 /// `Profiles` table above (singular of the table name). You'll import
@@ -60,26 +84,64 @@ class ProfilesDao extends DatabaseAccessor<AppDatabase>
   }
 }
 
+@DriftAccessor(tables: [VitalsTable])
+class VitalsDao extends DatabaseAccessor<AppDatabase> with _$VitalsDaoMixin {
+  VitalsDao(super.db);
+
+  /// Live stream of the single most recent reading for a profile.
+  /// Emits null if that profile has no readings yet — DetailsPage
+  /// falls back to showing '--' for each field in that case.
+  Stream<VitalsTableData?> watchLatestForProfile(int profileId) {
+    final query = select(vitalsTable)
+      ..where((t) => t.profileId.equals(profileId))
+      ..orderBy([(t) => OrderingTerm.desc(t.recordedAt)])
+      ..limit(1);
+    return query.watchSingleOrNull();
+  }
+
+  /// Live stream of full reading history for a profile, most recent first.
+  Stream<List<VitalsTableData>> watchHistoryForProfile(int profileId) {
+    return (select(vitalsTable)
+          ..where((t) => t.profileId.equals(profileId))
+          ..orderBy([(t) => OrderingTerm.desc(t.recordedAt)]))
+        .watch();
+  }
+
+  /// Inserts a new reading (e.g. from a "log vitals" form).
+  Future<int> insertVitals(VitalsTableCompanion entry) {
+    return into(vitalsTable).insert(entry);
+  }
+}
+
 /// ---------------------------------------------------------------------
 /// DATABASE
 /// Add more tables here later, e.g.:
-///   @DriftDatabase(tables: [Profiles, Medications, Appointments],
-///                   daos: [ProfilesDao, MedicationsDao, AppointmentsDao])
+///   @DriftDatabase(tables: [Profiles, VitalsTable, Medications, Appointments],
+///                   daos: [ProfilesDao, VitalsDao, MedicationsDao, AppointmentsDao])
 /// ---------------------------------------------------------------------
 
-@DriftDatabase(tables: [Profiles], daos: [ProfilesDao])
+@DriftDatabase(
+  tables: [Profiles, VitalsTable],
+  daos: [ProfilesDao, VitalsDao],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
         },
-        // onUpgrade: (m, from, to) async { ... } as the schema evolves
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            // Existing installs (schema v1) only had Profiles.
+            // Add the new VitalsTable without touching existing data.
+            await m.createTable(vitalsTable);
+          }
+        },
       );
 }
 
