@@ -7,6 +7,7 @@ class MedicineScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Medicines'),
       ),
       body: const Center(
         child: Text('Medicines Content'),
