@@ -1,0 +1,252 @@
+[
+  {
+    "name": "Metformin",
+    "genericName": "Metformin Hydrochloride",
+    "brandNames": ["Glucophage"],
+    "category": "Antidiabetic",
+    "form": "Tablet",
+    "commonStrengths": ["500 mg", "850 mg", "1000 mg"],
+    "description": "A medicine commonly used to help manage blood glucose levels in people with type 2 diabetes.",
+    "commonUses": [
+      "Type 2 diabetes mellitus"
+    ],
+    "howItWorks": "It reduces glucose production by the liver and helps improve the body's response to insulin.",
+    "commonSideEffects": [
+      "Nausea",
+      "Diarrhea",
+      "Stomach discomfort",
+      "Loss of appetite"
+    ],
+    "precautions": [
+      "Take only according to the prescribed instructions.",
+      "Tell a healthcare professional about kidney problems or other medical conditions."
+    ],
+    "storage": "Store at room temperature away from excessive heat and moisture."
+  },
+  {
+    "name": "Amlodipine",
+    "genericName": "Amlodipine Besylate",
+    "brandNames": ["Norvasc"],
+    "category": "Calcium Channel Blocker",
+    "form": "Tablet",
+    "commonStrengths": ["2.5 mg", "5 mg", "10 mg"],
+    "description": "A medicine used to treat high blood pressure and certain types of chest pain.",
+    "commonUses": [
+      "Hypertension",
+      "Angina"
+    ],
+    "howItWorks": "It relaxes and widens blood vessels, making it easier for the heart to pump blood.",
+    "commonSideEffects": [
+      "Swelling of the ankles or feet",
+      "Dizziness",
+      "Flushing",
+      "Tiredness"
+    ],
+    "precautions": [
+      "Use according to the prescribed dose.",
+      "Tell a healthcare professional if dizziness or significant swelling occurs."
+    ],
+    "storage": "Store at room temperature away from light and moisture."
+  },
+  {
+    "name": "Losartan",
+    "genericName": "Losartan Potassium",
+    "brandNames": ["Cozaar"],
+    "category": "Angiotensin II Receptor Blocker",
+    "form": "Tablet",
+    "commonStrengths": ["25 mg", "50 mg", "100 mg"],
+    "description": "A medicine commonly prescribed to help lower high blood pressure.",
+    "commonUses": [
+      "Hypertension",
+      "Certain kidney problems associated with type 2 diabetes"
+    ],
+    "howItWorks": "It blocks the effects of angiotensin II, helping blood vessels relax and lowering blood pressure.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Tiredness",
+      "Nasal congestion"
+    ],
+    "precautions": [
+      "Use according to the prescribed instructions.",
+      "Tell a healthcare professional about kidney problems or medicines and supplements containing potassium."
+    ],
+    "storage": "Store at room temperature in a dry place protected from excessive moisture."
+  },
+  {
+    "name": "Atorvastatin",
+    "genericName": "Atorvastatin Calcium",
+    "brandNames": ["Lipitor"],
+    "category": "Statin",
+    "form": "Tablet",
+    "commonStrengths": ["10 mg", "20 mg", "40 mg", "80 mg"],
+    "description": "A cholesterol-lowering medicine used to help reduce levels of certain fats in the blood.",
+    "commonUses": [
+      "High cholesterol",
+      "Reduction of cardiovascular risk in appropriate patients"
+    ],
+    "howItWorks": "It reduces cholesterol production in the liver by blocking an enzyme involved in making cholesterol.",
+    "commonSideEffects": [
+      "Muscle or joint pain",
+      "Diarrhea",
+      "Nausea"
+    ],
+    "precautions": [
+      "Take according to the prescribed instructions.",
+      "Tell a healthcare professional about unexplained muscle pain or weakness."
+    ],
+    "storage": "Store at room temperature away from excessive heat and moisture."
+  },
+  {
+    "name": "Omeprazole",
+    "genericName": "Omeprazole",
+    "brandNames": ["Prilosec", "Losec"],
+    "category": "Proton Pump Inhibitor",
+    "form": "Capsule / Tablet",
+    "commonStrengths": ["10 mg", "20 mg", "40 mg"],
+    "description": "A medicine that reduces the amount of acid produced by the stomach.",
+    "commonUses": [
+      "Gastroesophageal reflux disease",
+      "Certain stomach and intestinal ulcers"
+    ],
+    "howItWorks": "It blocks an enzyme in stomach cells that is involved in producing stomach acid.",
+    "commonSideEffects": [
+      "Headache",
+      "Abdominal pain",
+      "Nausea",
+      "Diarrhea"
+    ],
+    "precautions": [
+      "Follow the prescribed instructions and treatment duration.",
+      "Discuss prolonged use with a healthcare professional."
+    ],
+    "storage": "Store at room temperature away from heat and moisture."
+  },
+  {
+    "name": "Furosemide",
+    "genericName": "Furosemide",
+    "brandNames": ["Lasix"],
+    "category": "Loop Diuretic",
+    "form": "Tablet",
+    "commonStrengths": ["20 mg", "40 mg", "80 mg"],
+    "description": "A diuretic medicine that helps the body remove excess salt and water through urine.",
+    "commonUses": [
+      "Edema",
+      "Hypertension"
+    ],
+    "howItWorks": "It acts on the kidneys to increase the removal of sodium and water from the body.",
+    "commonSideEffects": [
+      "Increased urination",
+      "Dizziness",
+      "Dehydration",
+      "Electrolyte changes"
+    ],
+    "precautions": [
+      "Use only according to the prescribed instructions.",
+      "Tell a healthcare professional about significant dizziness, dehydration, or weakness."
+    ],
+    "storage": "Store at room temperature and protect from excessive light and moisture."
+  },
+  {
+    "name": "Carvedilol",
+    "genericName": "Carvedilol",
+    "brandNames": ["Coreg"],
+    "category": "Beta Blocker",
+    "form": "Tablet",
+    "commonStrengths": ["3.125 mg", "6.25 mg", "12.5 mg", "25 mg"],
+    "description": "A medicine used for certain cardiovascular conditions, including high blood pressure and heart failure.",
+    "commonUses": [
+      "Hypertension",
+      "Heart failure"
+    ],
+    "howItWorks": "It blocks certain receptors in the heart and blood vessels, reducing heart rate and helping blood vessels relax.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Tiredness",
+      "Low blood pressure",
+      "Slow heartbeat"
+    ],
+    "precautions": [
+      "Take according to the prescribed instructions.",
+      "Do not make sudden changes to treatment without consulting the prescribing healthcare professional."
+    ],
+    "storage": "Store at room temperature away from excessive heat and moisture."
+  },
+  {
+    "name": "Levothyroxine",
+    "genericName": "Levothyroxine Sodium",
+    "brandNames": ["Synthroid", "Euthyrox"],
+    "category": "Thyroid Hormone",
+    "form": "Tablet",
+    "commonStrengths": [
+      "25 mcg",
+      "50 mcg",
+      "75 mcg",
+      "100 mcg"
+    ],
+    "description": "A synthetic form of thyroid hormone used when the body does not produce enough thyroid hormone.",
+    "commonUses": [
+      "Hypothyroidism"
+    ],
+    "howItWorks": "It replaces or supplements the thyroid hormone normally produced by the thyroid gland.",
+    "commonSideEffects": [
+      "Headache",
+      "Sweating",
+      "Tremor",
+      "Changes in heart rate when the dose is excessive"
+    ],
+    "precautions": [
+      "Take exactly according to the prescribed instructions.",
+      "Timing and consistency of administration can affect absorption."
+    ],
+    "storage": "Store at room temperature away from heat, light, and moisture."
+  },
+  {
+    "name": "Clopidogrel",
+    "genericName": "Clopidogrel Bisulfate",
+    "brandNames": ["Plavix"],
+    "category": "Antiplatelet",
+    "form": "Tablet",
+    "commonStrengths": ["75 mg", "300 mg"],
+    "description": "An antiplatelet medicine that helps reduce the formation of harmful blood clots.",
+    "commonUses": [
+      "Prevention of certain cardiovascular events in appropriate patients"
+    ],
+    "howItWorks": "It reduces the ability of platelets in the blood to stick together and form clots.",
+    "commonSideEffects": [
+      "Easy bruising",
+      "Bleeding",
+      "Nosebleeds",
+      "Stomach discomfort"
+    ],
+    "precautions": [
+      "Tell healthcare professionals that this medicine is being taken before procedures or surgery.",
+      "Seek medical attention for serious or unusual bleeding."
+    ],
+    "storage": "Store at room temperature away from excessive moisture."
+  },
+  {
+    "name": "Paracetamol",
+    "genericName": "Paracetamol (Acetaminophen)",
+    "brandNames": ["Biogesic", "Tylenol"],
+    "category": "Analgesic / Antipyretic",
+    "form": "Tablet",
+    "commonStrengths": ["325 mg", "500 mg", "650 mg"],
+    "description": "A medicine commonly used to relieve mild to moderate pain and reduce fever.",
+    "commonUses": [
+      "Mild to moderate pain",
+      "Fever"
+    ],
+    "howItWorks": "It acts primarily within the central nervous system to reduce pain and help lower elevated body temperature.",
+    "commonSideEffects": [
+      "Side effects are uncommon when used appropriately",
+      "Nausea",
+      "Skin reactions can occur in some people"
+    ],
+    "precautions": [
+      "Avoid taking more than the recommended or prescribed amount.",
+      "Check other medicines for paracetamol or acetaminophen to avoid accidentally taking multiple products containing the same ingredient.",
+      "Excessive amounts can cause serious liver injury."
+    ],
+    "storage": "Store at room temperature away from excessive heat and moisture."
+  }
+]

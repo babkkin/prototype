@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../data/app_database.dart'; // provides Profile, VitalsTableData, VitalsDao
+import '../data/app_database.dart';
 import 'manage_medications.dart';
 import 'symptom.dart';
+import 'daily_medication_schedule.dart';
 
 class DetailsPage extends StatelessWidget {
   final Profile profile;
@@ -14,14 +15,13 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vitalsDao = context.watch<AppDatabase>().vitalsDao;
+    final database = context.watch<AppDatabase>();
+    final vitalsDao = database.vitalsDao;
 
     return Scaffold(
       appBar: AppBar(title: Text(profile.name)),
       body: Column(
         children: [
-          // StreamBuilder rebuilds this box automatically whenever a
-          // new vitals reading is logged for this profile.
           StreamBuilder<VitalsTableData?>(
             stream: vitalsDao.watchLatestForProfile(profile.id),
             builder: (context, snapshot) {
@@ -32,7 +32,7 @@ class DetailsPage extends StatelessWidget {
           _TabButtonsRow(profile: profile),
           const Divider(height: 1),
           Expanded(
-            child: _PrescriptionContainer(),
+            child: DailyMedicationSchedule(profile: profile),
           ),
         ],
       ),
@@ -42,7 +42,7 @@ class DetailsPage extends StatelessWidget {
 
 // ── Vitals dashboard ──────────────────────────────────────────
 class _VitalsDashboard extends StatelessWidget {
-  final VitalsTableData? vitals; // null until a reading has been logged
+  final VitalsTableData? vitals;
   const _VitalsDashboard({required this.vitals});
 
   @override
@@ -59,9 +59,9 @@ class _VitalsDashboard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: GridView.count(
-        crossAxisCount: 3, // 3 boxes per row → 2 rows for 6 items
-        shrinkWrap: true, // lets GridView size itself instead of expanding infinitely
-        physics: const NeverScrollableScrollPhysics(), // parent Column handles scrolling if needed
+        crossAxisCount: 3,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
         childAspectRatio: 1.3,
@@ -78,7 +78,10 @@ class _VitalsDashboard extends StatelessWidget {
                 children: [
                   Text(
                     value ?? '--',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(label, style: const TextStyle(fontSize: 12)),
                 ],
@@ -98,27 +101,36 @@ class _ProfileInfoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final firstLetter = profile.name.trim().isEmpty
+        ? '?'
+        : profile.name.trim()[0].toUpperCase();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            child: Text(profile.name[0]),
+            child: Text(firstLetter),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                profile.name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                profile.primaryCondition,
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  profile.name,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  profile.primaryCondition,
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -148,7 +160,7 @@ class _TabButtonsRow extends StatelessWidget {
         );
         break;
       default:
-        // TODO: wire up once AppointmentScreen / VitalsScreen exist
+        // TODO: wire up once AppointmentScreen / VitalsScreen exist.
         break;
     }
   }
@@ -159,43 +171,19 @@ class _TabButtonsRow extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: tabs.map((label) {
-          return OutlinedButton(
-            onPressed: () => _onTabPressed(context, label),
-            child: Text(label),
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
-
-// ── Prescription container (lower half, read-only) ─────────────
-class _PrescriptionContainer extends StatelessWidget {
-  const _PrescriptionContainer();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16.0),
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Doctor's Prescription",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'No prescription entered yet.', // placeholder until caretaker input is wired up
-              style: TextStyle(color: Colors.grey[600]),
-            ),
-          ],
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: tabs.map((label) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: OutlinedButton(
+                onPressed: () => _onTabPressed(context, label),
+                child: Text(label),
+              ),
+            );
+          }).toList(),
         ),
       ),
     );
