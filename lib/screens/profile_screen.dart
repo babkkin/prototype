@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/profile.dart';
 import 'details.dart';
-import '../data/app_database.dart';
+import '../data/app_database.dart'; // provides the Drift-generated Profile class
 
 class ProfilesScreen extends StatelessWidget {
   final List<Profile> profiles;
@@ -42,4 +41,4 @@ class ProfilesScreen extends StatelessWidget {
       },
     );
   }
-} 
+}

@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
-import '../models/profile.dart';
-import '../models/vitals.dart';
+import 'package:provider/provider.dart';
+import '../data/app_database.dart'; // provides Profile, VitalsTableData, VitalsDao
 
 class DetailsPage extends StatelessWidget {
   final Profile profile;
-  final Vitals vitals; // pass in real data later; defaults to empty for now
 
   const DetailsPage({
     super.key,
     required this.profile,
-    this.vitals = const Vitals(),
   });
 
   @override
   Widget build(BuildContext context) {
+    final vitalsDao = context.watch<AppDatabase>().vitalsDao;
+
     return Scaffold(
       appBar: AppBar(title: Text(profile.name)),
       body: Column(
         children: [
-          _VitalsDashboard(vitals: vitals),
+          // StreamBuilder rebuilds this box automatically whenever a
+          // new vitals reading is logged for this profile.
+          StreamBuilder<VitalsTableData?>(
+            stream: vitalsDao.watchLatestForProfile(profile.id),
+            builder: (context, snapshot) {
+              return _VitalsDashboard(vitals: snapshot.data);
+            },
+          ),
           _ProfileInfoContainer(profile: profile),
           _TabButtonsRow(),
           const Divider(height: 1),
@@ -33,18 +40,18 @@ class DetailsPage extends StatelessWidget {
 
 // ── Vitals dashboard ──────────────────────────────────────────
 class _VitalsDashboard extends StatelessWidget {
-  final Vitals vitals;
+  final VitalsTableData? vitals; // null until a reading has been logged
   const _VitalsDashboard({required this.vitals});
 
   @override
   Widget build(BuildContext context) {
     final items = [
-      ('BP', vitals.bp),
-      ('T', vitals.temperature),
-      ('PR', vitals.pulseRate),
-      ('RR', vitals.respiratoryRate),
-      ('O2 SAT.', vitals.oxygenSaturation),
-      ('Pain', vitals.pain),
+      ('BP', vitals?.bp),
+      ('T', vitals?.temperature),
+      ('PR', vitals?.pulseRate),
+      ('RR', vitals?.respiratoryRate),
+      ('O2 SAT.', vitals?.oxygenSaturation),
+      ('Pain', vitals?.pain),
     ];
 
     return Padding(
