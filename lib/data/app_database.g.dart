@@ -45,6 +45,21 @@ class MedicationsDaoManager {
       $$MedicationsTableTableManager(_db.attachedDatabase, _db.medications);
 }
 
+mixin _$SymptomsDaoMixin on DatabaseAccessor<AppDatabase> {
+  $ProfilesTable get profiles => attachedDatabase.profiles;
+  $SymptomsTable get symptoms => attachedDatabase.symptoms;
+  SymptomsDaoManager get managers => SymptomsDaoManager(this);
+}
+
+class SymptomsDaoManager {
+  final _$SymptomsDaoMixin _db;
+  SymptomsDaoManager(this._db);
+  $$ProfilesTableTableManager get profiles =>
+      $$ProfilesTableTableManager(_db.attachedDatabase, _db.profiles);
+  $$SymptomsTableTableManager get symptoms =>
+      $$SymptomsTableTableManager(_db.attachedDatabase, _db.symptoms);
+}
+
 class $ProfilesTable extends Profiles with TableInfo<$ProfilesTable, Profile> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -1975,17 +1990,621 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
   }
 }
 
+class $SymptomsTable extends Symptoms with TableInfo<$SymptomsTable, Symptom> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SymptomsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<int> profileId = GeneratedColumn<int>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES profiles (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _characterMeta = const VerificationMeta(
+    'character',
+  );
+  @override
+  late final GeneratedColumn<String> character = GeneratedColumn<String>(
+    'character',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _onsetMeta = const VerificationMeta('onset');
+  @override
+  late final GeneratedColumn<String> onset = GeneratedColumn<String>(
+    'onset',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _locationMeta = const VerificationMeta(
+    'location',
+  );
+  @override
+  late final GeneratedColumn<String> location = GeneratedColumn<String>(
+    'location',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _durationMeta = const VerificationMeta(
+    'duration',
+  );
+  @override
+  late final GeneratedColumn<String> duration = GeneratedColumn<String>(
+    'duration',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _severityMeta = const VerificationMeta(
+    'severity',
+  );
+  @override
+  late final GeneratedColumn<String> severity = GeneratedColumn<String>(
+    'severity',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _patternMeta = const VerificationMeta(
+    'pattern',
+  );
+  @override
+  late final GeneratedColumn<String> pattern = GeneratedColumn<String>(
+    'pattern',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _associatedFactorsMeta = const VerificationMeta(
+    'associatedFactors',
+  );
+  @override
+  late final GeneratedColumn<String> associatedFactors =
+      GeneratedColumn<String>(
+        'associated_factors',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _loggedAtMeta = const VerificationMeta(
+    'loggedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> loggedAt = GeneratedColumn<DateTime>(
+    'logged_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    profileId,
+    character,
+    onset,
+    location,
+    duration,
+    severity,
+    pattern,
+    associatedFactors,
+    loggedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'symptoms';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Symptom> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('character')) {
+      context.handle(
+        _characterMeta,
+        character.isAcceptableOrUnknown(data['character']!, _characterMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_characterMeta);
+    }
+    if (data.containsKey('onset')) {
+      context.handle(
+        _onsetMeta,
+        onset.isAcceptableOrUnknown(data['onset']!, _onsetMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_onsetMeta);
+    }
+    if (data.containsKey('location')) {
+      context.handle(
+        _locationMeta,
+        location.isAcceptableOrUnknown(data['location']!, _locationMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_locationMeta);
+    }
+    if (data.containsKey('duration')) {
+      context.handle(
+        _durationMeta,
+        duration.isAcceptableOrUnknown(data['duration']!, _durationMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_durationMeta);
+    }
+    if (data.containsKey('severity')) {
+      context.handle(
+        _severityMeta,
+        severity.isAcceptableOrUnknown(data['severity']!, _severityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_severityMeta);
+    }
+    if (data.containsKey('pattern')) {
+      context.handle(
+        _patternMeta,
+        pattern.isAcceptableOrUnknown(data['pattern']!, _patternMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_patternMeta);
+    }
+    if (data.containsKey('associated_factors')) {
+      context.handle(
+        _associatedFactorsMeta,
+        associatedFactors.isAcceptableOrUnknown(
+          data['associated_factors']!,
+          _associatedFactorsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_associatedFactorsMeta);
+    }
+    if (data.containsKey('logged_at')) {
+      context.handle(
+        _loggedAtMeta,
+        loggedAt.isAcceptableOrUnknown(data['logged_at']!, _loggedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Symptom map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Symptom(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      character: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character'],
+      )!,
+      onset: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}onset'],
+      )!,
+      location: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}location'],
+      )!,
+      duration: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}duration'],
+      )!,
+      severity: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}severity'],
+      )!,
+      pattern: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pattern'],
+      )!,
+      associatedFactors: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}associated_factors'],
+      )!,
+      loggedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}logged_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SymptomsTable createAlias(String alias) {
+    return $SymptomsTable(attachedDatabase, alias);
+  }
+}
+
+class Symptom extends DataClass implements Insertable<Symptom> {
+  final int id;
+  final int profileId;
+  final String character;
+  final String onset;
+  final String location;
+  final String duration;
+  final String severity;
+  final String pattern;
+  final String associatedFactors;
+  final DateTime loggedAt;
+  const Symptom({
+    required this.id,
+    required this.profileId,
+    required this.character,
+    required this.onset,
+    required this.location,
+    required this.duration,
+    required this.severity,
+    required this.pattern,
+    required this.associatedFactors,
+    required this.loggedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['profile_id'] = Variable<int>(profileId);
+    map['character'] = Variable<String>(character);
+    map['onset'] = Variable<String>(onset);
+    map['location'] = Variable<String>(location);
+    map['duration'] = Variable<String>(duration);
+    map['severity'] = Variable<String>(severity);
+    map['pattern'] = Variable<String>(pattern);
+    map['associated_factors'] = Variable<String>(associatedFactors);
+    map['logged_at'] = Variable<DateTime>(loggedAt);
+    return map;
+  }
+
+  SymptomsCompanion toCompanion(bool nullToAbsent) {
+    return SymptomsCompanion(
+      id: Value(id),
+      profileId: Value(profileId),
+      character: Value(character),
+      onset: Value(onset),
+      location: Value(location),
+      duration: Value(duration),
+      severity: Value(severity),
+      pattern: Value(pattern),
+      associatedFactors: Value(associatedFactors),
+      loggedAt: Value(loggedAt),
+    );
+  }
+
+  factory Symptom.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Symptom(
+      id: serializer.fromJson<int>(json['id']),
+      profileId: serializer.fromJson<int>(json['profileId']),
+      character: serializer.fromJson<String>(json['character']),
+      onset: serializer.fromJson<String>(json['onset']),
+      location: serializer.fromJson<String>(json['location']),
+      duration: serializer.fromJson<String>(json['duration']),
+      severity: serializer.fromJson<String>(json['severity']),
+      pattern: serializer.fromJson<String>(json['pattern']),
+      associatedFactors: serializer.fromJson<String>(json['associatedFactors']),
+      loggedAt: serializer.fromJson<DateTime>(json['loggedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'profileId': serializer.toJson<int>(profileId),
+      'character': serializer.toJson<String>(character),
+      'onset': serializer.toJson<String>(onset),
+      'location': serializer.toJson<String>(location),
+      'duration': serializer.toJson<String>(duration),
+      'severity': serializer.toJson<String>(severity),
+      'pattern': serializer.toJson<String>(pattern),
+      'associatedFactors': serializer.toJson<String>(associatedFactors),
+      'loggedAt': serializer.toJson<DateTime>(loggedAt),
+    };
+  }
+
+  Symptom copyWith({
+    int? id,
+    int? profileId,
+    String? character,
+    String? onset,
+    String? location,
+    String? duration,
+    String? severity,
+    String? pattern,
+    String? associatedFactors,
+    DateTime? loggedAt,
+  }) => Symptom(
+    id: id ?? this.id,
+    profileId: profileId ?? this.profileId,
+    character: character ?? this.character,
+    onset: onset ?? this.onset,
+    location: location ?? this.location,
+    duration: duration ?? this.duration,
+    severity: severity ?? this.severity,
+    pattern: pattern ?? this.pattern,
+    associatedFactors: associatedFactors ?? this.associatedFactors,
+    loggedAt: loggedAt ?? this.loggedAt,
+  );
+  Symptom copyWithCompanion(SymptomsCompanion data) {
+    return Symptom(
+      id: data.id.present ? data.id.value : this.id,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      character: data.character.present ? data.character.value : this.character,
+      onset: data.onset.present ? data.onset.value : this.onset,
+      location: data.location.present ? data.location.value : this.location,
+      duration: data.duration.present ? data.duration.value : this.duration,
+      severity: data.severity.present ? data.severity.value : this.severity,
+      pattern: data.pattern.present ? data.pattern.value : this.pattern,
+      associatedFactors: data.associatedFactors.present
+          ? data.associatedFactors.value
+          : this.associatedFactors,
+      loggedAt: data.loggedAt.present ? data.loggedAt.value : this.loggedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Symptom(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('character: $character, ')
+          ..write('onset: $onset, ')
+          ..write('location: $location, ')
+          ..write('duration: $duration, ')
+          ..write('severity: $severity, ')
+          ..write('pattern: $pattern, ')
+          ..write('associatedFactors: $associatedFactors, ')
+          ..write('loggedAt: $loggedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    profileId,
+    character,
+    onset,
+    location,
+    duration,
+    severity,
+    pattern,
+    associatedFactors,
+    loggedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Symptom &&
+          other.id == this.id &&
+          other.profileId == this.profileId &&
+          other.character == this.character &&
+          other.onset == this.onset &&
+          other.location == this.location &&
+          other.duration == this.duration &&
+          other.severity == this.severity &&
+          other.pattern == this.pattern &&
+          other.associatedFactors == this.associatedFactors &&
+          other.loggedAt == this.loggedAt);
+}
+
+class SymptomsCompanion extends UpdateCompanion<Symptom> {
+  final Value<int> id;
+  final Value<int> profileId;
+  final Value<String> character;
+  final Value<String> onset;
+  final Value<String> location;
+  final Value<String> duration;
+  final Value<String> severity;
+  final Value<String> pattern;
+  final Value<String> associatedFactors;
+  final Value<DateTime> loggedAt;
+  const SymptomsCompanion({
+    this.id = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.character = const Value.absent(),
+    this.onset = const Value.absent(),
+    this.location = const Value.absent(),
+    this.duration = const Value.absent(),
+    this.severity = const Value.absent(),
+    this.pattern = const Value.absent(),
+    this.associatedFactors = const Value.absent(),
+    this.loggedAt = const Value.absent(),
+  });
+  SymptomsCompanion.insert({
+    this.id = const Value.absent(),
+    required int profileId,
+    required String character,
+    required String onset,
+    required String location,
+    required String duration,
+    required String severity,
+    required String pattern,
+    required String associatedFactors,
+    this.loggedAt = const Value.absent(),
+  }) : profileId = Value(profileId),
+       character = Value(character),
+       onset = Value(onset),
+       location = Value(location),
+       duration = Value(duration),
+       severity = Value(severity),
+       pattern = Value(pattern),
+       associatedFactors = Value(associatedFactors);
+  static Insertable<Symptom> custom({
+    Expression<int>? id,
+    Expression<int>? profileId,
+    Expression<String>? character,
+    Expression<String>? onset,
+    Expression<String>? location,
+    Expression<String>? duration,
+    Expression<String>? severity,
+    Expression<String>? pattern,
+    Expression<String>? associatedFactors,
+    Expression<DateTime>? loggedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (profileId != null) 'profile_id': profileId,
+      if (character != null) 'character': character,
+      if (onset != null) 'onset': onset,
+      if (location != null) 'location': location,
+      if (duration != null) 'duration': duration,
+      if (severity != null) 'severity': severity,
+      if (pattern != null) 'pattern': pattern,
+      if (associatedFactors != null) 'associated_factors': associatedFactors,
+      if (loggedAt != null) 'logged_at': loggedAt,
+    });
+  }
+
+  SymptomsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? profileId,
+    Value<String>? character,
+    Value<String>? onset,
+    Value<String>? location,
+    Value<String>? duration,
+    Value<String>? severity,
+    Value<String>? pattern,
+    Value<String>? associatedFactors,
+    Value<DateTime>? loggedAt,
+  }) {
+    return SymptomsCompanion(
+      id: id ?? this.id,
+      profileId: profileId ?? this.profileId,
+      character: character ?? this.character,
+      onset: onset ?? this.onset,
+      location: location ?? this.location,
+      duration: duration ?? this.duration,
+      severity: severity ?? this.severity,
+      pattern: pattern ?? this.pattern,
+      associatedFactors: associatedFactors ?? this.associatedFactors,
+      loggedAt: loggedAt ?? this.loggedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<int>(profileId.value);
+    }
+    if (character.present) {
+      map['character'] = Variable<String>(character.value);
+    }
+    if (onset.present) {
+      map['onset'] = Variable<String>(onset.value);
+    }
+    if (location.present) {
+      map['location'] = Variable<String>(location.value);
+    }
+    if (duration.present) {
+      map['duration'] = Variable<String>(duration.value);
+    }
+    if (severity.present) {
+      map['severity'] = Variable<String>(severity.value);
+    }
+    if (pattern.present) {
+      map['pattern'] = Variable<String>(pattern.value);
+    }
+    if (associatedFactors.present) {
+      map['associated_factors'] = Variable<String>(associatedFactors.value);
+    }
+    if (loggedAt.present) {
+      map['logged_at'] = Variable<DateTime>(loggedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SymptomsCompanion(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('character: $character, ')
+          ..write('onset: $onset, ')
+          ..write('location: $location, ')
+          ..write('duration: $duration, ')
+          ..write('severity: $severity, ')
+          ..write('pattern: $pattern, ')
+          ..write('associatedFactors: $associatedFactors, ')
+          ..write('loggedAt: $loggedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ProfilesTable profiles = $ProfilesTable(this);
   late final $VitalsTableTable vitalsTable = $VitalsTableTable(this);
   late final $MedicationsTable medications = $MedicationsTable(this);
+  late final $SymptomsTable symptoms = $SymptomsTable(this);
   late final ProfilesDao profilesDao = ProfilesDao(this as AppDatabase);
   late final VitalsDao vitalsDao = VitalsDao(this as AppDatabase);
   late final MedicationsDao medicationsDao = MedicationsDao(
     this as AppDatabase,
   );
+  late final SymptomsDao symptomsDao = SymptomsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1994,6 +2613,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     profiles,
     vitalsTable,
     medications,
+    symptoms,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -2010,6 +2630,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('medications', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'profiles',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('symptoms', kind: UpdateKind.delete)],
     ),
   ]);
 }
@@ -2062,6 +2689,25 @@ final class $$ProfilesTableReferences
     ).filter((f) => f.profileId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_medicationsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SymptomsTable, List<Symptom>> _symptomsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.symptoms,
+    aliasName: 'profiles__id__symptoms__profile_id',
+  );
+
+  $$SymptomsTableProcessedTableManager get symptomsRefs {
+    final manager = $$SymptomsTableTableManager(
+      $_db,
+      $_db.symptoms,
+    ).filter((f) => f.profileId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_symptomsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -2138,6 +2784,31 @@ class $$ProfilesTableFilterComposer
           }) => $$MedicationsTableFilterComposer(
             $db: $db,
             $table: $db.medications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> symptomsRefs(
+    Expression<bool> Function($$SymptomsTableFilterComposer f) f,
+  ) {
+    final $$SymptomsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.symptoms,
+      getReferencedColumn: (t) => t.profileId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SymptomsTableFilterComposer(
+            $db: $db,
+            $table: $db.symptoms,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -2250,6 +2921,31 @@ class $$ProfilesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> symptomsRefs<T extends Object>(
+    Expression<T> Function($$SymptomsTableAnnotationComposer a) f,
+  ) {
+    final $$SymptomsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.symptoms,
+      getReferencedColumn: (t) => t.profileId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SymptomsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.symptoms,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ProfilesTableTableManager
@@ -2265,7 +2961,11 @@ class $$ProfilesTableTableManager
           $$ProfilesTableUpdateCompanionBuilder,
           (Profile, $$ProfilesTableReferences),
           Profile,
-          PrefetchHooks Function({bool vitalsTableRefs, bool medicationsRefs})
+          PrefetchHooks Function({
+            bool vitalsTableRefs,
+            bool medicationsRefs,
+            bool symptomsRefs,
+          })
         > {
   $$ProfilesTableTableManager(_$AppDatabase db, $ProfilesTable table)
     : super(
@@ -2311,12 +3011,17 @@ class $$ProfilesTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({vitalsTableRefs = false, medicationsRefs = false}) {
+              ({
+                vitalsTableRefs = false,
+                medicationsRefs = false,
+                symptomsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (vitalsTableRefs) db.vitalsTable,
                     if (medicationsRefs) db.medications,
+                    if (symptomsRefs) db.symptoms,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -2363,6 +3068,27 @@ class $$ProfilesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (symptomsRefs)
+                        await $_getPrefetchedData<
+                          Profile,
+                          $ProfilesTable,
+                          Symptom
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ProfilesTableReferences
+                              ._symptomsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ProfilesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).symptomsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.profileId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -2383,7 +3109,11 @@ typedef $$ProfilesTableProcessedTableManager =
       $$ProfilesTableUpdateCompanionBuilder,
       (Profile, $$ProfilesTableReferences),
       Profile,
-      PrefetchHooks Function({bool vitalsTableRefs, bool medicationsRefs})
+      PrefetchHooks Function({
+        bool vitalsTableRefs,
+        bool medicationsRefs,
+        bool symptomsRefs,
+      })
     >;
 typedef $$VitalsTableTableCreateCompanionBuilder =
     VitalsTableCompanion Function({
@@ -3354,6 +4084,410 @@ typedef $$MedicationsTableProcessedTableManager =
       Medication,
       PrefetchHooks Function({bool profileId})
     >;
+typedef $$SymptomsTableCreateCompanionBuilder = SymptomsCompanion Function({
+  Value<int> id,
+  required int profileId,
+  required String character,
+  required String onset,
+  required String location,
+  required String duration,
+  required String severity,
+  required String pattern,
+  required String associatedFactors,
+  Value<DateTime> loggedAt,
+});
+typedef $$SymptomsTableUpdateCompanionBuilder = SymptomsCompanion Function({
+  Value<int> id,
+  Value<int> profileId,
+  Value<String> character,
+  Value<String> onset,
+  Value<String> location,
+  Value<String> duration,
+  Value<String> severity,
+  Value<String> pattern,
+  Value<String> associatedFactors,
+  Value<DateTime> loggedAt,
+});
+
+final class $$SymptomsTableReferences
+    extends BaseReferences<_$AppDatabase, $SymptomsTable, Symptom> {
+  $$SymptomsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ProfilesTable _profileIdTable(_$AppDatabase db) =>
+      db.profiles.createAlias('symptoms__profile_id__profiles__id');
+
+  $$ProfilesTableProcessedTableManager get profileId {
+    final $_column = $_itemColumn<int>('profile_id')!;
+
+    final manager = $$ProfilesTableTableManager(
+      $_db,
+      $_db.profiles,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_profileIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SymptomsTableFilterComposer
+    extends Composer<_$AppDatabase, $SymptomsTable> {
+  $$SymptomsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get character => $composableBuilder(
+    column: $table.character,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get onset => $composableBuilder(
+    column: $table.onset,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get location => $composableBuilder(
+    column: $table.location,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get duration => $composableBuilder(
+    column: $table.duration,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get severity => $composableBuilder(
+    column: $table.severity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pattern => $composableBuilder(
+    column: $table.pattern,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get associatedFactors => $composableBuilder(
+    column: $table.associatedFactors,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get loggedAt => $composableBuilder(
+    column: $table.loggedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ProfilesTableFilterComposer get profileId {
+    final $$ProfilesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableFilterComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SymptomsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SymptomsTable> {
+  $$SymptomsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get character => $composableBuilder(
+    column: $table.character,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get onset => $composableBuilder(
+    column: $table.onset,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get location => $composableBuilder(
+    column: $table.location,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get duration => $composableBuilder(
+    column: $table.duration,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get severity => $composableBuilder(
+    column: $table.severity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pattern => $composableBuilder(
+    column: $table.pattern,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get associatedFactors => $composableBuilder(
+    column: $table.associatedFactors,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get loggedAt => $composableBuilder(
+    column: $table.loggedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ProfilesTableOrderingComposer get profileId {
+    final $$ProfilesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableOrderingComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SymptomsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SymptomsTable> {
+  $$SymptomsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get character =>
+      $composableBuilder(column: $table.character, builder: (column) => column);
+
+  GeneratedColumn<String> get onset =>
+      $composableBuilder(column: $table.onset, builder: (column) => column);
+
+  GeneratedColumn<String> get location =>
+      $composableBuilder(column: $table.location, builder: (column) => column);
+
+  GeneratedColumn<String> get duration =>
+      $composableBuilder(column: $table.duration, builder: (column) => column);
+
+  GeneratedColumn<String> get severity =>
+      $composableBuilder(column: $table.severity, builder: (column) => column);
+
+  GeneratedColumn<String> get pattern =>
+      $composableBuilder(column: $table.pattern, builder: (column) => column);
+
+  GeneratedColumn<String> get associatedFactors => $composableBuilder(
+    column: $table.associatedFactors,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get loggedAt =>
+      $composableBuilder(column: $table.loggedAt, builder: (column) => column);
+
+  $$ProfilesTableAnnotationComposer get profileId {
+    final $$ProfilesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SymptomsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SymptomsTable,
+          Symptom,
+          $$SymptomsTableFilterComposer,
+          $$SymptomsTableOrderingComposer,
+          $$SymptomsTableAnnotationComposer,
+          $$SymptomsTableCreateCompanionBuilder,
+          $$SymptomsTableUpdateCompanionBuilder,
+          (Symptom, $$SymptomsTableReferences),
+          Symptom,
+          PrefetchHooks Function({bool profileId})
+        > {
+  $$SymptomsTableTableManager(_$AppDatabase db, $SymptomsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SymptomsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SymptomsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SymptomsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> profileId = const Value.absent(),
+                Value<String> character = const Value.absent(),
+                Value<String> onset = const Value.absent(),
+                Value<String> location = const Value.absent(),
+                Value<String> duration = const Value.absent(),
+                Value<String> severity = const Value.absent(),
+                Value<String> pattern = const Value.absent(),
+                Value<String> associatedFactors = const Value.absent(),
+                Value<DateTime> loggedAt = const Value.absent(),
+              }) => SymptomsCompanion(
+                id: id,
+                profileId: profileId,
+                character: character,
+                onset: onset,
+                location: location,
+                duration: duration,
+                severity: severity,
+                pattern: pattern,
+                associatedFactors: associatedFactors,
+                loggedAt: loggedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int profileId,
+                required String character,
+                required String onset,
+                required String location,
+                required String duration,
+                required String severity,
+                required String pattern,
+                required String associatedFactors,
+                Value<DateTime> loggedAt = const Value.absent(),
+              }) => SymptomsCompanion.insert(
+                id: id,
+                profileId: profileId,
+                character: character,
+                onset: onset,
+                location: location,
+                duration: duration,
+                severity: severity,
+                pattern: pattern,
+                associatedFactors: associatedFactors,
+                loggedAt: loggedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SymptomsTable, Symptom>(table),
+                  $$SymptomsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({profileId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (profileId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.profileId,
+                        referencedTable: $$SymptomsTableReferences
+                            ._profileIdTable(db),
+                        referencedColumn: $$SymptomsTableReferences
+                            ._profileIdTable(db)
+                            .id,
+                      ) as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SymptomsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SymptomsTable,
+      Symptom,
+      $$SymptomsTableFilterComposer,
+      $$SymptomsTableOrderingComposer,
+      $$SymptomsTableAnnotationComposer,
+      $$SymptomsTableCreateCompanionBuilder,
+      $$SymptomsTableUpdateCompanionBuilder,
+      (Symptom, $$SymptomsTableReferences),
+      Symptom,
+      PrefetchHooks Function({bool profileId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3364,4 +4498,6 @@ class $AppDatabaseManager {
       $$VitalsTableTableTableManager(_db, _db.vitalsTable);
   $$MedicationsTableTableManager get medications =>
       $$MedicationsTableTableManager(_db, _db.medications);
+  $$SymptomsTableTableManager get symptoms =>
+      $$SymptomsTableTableManager(_db, _db.symptoms);
 }
