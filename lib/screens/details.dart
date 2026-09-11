@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/app_database.dart';
 import 'manage_medications.dart';
-import 'symptom.dart';
 import 'daily_medication_schedule.dart';
+import  'vitals_screen.dart';
+import 'package:prototype_app/screens/symptoms_journal.dart';
 
 class DetailsPage extends StatelessWidget {
   final Profile profile;
@@ -156,9 +157,21 @@ class _TabButtonsRow extends StatelessWidget {
       case 'Symptoms':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const SymptomsScreen()),
+          MaterialPageRoute(
+            builder: (context) => SymptomsJournal(profile: profile),
+          ),
         );
         break;
+      case 'Appointment':
+        break;
+          case 'Vitals':
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VitalsScreen(profile: profile),
+              ),
+            );
+            break;
       default:
         // TODO: wire up once AppointmentScreen / VitalsScreen exist.
         break;
@@ -189,3 +202,4 @@ class _TabButtonsRow extends StatelessWidget {
     );
   }
 }
+

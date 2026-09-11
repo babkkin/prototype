@@ -248,3 +248,24 @@ LazyDatabase _openConnection() {
     return NativeDatabase.createInBackground(file);
   });
 }
+
+
+///-----------------------------------------------------------------------
+///JOURNAL SYMPTOMS TABLE
+///-----------------------------------------------------------------------
+
+class Symptoms extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get profileId => integer().references(Profiles, #id)();
+  TextColumn get character => text()();
+  TextColumn get onset => text()();
+  TextColumn get location => text()();
+  TextColumn get duration => text()();
+  TextColumn get severity => text()();
+  TextColumn get pattern => text()();
+  TextColumn get associatedFactors => text()();
+  DateTimeColumn get loggedAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
