@@ -206,237 +206,272 @@ class _FrequencyTimetablePickerState extends State<FrequencyTimetablePicker> {
     return null;
   }
 
-  Widget _mealTimeTile(MealType meal, TimeOfDay time) {
-    return ListTile(
-      dense: true,
-      contentPadding: EdgeInsets.zero,
-      title: Text(meal.label),
-      subtitle: Text(time.format(context)),
-      trailing: const Icon(Icons.access_time),
-      onTap: () => _pickMealTime(meal),
+  Widget _inlineRow({
+    required String label,
+    required Widget field,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 120,
+            child: Text(label, style: const TextStyle(fontSize: 14)),
+          ),
+          Expanded(child: field),
+        ],
+      ),
+    );
+  }
+
+  InputDecoration _compactDecoration({String? hintText}) {
+    return InputDecoration(
+      hintText: hintText,
+      isDense: true,
+      border: InputBorder.none,
+      contentPadding: const EdgeInsets.symmetric(vertical: 5),
+    );
+  }
+
+  Widget _compactTimeValue({
+    required String text,
+    required VoidCallback onTap,
+    Widget? trailing,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Expanded(child: Text(text)),
+            if (trailing != null) trailing,
+          ],
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final valueLabel = _mode == ScheduleMode.timesPerDay
-        ? 'How many times per day?'
-        : 'Repeat every how many hours?';
-
     final enteredValue = _enteredValue ?? 1;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Medication Schedule',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 12),
-        DropdownButtonFormField<ScheduleMode>(
-          initialValue: _mode,
-          decoration: const InputDecoration(labelText: 'Frequency *'),
-          items: ScheduleMode.values
-              .map((mode) => DropdownMenuItem(
+        _inlineRow(
+          label: 'Frequency *',
+          field: DropdownButtonFormField<ScheduleMode>(
+            initialValue: _mode,
+            isExpanded: true,
+            decoration: _compactDecoration(),
+            items: ScheduleMode.values
+                .map(
+                  (mode) => DropdownMenuItem(
                     value: mode,
                     child: Text(mode.label),
-                  ))
-              .toList(),
-          onChanged: (mode) {
-            if (mode == null) return;
-            setState(() {
-              _mode = mode;
-              _valueController.text =
-                  mode == ScheduleMode.timesPerDay ? '1' : '8';
-              _useMealTimes = false;
-              _resetDoseMealsForCount();
-            });
-            _regenerate();
-          },
-        ),
-        const SizedBox(height: 12),
-        TextFormField(
-          controller: _valueController,
-          decoration: InputDecoration(
-            labelText: '$valueLabel *',
-            hintText: _mode == ScheduleMode.timesPerDay ? 'e.g. 5' : 'e.g. 8',
+                  ),
+                )
+                .toList(),
+            onChanged: (mode) {
+              if (mode == null) return;
+              setState(() {
+                _mode = mode;
+                _valueController.text =
+                    mode == ScheduleMode.timesPerDay ? '1' : '8';
+                _useMealTimes = false;
+                _resetDoseMealsForCount();
+              });
+              _regenerate();
+            },
           ),
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(2),
-          ],
-          validator: _validateFrequencyValue,
-          onChanged: (_) {
-            setState(() {
-              _resetDoseMealsForCount();
-              if (!_canAnchorToMeals) _useMealTimes = false;
-            });
-            _regenerate();
-          },
         ),
-        const SizedBox(height: 12),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: const Text('First dose time (optional)'),
-          subtitle: Text(
-            _firstDoseTime == null
-                ? 'Using default: 8:00 AM'
-                : _firstDoseTime!.format(context),
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (_firstDoseTime != null)
-                IconButton(
-                  tooltip: 'Use default time',
-                  onPressed: _clearFirstDoseTime,
-                  icon: const Icon(Icons.restart_alt),
-                ),
-              const Icon(Icons.access_time),
+
+        _inlineRow(
+          label: _mode == ScheduleMode.timesPerDay ? 'Times / day *' : 'Every hours *',
+          field: TextFormField(
+            controller: _valueController,
+            decoration: _compactDecoration(
+              hintText: _mode == ScheduleMode.timesPerDay ? 'e.g. 2' : 'e.g. 8',
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(2),
             ],
+            validator: _validateFrequencyValue,
+            onChanged: (_) {
+              setState(() {
+                _resetDoseMealsForCount();
+                if (!_canAnchorToMeals) _useMealTimes = false;
+              });
+              _regenerate();
+            },
           ),
-          onTap: _pickFirstDoseTime,
         ),
-        const Divider(height: 28),
-        Text(
-          'Relation to Meals',
-          style: Theme.of(context).textTheme.titleMedium,
+
+        _inlineRow(
+          label: 'First Dose',
+          field: _compactTimeValue(
+            text: _firstDoseTime == null
+                ? '8:00 AM (default)'
+                : _firstDoseTime!.format(context),
+            onTap: _pickFirstDoseTime,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_firstDoseTime != null)
+                  InkWell(
+                    onTap: _clearFirstDoseTime,
+                    child: const Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Icon(Icons.restart_alt, size: 18),
+                    ),
+                  ),
+                const Icon(Icons.access_time, size: 18),
+              ],
+            ),
+          ),
         ),
-        const SizedBox(height: 12),
-        DropdownButtonFormField<MealRelation>(
-          initialValue: _mealRelation,
-          decoration: const InputDecoration(labelText: 'Prescription instruction'),
-          items: MealRelation.values
-              .map((relation) => DropdownMenuItem(
+
+        _inlineRow(
+          label: 'Meals',
+          field: DropdownButtonFormField<MealRelation>(
+            initialValue: _mealRelation,
+            isExpanded: true,
+            decoration: _compactDecoration(),
+            items: MealRelation.values
+                .map(
+                  (relation) => DropdownMenuItem(
                     value: relation,
                     child: Text(relation.label),
-                  ))
-              .toList(),
-          onChanged: (relation) {
-            if (relation == null) return;
-            setState(() {
-              _mealRelation = relation;
-              if (relation == MealRelation.none) _useMealTimes = false;
-            });
-            _regenerate();
-          },
-        ),
-        if (_mealRelation == MealRelation.before ||
-            _mealRelation == MealRelation.after) ...[
-          const SizedBox(height: 12),
-          Text(
-            'Take medication',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _mealOffsetController,
-                  decoration: const InputDecoration(
-                    labelText: 'Time *',
-                    hintText: 'e.g. 45',
                   ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(3),
-                  ],
-                  validator: _validateOffset,
-                  onChanged: (_) => _regenerate(),
+                )
+                .toList(),
+            onChanged: (relation) {
+              if (relation == null) return;
+              setState(() {
+                _mealRelation = relation;
+                if (relation == MealRelation.none) _useMealTimes = false;
+              });
+              _regenerate();
+            },
+          ),
+        ),
+
+        if (_mealRelation == MealRelation.before ||
+            _mealRelation == MealRelation.after)
+          _inlineRow(
+            label: 'Meal Offset *',
+            field: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _mealOffsetController,
+                    decoration: _compactDecoration(hintText: '30'),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3),
+                    ],
+                    validator: _validateOffset,
+                    onChanged: (_) => _regenerate(),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: DropdownButtonFormField<TimingUnit>(
-                  initialValue: _timingUnit,
-                  decoration: const InputDecoration(labelText: 'Unit'),
-                  items: TimingUnit.values
-                      .map((unit) => DropdownMenuItem(
+                const SizedBox(width: 6),
+                Expanded(
+                  child: DropdownButtonFormField<TimingUnit>(
+                    initialValue: _timingUnit,
+                    isExpanded: true,
+                    decoration: _compactDecoration(),
+                    items: TimingUnit.values
+                        .map(
+                          (unit) => DropdownMenuItem(
                             value: unit,
                             child: Text(unit.label.toLowerCase()),
-                          ))
-                      .toList(),
-                  onChanged: (unit) {
-                    if (unit == null) return;
-                    setState(() => _timingUnit = unit);
-                    _regenerate();
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            _mealRelation == MealRelation.before
-                ? '${_mealOffsetController.text.isEmpty ? 'Specified time' : _mealOffsetController.text} ${_timingUnit.label.toLowerCase()} before meals'
-                : '${_mealOffsetController.text.isEmpty ? 'Specified time' : _mealOffsetController.text} ${_timingUnit.label.toLowerCase()} after meals',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ],
-        if (_mealRelation != MealRelation.none) ...[
-          const SizedBox(height: 12),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Use meal times to generate schedule'),
-            subtitle: Text(
-              _mode == ScheduleMode.everyHours
-                  ? 'Exact hourly schedules stay interval-based. The meal instruction will still be saved.'
-                  : enteredValue > 3
-                      ? 'Automatic meal anchoring supports up to 3 meal-linked doses. The meal instruction will still be saved.'
-                      : 'Generate medication times from the selected meal times.',
-            ),
-            value: _useMealTimes && _canAnchorToMeals,
-            onChanged: _canAnchorToMeals
-                ? (enabled) {
-                    setState(() {
-                      _useMealTimes = enabled;
-                      if (enabled) _resetDoseMealsForCount();
-                    });
-                    _regenerate();
-                  }
-                : null,
-          ),
-        ],
-        if (_useMealTimes && _canAnchorToMeals) ...[
-          const SizedBox(height: 8),
-          Text(
-            'Meal times',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          _mealTimeTile(MealType.breakfast, _breakfastTime),
-          _mealTimeTile(MealType.lunch, _lunchTime),
-          _mealTimeTile(MealType.dinner, _dinnerTime),
-          const SizedBox(height: 8),
-          if (enteredValue == 3) ...[
-            const SizedBox(height: 6),
-            Text(
-              'Three daily doses are linked to Breakfast, Lunch, and Dinner.',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ] else ...[
-            Text(
-              enteredValue == 1
-                  ? 'Choose the meal for this dose'
-                  : 'Choose the meals for the two doses',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            ...List.generate(enteredValue, (index) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: DropdownButtonFormField<MealType>(
-                  value: _doseMeals[index],
-                  decoration: InputDecoration(
-                    labelText: enteredValue == 1 ? 'Meal' : 'Dose ${index + 1} meal',
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (unit) {
+                      if (unit == null) return;
+                      setState(() => _timingUnit = unit);
+                      _regenerate();
+                    },
                   ),
+                ),
+              ],
+            ),
+          ),
+
+        if (_mealRelation != MealRelation.none)
+          _inlineRow(
+            label: 'Meal Schedule',
+            field: Row(
+              children: [
+                Switch(
+                  value: _useMealTimes && _canAnchorToMeals,
+                  onChanged: _canAnchorToMeals
+                      ? (enabled) {
+                          setState(() {
+                            _useMealTimes = enabled;
+                            if (enabled) _resetDoseMealsForCount();
+                          });
+                          _regenerate();
+                        }
+                      : null,
+                ),
+                const Expanded(
+                  child: Text(
+                    'Use meal times',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+        if (_useMealTimes && _canAnchorToMeals) ...[
+          _inlineRow(
+            label: 'Breakfast',
+            field: _compactTimeValue(
+              text: _breakfastTime.format(context),
+              onTap: () => _pickMealTime(MealType.breakfast),
+              trailing: const Icon(Icons.access_time, size: 18),
+            ),
+          ),
+          _inlineRow(
+            label: 'Lunch',
+            field: _compactTimeValue(
+              text: _lunchTime.format(context),
+              onTap: () => _pickMealTime(MealType.lunch),
+              trailing: const Icon(Icons.access_time, size: 18),
+            ),
+          ),
+          _inlineRow(
+            label: 'Dinner',
+            field: _compactTimeValue(
+              text: _dinnerTime.format(context),
+              onTap: () => _pickMealTime(MealType.dinner),
+              trailing: const Icon(Icons.access_time, size: 18),
+            ),
+          ),
+          if (enteredValue < 3)
+            ...List.generate(
+              enteredValue,
+              (index) => _inlineRow(
+                label: enteredValue == 1 ? 'Dose Meal' : 'Dose ${index + 1} Meal',
+                field: DropdownButtonFormField<MealType>(
+                  value: _doseMeals[index],
+                  isExpanded: true,
+                  decoration: _compactDecoration(),
                   items: MealType.values
-                      .map((meal) => DropdownMenuItem(
-                            value: meal,
-                            child: Text(meal.label),
-                          ))
+                      .map(
+                        (meal) => DropdownMenuItem(
+                          value: meal,
+                          child: Text(meal.label),
+                        ),
+                      )
                       .toList(),
                   onChanged: (meal) {
                     if (meal == null) return;
@@ -444,30 +479,34 @@ class _FrequencyTimetablePickerState extends State<FrequencyTimetablePicker> {
                     _regenerate();
                   },
                 ),
-              );
-            }),
-          ],
+              ),
+            ),
         ],
-        if (_times.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          Text(
-            _useMealTimes && _canAnchorToMeals
-                ? 'Meal-based timetable (tap a time to adjust it)'
-                : 'Suggested timetable (tap a time to adjust it)',
-            style: Theme.of(context).textTheme.bodyLarge,
+
+        if (_times.isNotEmpty)
+          _inlineRow(
+            label: 'Times',
+            field: Wrap(
+              spacing: 4,
+              runSpacing: 2,
+              children: List.generate(
+                _times.length,
+                (index) => ActionChip(
+                  visualDensity: const VisualDensity(
+                    horizontal: -3,
+                    vertical: -3,
+                  ),
+                  padding: EdgeInsets.zero,
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 5),
+                  label: Text(
+                    _times[index].format(context),
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                  onPressed: () => _editTime(index),
+                ),
+              ),
+            ),
           ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: List.generate(_times.length, (index) {
-              return ActionChip(
-                label: Text(_times[index].format(context)),
-                onPressed: () => _editTime(index),
-              );
-            }),
-          ),
-        ],
       ],
     );
   }

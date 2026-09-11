@@ -220,6 +220,42 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     return null;
   }
 
+  Widget _rowField({
+    required String label,
+    required Widget field,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 120,
+            child: Text(
+              label,
+              style: const TextStyle(fontSize: 14),
+            ),
+          ),
+          Expanded(child: field),
+        ],
+      ),
+    );
+  }
+
+  InputDecoration _compactDecoration({String? hintText, Widget? suffixIcon}) {
+    return InputDecoration(
+      hintText: hintText,
+      isDense: true,
+      border: InputBorder.none,
+      contentPadding: const EdgeInsets.symmetric(vertical: 5),
+      suffixIcon: suffixIcon,
+      suffixIconConstraints: const BoxConstraints(
+        minWidth: 32,
+        minHeight: 32,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isPrn = _type == PrescriptionType.prn;
@@ -227,93 +263,112 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Add Medication')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
             children: [
-              // Prescription type — drives which PRN-only fields show below.
-              DropdownButtonFormField<PrescriptionType>(
-                initialValue: _type,
-                decoration:
-                    const InputDecoration(labelText: 'Prescription Type'),
-                items: const [
-                  DropdownMenuItem(
-                    value: PrescriptionType.maintenance,
-                    child: Text('Maintenance'),
-                  ),
-                  DropdownMenuItem(
-                    value: PrescriptionType.temporary,
-                    child: Text('Temporary'),
-                  ),
-                  DropdownMenuItem(
-                    value: PrescriptionType.prn,
-                    child: Text('PRN (As Needed)'),
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value != null) setState(() => _type = value);
-                },
-              ),
-              const SizedBox(height: 12),
-
-              TextFormField(
-                controller: _medicationNameController,
-                readOnly: true,
-                onTap: _selectMedicationName,
-                decoration: InputDecoration(
-                  labelText: 'Medication Name *',
-                  hintText: _isLoadingMedicines
-                      ? 'Loading medicines...'
-                      : 'Select medication',
-                  suffixIcon: _isLoadingMedicines
-                      ? const Padding(
-                          padding: EdgeInsets.all(14),
-                          child: SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                        )
-                      : const Icon(Icons.arrow_drop_down),
+              _rowField(
+                label: 'Type',
+                field: DropdownButtonFormField<PrescriptionType>(
+                  initialValue: _type,
+                  isExpanded: true,
+                  decoration: _compactDecoration(),
+                  items: const [
+                    DropdownMenuItem(
+                      value: PrescriptionType.maintenance,
+                      child: Text('Maintenance'),
+                    ),
+                    DropdownMenuItem(
+                      value: PrescriptionType.temporary,
+                      child: Text('Temporary'),
+                    ),
+                    DropdownMenuItem(
+                      value: PrescriptionType.prn,
+                      child: Text('PRN (As Needed)'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) setState(() => _type = value);
+                  },
                 ),
-                validator: (v) => _requiredValidator(v, 'the medication name'),
               ),
-              TextFormField(
-                controller: _brandNameController,
-                decoration: const InputDecoration(
-                    labelText: 'Brand Name (if applicable)'),
-              ),
-              TextFormField(
-                controller: _strengthController,
-                decoration:
-                    const InputDecoration(labelText: 'Strength (e.g. 300 mg)'),
-              ),
-              TextFormField(
-                controller: _dosageController,
-                decoration:
-                    const InputDecoration(labelText: 'Dosage * (e.g. 1 tablet)'),
-                validator: (v) => _requiredValidator(v, 'the dosage'),
-              ),
-              TextFormField(
-                controller: _dosageFormController,
-                decoration: const InputDecoration(
-                    labelText: 'Dosage Form * (tablet, capsule, syrup...)'),
-                validator: (v) => _requiredValidator(v, 'the dosage form'),
-              ),
-              TextFormField(
-                controller: _routeController,
-                decoration: const InputDecoration(
-                    labelText: 'Route * (oral, topical, etc.)'),
-                validator: (v) => _requiredValidator(v, 'the route'),
-              ),
-              const SizedBox(height: 12),
 
-              // Frequency + auto-generated timetable — replaces the old
-              // free-text Frequency and Specific Time fields. Hidden for
-              // PRN meds, which use maxPrnDoseFrequency instead.
-              if (!isPrn)
+              _rowField(
+                label: 'Medication *',
+                field: TextFormField(
+                  controller: _medicationNameController,
+                  readOnly: true,
+                  onTap: _selectMedicationName,
+                  decoration: _compactDecoration(
+                    hintText: _isLoadingMedicines
+                        ? 'Loading medicines...'
+                        : 'Select medication',
+                    suffixIcon: _isLoadingMedicines
+                        ? const Padding(
+                            padding: EdgeInsets.all(7),
+                            child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          )
+                        : const Icon(Icons.arrow_drop_down),
+                  ),
+                  validator: (v) =>
+                      _requiredValidator(v, 'the medication name'),
+                ),
+              ),
+
+              _rowField(
+                label: 'Brand',
+                field: TextFormField(
+                  controller: _brandNameController,
+                  decoration: _compactDecoration(hintText: 'Optional'),
+                ),
+              ),
+
+              _rowField(
+                label: 'Strength',
+                field: TextFormField(
+                  controller: _strengthController,
+                  decoration: _compactDecoration(hintText: 'e.g. 300 mg'),
+                ),
+              ),
+
+              _rowField(
+                label: 'Dosage *',
+                field: TextFormField(
+                  controller: _dosageController,
+                  decoration: _compactDecoration(hintText: 'e.g. 1 tablet'),
+                  validator: (v) => _requiredValidator(v, 'the dosage'),
+                ),
+              ),
+
+              _rowField(
+                label: 'Dosage Form *',
+                field: TextFormField(
+                  controller: _dosageFormController,
+                  decoration:
+                      _compactDecoration(hintText: 'Tablet, capsule, syrup...'),
+                  validator: (v) =>
+                      _requiredValidator(v, 'the dosage form'),
+                ),
+              ),
+
+              _rowField(
+                label: 'Route *',
+                field: TextFormField(
+                  controller: _routeController,
+                  decoration:
+                      _compactDecoration(hintText: 'Oral, topical, etc.'),
+                  validator: (v) => _requiredValidator(v, 'the route'),
+                ),
+              ),
+
+              if (!isPrn) ...[
+                const SizedBox(height: 4),
                 FrequencyTimetablePicker(
                   onChanged: (selection) {
                     setState(() {
@@ -322,61 +377,90 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                     });
                   },
                 ),
-              if (!isPrn) const SizedBox(height: 12),
-
-              // Duration
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Start Date *'),
-                subtitle: Text(_formatDate(_startDate)),
-                trailing: const Icon(Icons.calendar_today),
-                onTap: () => _pickDate(isStart: true),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('End Date (leave blank if ongoing)'),
-                subtitle: Text(_formatDate(_endDate)),
-                trailing: const Icon(Icons.calendar_today),
-                onTap: () => _pickDate(isStart: false),
-              ),
-              const SizedBox(height: 12),
-
-              // PRN-only fields — only shown/required when type is PRN.
-              if (isPrn) ...[
-                TextFormField(
-                  controller: _prnIndicationController,
-                  decoration: const InputDecoration(
-                      labelText: 'PRN Indication * (e.g. for pain)'),
-                  validator: (v) =>
-                      isPrn ? _requiredValidator(v, 'the PRN indication') : null,
-                ),
-                TextFormField(
-                  controller: _maxPrnDoseFrequencyController,
-                  decoration: const InputDecoration(
-                      labelText: 'Maximum PRN Dose/Frequency *'),
-                  validator: (v) => isPrn
-                      ? _requiredValidator(v, 'the max PRN dose/frequency')
-                      : null,
-                ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 2),
               ],
 
-              TextFormField(
-                controller: _specialInstructionsController,
-                decoration: const InputDecoration(
-                    labelText: 'Special Instructions / Notes'),
-                maxLines: 2,
-              ),
-              TextFormField(
-                controller: _prescriberNameController,
-                decoration:
-                    const InputDecoration(labelText: 'Prescriber / Doctor'),
+              _rowField(
+                label: 'Start Date *',
+                field: InkWell(
+                  onTap: () => _pickDate(isStart: true),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 7),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(_formatDate(_startDate))),
+                        const Icon(Icons.calendar_today, size: 18),
+                      ],
+                    ),
+                  ),
+                ),
               ),
 
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _submit,
-                child: const Text('Save Medication'),
+              _rowField(
+                label: 'End Date',
+                field: InkWell(
+                  onTap: () => _pickDate(isStart: false),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 7),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(_formatDate(_endDate))),
+                        const Icon(Icons.calendar_today, size: 18),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              if (isPrn) ...[
+                _rowField(
+                  label: 'PRN Indication *',
+                  field: TextFormField(
+                    controller: _prnIndicationController,
+                    decoration:
+                        _compactDecoration(hintText: 'e.g. for pain'),
+                    validator: (v) => isPrn
+                        ? _requiredValidator(v, 'the PRN indication')
+                        : null,
+                  ),
+                ),
+                _rowField(
+                  label: 'Max PRN *',
+                  field: TextFormField(
+                    controller: _maxPrnDoseFrequencyController,
+                    decoration:
+                        _compactDecoration(hintText: 'Maximum dose/frequency'),
+                    validator: (v) => isPrn
+                        ? _requiredValidator(v, 'the max PRN dose/frequency')
+                        : null,
+                  ),
+                ),
+              ],
+
+              _rowField(
+                label: 'Instructions',
+                field: TextFormField(
+                  controller: _specialInstructionsController,
+                  decoration: _compactDecoration(hintText: 'Optional'),
+                  maxLines: 2,
+                ),
+              ),
+
+              _rowField(
+                label: 'Prescriber',
+                field: TextFormField(
+                  controller: _prescriberNameController,
+                  decoration: _compactDecoration(hintText: 'Optional'),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submit,
+                  child: const Text('Save Medication'),
+                ),
               ),
             ],
           ),
