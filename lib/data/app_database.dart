@@ -8,10 +8,7 @@ import 'package:path_provider/path_provider.dart';
 part 'app_database.g.dart';
 
 /// ---------------------------------------------------------------------
-/// TABLE
-/// One row per profile (a person being tracked in the app).
-/// `id` auto-increments, so other tables (Vitals, Medications, etc.)
-/// each store a `profileId` column pointing back to a row here.
+/// PROFILES
 /// ---------------------------------------------------------------------
 
 class Profiles extends Table {
@@ -25,22 +22,26 @@ class Profiles extends Table {
 }
 
 /// ---------------------------------------------------------------------
-/// TABLE
-/// One row per vitals reading, linked back to a profile via `profileId`.
-/// A profile can have many readings over time (history), so this is a
-/// separate table rather than columns on Profiles.
+/// VITALS
 /// ---------------------------------------------------------------------
 
 class VitalsTable extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   IntColumn get profileId =>
-      integer().references(Profiles, #id, onDelete: KeyAction.cascade)();
+      integer().references(
+        Profiles,
+        #id,
+        onDelete: KeyAction.cascade,
+      )();
+
   TextColumn get bp => text().nullable()();
   TextColumn get temperature => text().nullable()();
   TextColumn get pulseRate => text().nullable()();
   TextColumn get respiratoryRate => text().nullable()();
   TextColumn get oxygenSaturation => text().nullable()();
   TextColumn get pain => text().nullable()();
+
   DateTimeColumn get recordedAt =>
       dateTime().withDefault(currentDateAndTime)();
 
@@ -49,53 +50,51 @@ class VitalsTable extends Table {
 }
 
 /// ---------------------------------------------------------------------
-/// TABLE
-/// One row per prescribed medication, linked back to a profile.
-///
-/// `prescriptionType` covers maintenance / temporary / PRN (as-needed).
-/// Almost every field applies to all three types — only `prnIndication`
-/// and `maxPrnDoseFrequency` are meaningful when prescriptionType is
-/// PRN, so they're left nullable and simply unused otherwise, rather
-/// than splitting this into separate tables.
+/// MEDICATIONS
 /// ---------------------------------------------------------------------
 
-/// Keep this in sync with the check constraint below if you add a type.
-enum PrescriptionType { maintenance, temporary, prn }
+enum PrescriptionType {
+  maintenance,
+  temporary,
+  prn,
+}
 
 class Medications extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get profileId =>
-      integer().references(Profiles, #id, onDelete: KeyAction.cascade)();
 
-  // Prescription status / type (maintenance, temporary, or PRN)
+  IntColumn get profileId =>
+      integer().references(
+        Profiles,
+        #id,
+        onDelete: KeyAction.cascade,
+      )();
+
   TextColumn get prescriptionType =>
       textEnum<PrescriptionType>()();
 
-  // Core identification
+  // Medication identification
   TextColumn get medicationName => text()();
-  TextColumn get brandName => text().nullable()(); // often blank — generic only on script
-  TextColumn get strength => text().nullable()(); // e.g. "300 mg"
+  TextColumn get brandName => text().nullable()();
+  TextColumn get strength => text().nullable()();
 
   // Dosing
-  TextColumn get dosage => text()(); // e.g. "1 tablet"
-  TextColumn get dosageForm => text()(); // tablet, capsule, syrup, etc.
-  TextColumn get route => text()(); // oral, topical, etc.
-  TextColumn get frequency => text()(); // e.g. "twice a day"
-  TextColumn get specificTime => text().nullable()(); // e.g. "7:00 AM" — free text since
-  // patients may have multiple times a day; store as comma-separated or
-  // move to its own table later if you need structured multi-time schedules.
-  TextColumn get relationToMeals => text().nullable()(); // before/with/after meals
+  TextColumn get dosage => text()();
+  TextColumn get dosageForm => text()();
+  TextColumn get route => text()();
+  TextColumn get frequency => text()();
+  TextColumn get specificTime => text().nullable()();
+  TextColumn get relationToMeals => text().nullable()();
 
   // Duration
   DateTimeColumn get startDate => dateTime()();
-  DateTimeColumn get endDate => dateTime().nullable()(); // null = ongoing
+  DateTimeColumn get endDate => dateTime().nullable()();
 
-  // PRN-only fields (leave null for maintenance/temporary)
-  TextColumn get prnIndication => text().nullable()(); // e.g. "for pain"
-  TextColumn get maxPrnDoseFrequency => text().nullable()(); // e.g. "max 4x/day"
+  // PRN
+  TextColumn get prnIndication => text().nullable()();
+  TextColumn get maxPrnDoseFrequency => text().nullable()();
 
-  // Shared extras
-  TextColumn get specialInstructions => text().nullable()(); // e.g. "Hold if active bleeding"
+  // Extras
+  TextColumn get specialInstructions => text().nullable()();
   TextColumn get prescriberName => text().nullable()();
 
   @override
@@ -103,11 +102,40 @@ class Medications extends Table {
 }
 
 /// ---------------------------------------------------------------------
-/// DAO
-/// Drift auto-generates a data class called `Profile` from the
-/// `Profiles` table above (singular of the table name). You'll import
-/// and use `Profile` in your UI just like the old model class, except
-/// this one comes straight from the database.
+/// SYMPTOM JOURNAL
+/// ---------------------------------------------------------------------
+
+class Symptoms extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get profileId =>
+      integer().references(
+        Profiles,
+        #id,
+        onDelete: KeyAction.cascade,
+      )();
+
+  TextColumn get character => text()();
+  TextColumn get onset => text()();
+  TextColumn get location => text()();
+  TextColumn get duration => text()();
+  TextColumn get severity => text()();
+  TextColumn get pattern => text()();
+  TextColumn get associatedFactors => text()();
+
+  DateTimeColumn get loggedAt =>
+      dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// =====================================================================
+/// DAOs
+/// =====================================================================
+
+/// ---------------------------------------------------------------------
+/// PROFILES DAO
 /// ---------------------------------------------------------------------
 
 @DriftAccessor(tables: [Profiles])
@@ -115,16 +143,14 @@ class ProfilesDao extends DatabaseAccessor<AppDatabase>
     with _$ProfilesDaoMixin {
   ProfilesDao(super.db);
 
-  /// Live list of all profiles. A StreamBuilder on this will
-  /// automatically rebuild whenever a profile is added, edited, or
-  /// deleted — no manual setState bookkeeping required.
   Stream<List<Profile>> watchAll() {
     return (select(profiles)
-          ..orderBy([(t) => OrderingTerm(expression: t.name)]))
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.name),
+          ]))
         .watch();
   }
 
-  /// Inserts a new profile and returns its auto-generated id.
   Future<int> insertProfile(ProfilesCompanion entry) {
     return into(profiles).insert(entry);
   }
@@ -134,138 +160,218 @@ class ProfilesDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> deleteProfile(int id) {
-    return (delete(profiles)..where((t) => t.id.equals(id))).go();
+    return (delete(profiles)
+          ..where((t) => t.id.equals(id)))
+        .go();
   }
 }
 
+/// ---------------------------------------------------------------------
+/// VITALS DAO
+/// ---------------------------------------------------------------------
+
 @DriftAccessor(tables: [VitalsTable])
-class VitalsDao extends DatabaseAccessor<AppDatabase> with _$VitalsDaoMixin {
+class VitalsDao extends DatabaseAccessor<AppDatabase>
+    with _$VitalsDaoMixin {
   VitalsDao(super.db);
 
-  /// Live stream of the single most recent reading for a profile.
-  /// Emits null if that profile has no readings yet — DetailsPage
-  /// falls back to showing '--' for each field in that case.
-  Stream<VitalsTableData?> watchLatestForProfile(int profileId) {
+  Stream<VitalsTableData?> watchLatestForProfile(
+    int profileId,
+  ) {
     final query = select(vitalsTable)
-      ..where((t) => t.profileId.equals(profileId))
-      ..orderBy([(t) => OrderingTerm.desc(t.recordedAt)])
+      ..where(
+        (t) => t.profileId.equals(profileId),
+      )
+      ..orderBy([
+        (t) => OrderingTerm.desc(t.recordedAt),
+      ])
       ..limit(1);
+
     return query.watchSingleOrNull();
   }
 
-  /// Live stream of full reading history for a profile, most recent first.
-  Stream<List<VitalsTableData>> watchHistoryForProfile(int profileId) {
+  Stream<List<VitalsTableData>> watchHistoryForProfile(
+    int profileId,
+  ) {
     return (select(vitalsTable)
-          ..where((t) => t.profileId.equals(profileId))
-          ..orderBy([(t) => OrderingTerm.desc(t.recordedAt)]))
+          ..where(
+            (t) => t.profileId.equals(profileId),
+          )
+          ..orderBy([
+            (t) => OrderingTerm.desc(t.recordedAt),
+          ]))
         .watch();
   }
 
-  /// Inserts a new reading (e.g. from a "log vitals" form).
-  Future<int> insertVitals(VitalsTableCompanion entry) {
+  Future<int> insertVitals(
+    VitalsTableCompanion entry,
+  ) {
     return into(vitalsTable).insert(entry);
   }
 }
+
+/// ---------------------------------------------------------------------
+/// MEDICATIONS DAO
+/// ---------------------------------------------------------------------
 
 @DriftAccessor(tables: [Medications])
 class MedicationsDao extends DatabaseAccessor<AppDatabase>
     with _$MedicationsDaoMixin {
   MedicationsDao(super.db);
 
-  /// Live list of all medications for a profile, grouped implicitly by
-  /// prescriptionType in the UI layer (query just returns everything,
-  /// ordered by name).
-  Stream<List<Medication>> watchAllForProfile(int profileId) {
+  Stream<List<Medication>> watchAllForProfile(
+    int profileId,
+  ) {
     return (select(medications)
-          ..where((t) => t.profileId.equals(profileId))
-          ..orderBy([(t) => OrderingTerm(expression: t.medicationName)]))
+          ..where(
+            (t) => t.profileId.equals(profileId),
+          )
+          ..orderBy([
+            (t) => OrderingTerm(
+                  expression: t.medicationName,
+                ),
+          ]))
         .watch();
   }
 
-  /// Live list filtered to just one prescription type, e.g. showing
-  /// only PRN meds in a "as needed" tab.
   Stream<List<Medication>> watchByType(
     int profileId,
     PrescriptionType type,
   ) {
     return (select(medications)
-          ..where((t) =>
-              t.profileId.equals(profileId) &
-              t.prescriptionType.equalsValue(type))
-          ..orderBy([(t) => OrderingTerm(expression: t.medicationName)]))
+          ..where(
+            (t) =>
+                t.profileId.equals(profileId) &
+                t.prescriptionType.equalsValue(type),
+          )
+          ..orderBy([
+            (t) => OrderingTerm(
+                  expression: t.medicationName,
+                ),
+          ]))
         .watch();
   }
 
-  Future<int> insertMedication(MedicationsCompanion entry) {
+  Future<int> insertMedication(
+    MedicationsCompanion entry,
+  ) {
     return into(medications).insert(entry);
   }
 
-  Future<void> updateMedication(Medication medication) {
+  Future<void> updateMedication(
+    Medication medication,
+  ) {
     return update(medications).replace(medication);
   }
 
   Future<void> deleteMedication(int id) {
-    return (delete(medications)..where((t) => t.id.equals(id))).go();
+    return (delete(medications)
+          ..where((t) => t.id.equals(id)))
+        .go();
   }
 }
 
 /// ---------------------------------------------------------------------
-/// DATABASE
+/// SYMPTOMS DAO
 /// ---------------------------------------------------------------------
 
+@DriftAccessor(tables: [Symptoms])
+class SymptomsDao extends DatabaseAccessor<AppDatabase>
+    with _$SymptomsDaoMixin {
+  SymptomsDao(super.db);
+
+  /// Save a new COLDSPA journal entry.
+  Future<int> insertSymptom(
+    SymptomsCompanion entry,
+  ) {
+    return into(symptoms).insert(entry);
+  }
+
+  /// Watch all journal entries for one profile,
+  /// newest first.
+  Stream<List<Symptom>> watchAllForProfile(
+    int profileId,
+  ) {
+    return (select(symptoms)
+          ..where(
+            (t) => t.profileId.equals(profileId),
+          )
+          ..orderBy([
+            (t) => OrderingTerm.desc(t.loggedAt),
+          ]))
+        .watch();
+  }
+
+  /// Delete one journal entry.
+  Future<void> deleteSymptom(int id) {
+    return (delete(symptoms)
+          ..where((t) => t.id.equals(id)))
+        .go();
+  }
+}
+
+/// =====================================================================
+/// DATABASE
+/// =====================================================================
+
 @DriftDatabase(
-  tables: [Profiles, VitalsTable, Medications],
-  daos: [ProfilesDao, VitalsDao, MedicationsDao],
+  tables: [
+    Profiles,
+    VitalsTable,
+    Medications,
+    Symptoms,
+  ],
+  daos: [
+    ProfilesDao,
+    VitalsDao,
+    MedicationsDao,
+    SymptomsDao,
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
-  MigrationStrategy get migration => MigrationStrategy(
+  MigrationStrategy get migration =>
+      MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
         },
+
         onUpgrade: (m, from, to) async {
           if (from < 2) {
             // v1 -> v2: added VitalsTable.
             await m.createTable(vitalsTable);
           }
+
           if (from < 3) {
             // v2 -> v3: added Medications.
             await m.createTable(medications);
+          }
+
+          if (from < 4) {
+            // v3 -> v4: added Symptoms journal.
+            await m.createTable(symptoms);
           }
         },
       );
 }
 
+/// ---------------------------------------------------------------------
+/// DATABASE CONNECTION
+/// ---------------------------------------------------------------------
+
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'app_db.sqlite'));
+    final dbFolder =
+        await getApplicationDocumentsDirectory();
+
+    final file =
+        File(p.join(dbFolder.path, 'app_db.sqlite'));
+
     return NativeDatabase.createInBackground(file);
   });
-}
-
-
-///-----------------------------------------------------------------------
-///JOURNAL SYMPTOMS TABLE
-///-----------------------------------------------------------------------
-
-class Symptoms extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get profileId => integer().references(Profiles, #id)();
-  TextColumn get character => text()();
-  TextColumn get onset => text()();
-  TextColumn get location => text()();
-  TextColumn get duration => text()();
-  TextColumn get severity => text()();
-  TextColumn get pattern => text()();
-  TextColumn get associatedFactors => text()();
-  DateTimeColumn get loggedAt => dateTime().withDefault(currentDateAndTime)();
-
-  @override
-  Set<Column> get primaryKey => {id};
 }

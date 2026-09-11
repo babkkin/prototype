@@ -1,11 +1,155 @@
 [
   {
+    "name": "Shortness of Breath",
+    "summary": "A feeling of difficulty breathing or not getting enough air.",
+    "points": [
+      "Can occur during activity or even while resting",
+      "May be linked to heart or lung conditions",
+      "Sudden or severe breathing difficulty needs urgent medical attention"
+    ]
+  },
+  {
+    "name": "Chest Discomfort",
+    "summary": "Pain, pressure, tightness, or heaviness felt in the chest.",
+    "points": [
+      "Can be related to heart or circulation problems",
+      "May occur together with sweating, nausea, or shortness of breath",
+      "Severe or persistent chest discomfort needs urgent medical attention"
+    ]
+  },
+  {
+    "name": "Dizziness",
+    "summary": "A feeling of lightheadedness, spinning, or unsteadiness.",
+    "points": [
+      "Can be linked to low blood pressure or dehydration",
+      "Sometimes caused by medication side effects",
+      "May increase the risk of falls in older adults"
+    ]
+  },
+  {
+    "name": "Fatigue",
+    "summary": "A persistent feeling of tiredness or low energy.",
+    "points": [
+      "May occur with diabetes, heart disease, or other chronic conditions",
+      "Not always relieved by resting or sleeping",
+      "Can also be related to medication effects or poor sleep"
+    ]
+  },
+  {
+    "name": "Leg or Ankle Swelling",
+    "summary": "Swelling caused by fluid buildup in the legs, ankles, or feet.",
+    "points": [
+      "May occur with heart, kidney, or circulation problems",
+      "Can become more noticeable after standing for long periods",
+      "Sudden swelling on one side should be checked by a healthcare professional"
+    ]
+  },
+  {
+    "name": "Palpitations",
+    "summary": "A feeling that the heart is racing, pounding, or skipping beats.",
+    "points": [
+      "May happen during activity or while resting",
+      "Can be linked to heart rhythm changes or certain medications",
+      "Palpitations with chest pain or fainting need urgent attention"
+    ]
+  },
+  {
     "name": "Headache",
     "summary": "Pain or pressure felt in the head or upper neck.",
     "points": [
       "Can be dull and constant, or sharp and throbbing",
-      "Often triggered by stress, dehydration, or lack of sleep",
+      "May be linked to stress, dehydration, or blood pressure changes",
       "Sometimes a side effect of medication"
+    ]
+  },
+  {
+    "name": "Blurred Vision",
+    "summary": "Difficulty seeing clearly or a noticeable change in eyesight.",
+    "points": [
+      "Can occur with diabetes or blood pressure problems",
+      "May affect one or both eyes",
+      "Sudden vision loss or major changes need urgent medical attention"
+    ]
+  },
+  {
+    "name": "Frequent Urination",
+    "summary": "Needing to urinate more often than usual.",
+    "points": [
+      "Can be linked to diabetes or certain medications",
+      "May also happen more often during the night",
+      "Sometimes occurs together with increased thirst"
+    ]
+  },
+  {
+    "name": "Excessive Thirst",
+    "summary": "Feeling unusually thirsty even after drinking fluids.",
+    "points": [
+      "Can be linked to high blood sugar",
+      "May occur together with frequent urination",
+      "Can also happen with dehydration"
+    ]
+  },
+  {
+    "name": "Low Blood Sugar Symptoms",
+    "summary": "Symptoms that may occur when blood sugar drops too low.",
+    "points": [
+      "Can include sweating, shaking, hunger, or dizziness",
+      "May also cause confusion or irritability",
+      "Severe symptoms such as seizure or loss of consciousness are an emergency"
+    ]
+  },
+  {
+    "name": "Numbness or Tingling",
+    "summary": "A pins-and-needles feeling or reduced sensation in part of the body.",
+    "points": [
+      "Can occur in the hands, feet, or legs",
+      "May be linked to diabetic nerve damage",
+      "Sudden numbness on one side of the body needs urgent medical attention"
+    ]
+  },
+  {
+    "name": "Persistent Cough",
+    "summary": "A cough that continues for a long time or keeps returning.",
+    "points": [
+      "Can be dry or produce mucus",
+      "May be linked to lung disease or certain medications",
+      "Coughing blood or having severe breathing difficulty needs urgent care"
+    ]
+  },
+  {
+    "name": "Wheezing",
+    "summary": "A whistling sound heard while breathing.",
+    "points": [
+      "Often happens when the airways become narrowed",
+      "May occur with asthma or chronic lung disease",
+      "Severe wheezing with breathing difficulty needs urgent attention"
+    ]
+  },
+  {
+    "name": "Joint Pain or Stiffness",
+    "summary": "Pain, aching, or difficulty moving one or more joints.",
+    "points": [
+      "Can become worse after long periods of inactivity",
+      "May be linked to arthritis or gout",
+      "Swelling and redness may occur during flare-ups"
+    ]
+  },
+  {
+    "name": "Muscle Weakness",
+    "summary": "A noticeable decrease in strength or ability to perform normal movements.",
+    "points": [
+      "Can make walking or daily activities more difficult",
+      "May be linked to illness, medication effects, or poor nutrition",
+      "Sudden weakness on one side of the body needs urgent medical attention"
+    ]
+  },
+  {
+    "name": "Constipation",
+    "summary": "Difficulty passing stool or having bowel movements less often than usual.",
+    "points": [
+      "Can be related to low fluid intake or reduced activity",
+      "Certain medications may also cause constipation",
+      "Persistent constipation should be discussed with a healthcare professional"
     ]
   },
   {
@@ -13,16 +157,26 @@
     "summary": "An uneasy, queasy feeling in the stomach, often with an urge to vomit.",
     "points": [
       "Can be triggered by certain medications",
-      "Also linked to motion sickness, infections, or digestive issues"
+      "May also be linked to digestive problems or illness",
+      "Persistent vomiting can lead to dehydration"
     ]
   },
   {
-    "name": "Fatigue",
-    "summary": "A persistent feeling of tiredness or low energy.",
+    "name": "Loss of Appetite",
+    "summary": "A reduced desire to eat or decreased interest in food.",
     "points": [
-      "Not fully relieved by resting or sleeping",
-      "Can be linked to illness or poor sleep",
-      "Sometimes a side effect of certain treatments"
+      "Can lead to weight loss or poor nutrition",
+      "May occur with illness, medication effects, or nausea",
+      "Persistent loss of appetite should be monitored"
+    ]
+  },
+  {
+    "name": "Sleep Disturbance",
+    "summary": "Difficulty falling asleep, staying asleep, or getting restful sleep.",
+    "points": [
+      "Can be affected by pain, breathing problems, or frequent urination",
+      "Poor sleep may increase daytime fatigue",
+      "Some medications can also affect sleep"
     ]
   }
 ]
