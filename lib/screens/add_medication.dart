@@ -37,6 +37,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final _specialInstructionsController = TextEditingController();
   final _prescriberNameController = TextEditingController();
 
+
   // Flexible generated schedule returned by FrequencyTimetablePicker.
   MedicationScheduleSelection? _scheduleSelection;
   List<TimeOfDay> _generatedTimes = [];
@@ -165,6 +166,9 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       return;
     }
 
+
+
+
     final isPrn = _type == PrescriptionType.prn;
 
     // PRN meds don't use the auto timetable (they're taken as needed,
@@ -215,6 +219,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
     Navigator.pop(context, newMedication);
   }
+
 
   String? _emptyToNull(String value) {
     final trimmed = value.trim();
@@ -303,6 +308,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                 ),
               ),
 
+
               _rowField(
                 label: 'Medication *',
                 field: TextFormField(
@@ -328,6 +334,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                       _requiredValidator(v, 'the medication name'),
                 ),
               ),
+
 
               _rowField(
                 label: 'Brand',
@@ -481,6 +488,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 class _MedicationNamePicker extends StatefulWidget {
   final List<String> medicines;
   final String selectedMedicine;
+  
 
   const _MedicationNamePicker({
     required this.medicines,
@@ -493,11 +501,19 @@ class _MedicationNamePicker extends StatefulWidget {
 
 class _MedicationNamePickerState extends State<_MedicationNamePicker> {
   final _searchController = TextEditingController();
+  final _otherController = TextEditingController(); // moved here
   String _query = '';
+
+  void _submitOther() {                             // moved here
+    final text = _otherController.text.trim();
+    if (text.isEmpty) return;
+    Navigator.pop(context, text);
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _otherController.dispose();
     super.dispose();
   }
 
@@ -507,79 +523,100 @@ class _MedicationNamePickerState extends State<_MedicationNamePicker> {
       return medicine.toLowerCase().contains(_query.trim().toLowerCase());
     }).toList();
 
-    return FractionallySizedBox(
-      heightFactor: 0.80,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Select Medication',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+    // Padding on the outside pushes the whole sheet above the keyboard
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: FractionallySizedBox(
+        heightFactor: 0.80,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Select Medication',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-            child: TextField(
-              controller: _searchController,
-              autofocus: true,
-              onChanged: (value) => setState(() => _query = value),
-              decoration: InputDecoration(
-                hintText: 'Search medicines',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _query.isEmpty
-                    ? null
-                    : IconButton(
-                        onPressed: () {
-                          _searchController.clear();
-                          setState(() => _query = '');
-                        },
-                        icon: const Icon(Icons.close),
-                      ),
-                border: const OutlineInputBorder(),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
               ),
             ),
-          ),
-          const Divider(height: 1),
-          Expanded(
-            child: filtered.isEmpty
-                ? const Center(
-                    child: Text('No medicines found.'),
-                  )
-                : ListView.separated(
-                    itemCount: filtered.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final medicine = filtered[index];
-                      final isSelected =
-                          medicine == widget.selectedMedicine;
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+              child: TextField(
+                controller: _searchController,
+                onChanged: (value) => setState(() => _query = value),
+                decoration: InputDecoration(
+                  hintText: 'Search medicines',
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: _query.isEmpty
+                      ? null
+                      : IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            setState(() => _query = '');
+                          },
+                          icon: const Icon(Icons.close),
+                        ),
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+            ),
+            const Divider(height: 1),
 
-                      return ListTile(
-                        title: Text(medicine),
-                        trailing: isSelected
-                            ? Icon(
-                                Icons.check,
-                                color: Theme.of(context).colorScheme.primary,
-                              )
-                            : null,
-                        onTap: () => Navigator.pop(context, medicine),
-                      );
-                    },
-                  ),
-          ),
-        ],
+            // "Other" tile: type your own medicine name
+            ListTile(
+              leading: const Icon(Icons.edit_outlined),
+              title: TextField(
+                controller: _otherController,
+                decoration: const InputDecoration(
+                  hintText: 'Other (type your own)...',
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                  border: InputBorder.none,
+                ),
+                textInputAction: TextInputAction.done,
+                onSubmitted: (_) => _submitOther(),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.check),
+                onPressed: _submitOther,
+              ),
+            ),
+            const Divider(height: 1),
+
+            Expanded(
+              child: filtered.isEmpty
+                  ? const Center(child: Text('No medicines found.'))
+                  : ListView.separated(
+                      itemCount: filtered.length,
+                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final medicine = filtered[index];
+                        final isSelected = medicine == widget.selectedMedicine;
+
+                        return ListTile(
+                          title: Text(medicine),
+                          trailing: isSelected
+                              ? Icon(
+                                  Icons.check,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )
+                              : null,
+                          onTap: () => Navigator.pop(context, medicine),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
