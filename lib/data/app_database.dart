@@ -337,6 +337,12 @@ class AppDatabase extends _$AppDatabase {
   @override
   MigrationStrategy get migration =>
       MigrationStrategy(
+        // SQLite ignores FOREIGN KEY / ON DELETE CASCADE unless this is on.
+        // Without it, deleting a profile would leave its medications,
+        // vitals and symptoms behind as orphaned rows.
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
+        },
         onCreate: (m) async {
           await m.createAll();
         },

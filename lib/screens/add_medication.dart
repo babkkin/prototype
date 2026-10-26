@@ -156,6 +156,14 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       );
       return;
     }
+    if (_endDate != null && _endDate!.isBefore(_startDate!)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('End date cannot be before the start date'),
+        ),
+      );
+      return;
+    }
 
     final isPrn = _type == PrescriptionType.prn;
 
@@ -576,4 +584,3 @@ class _MedicationNamePickerState extends State<_MedicationNamePicker> {
     );
   }
 }
-

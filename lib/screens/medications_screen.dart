@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../data/app_database.dart';
 
@@ -167,6 +168,43 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
     );
   }
 
+  Future<void> _deleteMedication(
+    BuildContext context,
+    Medication med,
+  ) async {
+    final dao = context.read<AppDatabase>().medicationsDao;
+    final messenger = ScaffoldMessenger.of(context);
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Delete medication?'),
+        content: Text(
+          '${med.medicationName} will be permanently removed from this profile.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    await dao.deleteMedication(med.id);
+    _expandedMedicationIds.remove(med.id);
+
+    messenger.showSnackBar(
+      SnackBar(content: Text('${med.medicationName} deleted.')),
+    );
+  }
+
   void _toggleExpanded(Medication medication) {
     setState(() {
       if (_expandedMedicationIds.contains(medication.id)) {
@@ -219,9 +257,10 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
       );
     }
 
+    // This list is the screen's main scroller, so it must scroll itself.
+    // The bottom padding keeps the last row clear of the add (+) button.
     return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(bottom: 88),
       itemCount: widget.medications.length,
       separatorBuilder: (_, __) => const Divider(height: 1),
       itemBuilder: (context, index) {
@@ -380,6 +419,18 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                     const SizedBox(height: 4),
                     Text(
                       _displayNullable(med.specialInstructions),
+                    ),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton.icon(
+                        onPressed: () => _deleteMedication(context, med),
+                        icon: const Icon(Icons.delete_outline),
+                        label: const Text('Delete medication'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
                     ),
                   ],
                 ),
