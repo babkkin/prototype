@@ -111,8 +111,8 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
+            child: Column(
+              children: [
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(labelText: 'Name'),
@@ -132,7 +132,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                   if (text.isEmpty) return 'Enter an age';
                   final age = int.tryParse(text);
                   if (age == null) return 'Enter a valid number';
-                  if (age < 0 || age > 120) return 'Enter an age from 0 to 120';
+                  if (age < 60 || age > 100) return 'Age must be 60 and above';
                   return null;
                 },
               ),
@@ -307,7 +307,7 @@ class _ConditionPickerState extends State<_ConditionPicker> {
                 const Divider(height: 1),
                 // Always available, so a profile can be created even when
                 // the condition is not in the list.
-                ListTile(
+                /**ListTile(
                   leading: const Icon(Icons.edit_outlined),
                   title: Text(
                     query.isEmpty
@@ -320,7 +320,7 @@ class _ConditionPickerState extends State<_ConditionPicker> {
                         ? const _ConditionResult.custom()
                         : _ConditionResult.picked(query),
                   ),
-                ),
+                ), COMMENTED OUT YUNG WRITE YOUR OWN ILLNESS at the moment */
               ],
             ),
           ),
