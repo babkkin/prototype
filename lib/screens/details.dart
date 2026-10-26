@@ -5,6 +5,7 @@ import 'manage_medications.dart';
 import 'daily_medication_schedule.dart';
 import  'vitals_screen.dart';
 import 'package:prototype_app/screens/symptoms_journal.dart';
+import '../services/medical_summary_service.dart';
 
 class DetailsPage extends StatelessWidget {
   final Profile profile;
@@ -14,13 +15,133 @@ class DetailsPage extends StatelessWidget {
     required this.profile,
   });
 
+  Future<void> _openSummary(BuildContext context, String action) async {
+    // Step 1: choose the period the summary should cover.
+    const options = [
+      ('recent', 'Most recent entries'),
+      ('7', 'Last 7 days'),
+      ('30', 'Last 30 days'),
+      ('90', 'Last 90 days'),
+      ('custom', 'Custom range...'),
+    ];
+
+    final choice = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Summary period',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            for (final (key, label) in options)
+              ListTile(
+                title: Text(label),
+                onTap: () => Navigator.pop(sheetContext, key),
+              ),
+          ],
+        ),
+      ),
+    );
+
+    if (choice == null || !context.mounted) return;
+
+    DateTimeRange? range;
+    final now = DateTime.now();
+    if (choice == 'custom') {
+      range = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(2000),
+        lastDate: now,
+        initialDateRange: DateTimeRange(
+          start: now.subtract(const Duration(days: 30)),
+          end: now,
+        ),
+      );
+      if (range == null || !context.mounted) return;
+    } else if (choice != 'recent') {
+      final days = int.parse(choice);
+      range = DateTimeRange(
+        start: now.subtract(Duration(days: days - 1)),
+        end: now,
+      );
+    }
+
+    // Step 2: build the PDF for that period (spinner until it is ready).
+    final service = MedicalSummaryService(context.read<AppDatabase>());
+    final navigator = Navigator.of(context, rootNavigator: true);
+    final messenger = ScaffoldMessenger.of(context);
+    var spinnerOpen = true;
+
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const PopScope(
+        canPop: false,
+        child: Center(child: CircularProgressIndicator()),
+      ),
+    );
+
+    void closeSpinner() {
+      if (!spinnerOpen) return;
+      spinnerOpen = false;
+      navigator.pop();
+    }
+
+    try {
+      if (action == 'share') {
+        await service.share(profile.id, range: range, onReady: closeSpinner);
+      } else {
+        await service.preview(profile.id, range: range, onReady: closeSpinner);
+      }
+    } catch (e) {
+      closeSpinner();
+      messenger.showSnackBar(
+        SnackBar(content: Text('Unable to create summary: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final database = context.watch<AppDatabase>();
     final vitalsDao = database.vitalsDao;
 
     return Scaffold(
-      appBar: AppBar(title: Text(profile.name)),
+      appBar: AppBar(
+        title: Text(profile.name),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.description_outlined),
+            tooltip: 'Medical summary',
+            onSelected: (value) => _openSummary(context, value),
+            itemBuilder: (_) => const [
+              PopupMenuItem(
+                value: 'preview',
+                child: ListTile(
+                  leading: Icon(Icons.picture_as_pdf_outlined),
+                  title: Text('View / print summary'),
+                ),
+              ),
+              PopupMenuItem(
+                value: 'share',
+                child: ListTile(
+                  leading: Icon(Icons.share_outlined),
+                  title: Text('Share with doctor'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
       body: Column(
         children: [
           StreamBuilder<VitalsTableData?>(
@@ -54,7 +175,7 @@ class _VitalsDashboard extends StatelessWidget {
       ('PR', vitals?.pulseRate),
       ('RR', vitals?.respiratoryRate),
       ('O2 SAT.', vitals?.oxygenSaturation),
-      ('Pain', vitals?.pain),
+      ('Pain', vitals?.pain == null ? null : '${vitals!.pain}/10'),
     ];
 
     return Padding(
@@ -163,6 +284,9 @@ class _TabButtonsRow extends StatelessWidget {
         );
         break;
       case 'Appointment':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Appointments are coming soon.')),
+        );
         break;
           case 'Vitals':
             Navigator.push(
@@ -202,4 +326,3 @@ class _TabButtonsRow extends StatelessWidget {
     );
   }
 }
-

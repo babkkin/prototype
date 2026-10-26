@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../data/app_database.dart';
 import 'add_symptom_entry.dart';
@@ -17,8 +18,6 @@ class SymptomsJournal extends StatefulWidget {
 }
 
 class _SymptomsJournalState extends State<SymptomsJournal> {
-  final AppDatabase _database = AppDatabase();
-
   late final Future<List<reference.Symptom>> _symptomsFuture;
 
   @override
@@ -29,19 +28,13 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
     _symptomsFuture = reference.loadSymptoms();
   }
 
-  @override
-  void dispose() {
-    _database.close();
-    super.dispose();
-  }
-
   Future<void> _openAddEntry() async {
     final saved = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
         builder: (_) => AddSymptomEntry(
           profile: widget.profile,
-          database: _database,
+          database: context.read<AppDatabase>(),
         ),
       ),
     );
@@ -231,7 +224,7 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
 
     if (confirmed != true) return;
 
-    await _database.symptomsDao.deleteSymptom(entry.id);
+    await context.read<AppDatabase>().symptomsDao.deleteSymptom(entry.id);
 
     if (!mounted) return;
 
@@ -397,7 +390,7 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
           const SizedBox(height: 8),
 
           StreamBuilder<List<Symptom>>(
-            stream: _database.symptomsDao
+            stream: context.read<AppDatabase>().symptomsDao
                 .watchAllForProfile(widget.profile.id),
             builder: (context, snapshot) {
               if (snapshot.connectionState ==
