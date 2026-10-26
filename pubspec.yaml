@@ -39,4 +39,6 @@ flutter:
     - assets/symptoms.json
     - assets/medicines.json
     - assets/conditions.json
+    - assets/meads.json
+    - assets/meadsv2.json
 
