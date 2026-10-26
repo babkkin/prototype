@@ -25,7 +25,7 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
     String medicationName,
   ) async {
     try {
-      final raw = await rootBundle.loadString('assets/medicines.json');
+      final raw = await rootBundle.loadString('assets/meadsv2.json');
       final decoded = jsonDecode(raw) as List<dynamic>;
 
       for (final item in decoded) {

@@ -53,7 +53,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
   Future<void> _loadMedicineNames() async {
     try {
-      final raw = await rootBundle.loadString('assets/medicines.json');
+      final raw = await rootBundle.loadString('assets/meadsv2.json');
       final decoded = jsonDecode(raw) as List<dynamic>;
 
       final names = decoded
