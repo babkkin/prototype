@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart' show DateTimeRange;
 import 'package:intl/intl.dart';
@@ -15,6 +17,7 @@ class MedicalSummaryData {
     required this.vitalsHistory,
     required this.medications,
     required this.symptoms,
+    required this.appointments,
     this.range,
   });
 
@@ -23,6 +26,10 @@ class MedicalSummaryData {
   final List<VitalsTableData> vitalsHistory;
   final List<Medication> medications;
   final List<Symptom> symptoms;
+
+  /// Most-recent mode: upcoming, not-done appointments (max 10).
+  /// Period mode: every appointment inside the period, any status.
+  final List<Appointment> appointments;
 
   /// null = "most recent entries" (last few vitals/symptoms, active meds).
   final DateTimeRange? range;
@@ -84,12 +91,29 @@ class MedicalSummaryService {
     symptomsQuery.limit(range == null ? symptomsLimit : 500);
     final symptoms = await symptomsQuery.get();
 
+    final appointmentsQuery = db.select(db.appointments)
+      ..where((t) => t.profileId.equals(profileId))
+      ..orderBy([(t) => OrderingTerm(expression: t.appointmentAt)]);
+    if (range != null) {
+      appointmentsQuery.where((t) =>
+          t.appointmentAt.isBiggerOrEqualValue(from!) &
+          t.appointmentAt.isSmallerThanValue(to!));
+    } else {
+      appointmentsQuery
+        ..where((t) =>
+            t.isDone.equals(false) &
+            t.appointmentAt.isBiggerOrEqualValue(DateTime.now()))
+        ..limit(10);
+    }
+    final appointments = await appointmentsQuery.get();
+
     return MedicalSummaryData(
       profile: profile,
       latestVitals: vitals.isEmpty ? null : vitals.first,
       vitalsHistory: vitals,
       medications: meds,
       symptoms: symptoms,
+      appointments: appointments,
       range: range,
     );
   }
@@ -235,6 +259,15 @@ class MedicalSummaryService {
             _medGroup('Temporary', ofType(PrescriptionType.temporary)),
             _medGroup('As needed (PRN)', ofType(PrescriptionType.prn)),
           ],
+          _section(range == null
+              ? 'Upcoming Appointments'
+              : 'Appointments During Period'),
+          if (d.appointments.isEmpty)
+            _muted(range == null
+                ? 'No upcoming appointments.'
+                : 'No appointments in this period.')
+          else
+            ...d.appointments.map(_appointmentCard),
           _section(range == null ? 'Recent Symptoms' : 'Symptoms During Period'),
           if (d.symptoms.isEmpty)
             _muted('No symptoms logged.')
@@ -465,6 +498,42 @@ class MedicalSummaryService {
             _kv('Instructions', m.specialInstructions!),
           if (m.prescriberName != null && m.prescriberName!.trim().isNotEmpty)
             _kv('Prescribed by', m.prescriberName!),
+        ],
+      ),
+    );
+  }
+
+  pw.Widget _appointmentCard(Appointment a) {
+    final status = a.isDone
+        ? 'Completed'
+        : a.appointmentAt.isBefore(DateTime.now())
+            ? 'Not marked completed'
+            : 'Upcoming';
+
+    return pw.Container(
+      width: double.infinity,
+      margin: const pw.EdgeInsets.only(bottom: 6),
+      padding: const pw.EdgeInsets.all(8),
+      decoration: pw.BoxDecoration(
+        border: pw.Border.all(color: PdfColors.grey400),
+        borderRadius: pw.BorderRadius.circular(4),
+      ),
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Text(
+            a.title,
+            style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
+          ),
+          pw.SizedBox(height: 3),
+          _kv('When', _dateTime.format(a.appointmentAt)),
+          if (a.doctorName != null && a.doctorName!.trim().isNotEmpty)
+            _kv('Doctor', a.doctorName!.trim()),
+          if (a.location != null && a.location!.trim().isNotEmpty)
+            _kv('Clinic / hospital', a.location!.trim()),
+          _kv('Status', status),
+          if (a.notes != null && a.notes!.trim().isNotEmpty)
+            _kv('Notes', a.notes!.trim()),
         ],
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../data/app_database.dart';
-import 'add_symptom_entry.dart';
+import 'symptom_tracker.dart';
 import 'symptom.dart' as reference;
 
 class SymptomsJournal extends StatefulWidget {
@@ -18,6 +18,8 @@ class SymptomsJournal extends StatefulWidget {
 }
 
 class _SymptomsJournalState extends State<SymptomsJournal> {
+  bool _showAllSymptoms = false;
+
   late final Future<List<reference.Symptom>> _symptomsFuture;
 
   @override
@@ -26,26 +28,6 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
 
     // Loads the reference symptoms from assets/symptoms.json.
     _symptomsFuture = reference.loadSymptoms();
-  }
-
-  Future<void> _openAddEntry() async {
-    final saved = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => AddSymptomEntry(
-          profile: widget.profile,
-          database: context.read<AppDatabase>(),
-        ),
-      ),
-    );
-
-    if (saved == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Symptom journal entry saved.'),
-        ),
-      );
-    }
   }
 
   void _showReferenceDetails(reference.Symptom symptom) {
@@ -196,6 +178,9 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
   }
 
   Future<void> _deleteEntry(Symptom entry) async {
+    // Read before any await so BuildContext is never used across a gap.
+    final dao = context.read<AppDatabase>().symptomsDao;
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
@@ -224,7 +209,7 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
 
     if (confirmed != true) return;
 
-    await context.read<AppDatabase>().symptomsDao.deleteSymptom(entry.id);
+    await dao.deleteSymptom(entry.id);
 
     if (!mounted) return;
 
@@ -244,12 +229,6 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openAddEntry,
-        tooltip: 'Add symptom entry',
-        child: const Icon(Icons.add),
-      ),
-
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -267,108 +246,69 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
 
           const SizedBox(height: 8),
 
+          const Text(
+            'Tap a symptom to answer a few questions about it.',
+          ),
+
+          const SizedBox(height: 12),
+
           FutureBuilder<List<reference.Symptom>>(
             future: _symptomsFuture,
             builder: (context, snapshot) {
-              if (snapshot.connectionState ==
-                  ConnectionState.waiting) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox(
                   height: 110,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: Center(child: CircularProgressIndicator()),
                 );
               }
 
-              if (snapshot.hasError) {
-                return Container(
-                  padding: const EdgeInsets.all(16),
-                  child: const Text(
-                    'Unable to load symptom reference.',
-                  ),
-                );
-              }
+              final all = snapshot.data ?? const <reference.Symptom>[];
 
-              final symptoms = snapshot.data ?? [];
-
-              if (symptoms.isEmpty) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 16,
-                  ),
-                  child: Text(
-                    'No symptom reference available.',
-                  ),
-                );
-              }
-
-              return SizedBox(
-                height: 120,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: symptoms.length,
-                  separatorBuilder: (_, __) =>
-                      const SizedBox(width: 8),
-                  itemBuilder: (context, index) {
-                    final symptom = symptoms[index];
-
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        _showReferenceDetails(symptom);
-                      },
-                      child: Container(
-                        width: 170,
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondaryContainer,
-                          borderRadius:
-                              BorderRadius.circular(10),
+              // Symptoms tagged for this profile's primary condition are
+              // shown on their own; a profile whose condition has no tagged
+              // symptoms simply sees the whole list.
+              final condition =
+                  widget.profile.primaryCondition.trim().toLowerCase();
+              final matching = condition.isEmpty
+                  ? const <reference.Symptom>[]
+                  : all
+                      .where(
+                        (s) => s.conditions.any(
+                          (c) => condition.contains(c.toLowerCase()),
                         ),
-                        child: Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              symptom.name,
-                              style: const TextStyle(
-                                fontWeight:
-                                    FontWeight.bold,
-                              ),
-                            ),
+                      )
+                      .toList();
+              final filtered =
+                  matching.isNotEmpty && matching.length < all.length;
+              final narrowed = filtered && !_showAllSymptoms;
 
-                            const SizedBox(height: 5),
-
-                            Expanded(
-                              child: Text(
-                                symptom.summary,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                ),
-                                maxLines: 3,
-                                overflow:
-                                    TextOverflow.ellipsis,
-                              ),
-                            ),
-
-                            const SizedBox(height: 4),
-
-                            const Align(
-                              alignment:
-                                  Alignment.centerRight,
-                              child: Icon(
-                                Icons.chevron_right,
-                                size: 18,
-                              ),
-                            ),
-                          ],
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SymptomPickerList(
+                    profile: widget.profile,
+                    symptoms: narrowed ? matching : all,
+                    loadFailed: snapshot.hasError,
+                    note: narrowed
+                        ? 'Showing symptoms common with '
+                            '${widget.profile.primaryCondition.trim()}.'
+                        : null,
+                    onInfo: _showReferenceDetails,
+                  ),
+                  if (filtered)
+                    Center(
+                      child: TextButton(
+                        onPressed: () => setState(
+                          () => _showAllSymptoms = !_showAllSymptoms,
+                        ),
+                        child: Text(
+                          _showAllSymptoms
+                              ? 'Show only symptoms for this condition'
+                              : 'Show all symptoms',
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                ],
               );
             },
           ),
@@ -438,7 +378,7 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
                       ),
                       const SizedBox(height: 4),
                       const Text(
-                        'Tap + to add the first entry.',
+                        'Tap a symptom above to log the first one.',
                       ),
                     ],
                   ),
@@ -450,7 +390,7 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
                 physics:
                     const NeverScrollableScrollPhysics(),
                 itemCount: entries.length,
-                separatorBuilder: (_, __) =>
+                separatorBuilder: (_, _) =>
                     const Divider(height: 1),
                 itemBuilder: (context, index) {
                   final entry = entries[index];

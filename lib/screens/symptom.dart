@@ -3,17 +3,61 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+/// Tailored COLDSPA answer choices for one symptom (assets/symptoms.json).
+/// Every field is optional: anything missing falls back to the shared
+/// generic choices in the symptom tracker.
+class ColdspaChoices {
+  final String? fixedLocation;
+  final String? locationQuestion;
+  final List<String> location;
+  final List<String> character;
+  final List<String> pattern;
+  final List<String> modifiers;
+  final List<String> associated;
+
+  const ColdspaChoices({
+    this.fixedLocation,
+    this.locationQuestion,
+    this.location = const [],
+    this.character = const [],
+    this.pattern = const [],
+    this.modifiers = const [],
+    this.associated = const [],
+  });
+
+  factory ColdspaChoices.fromJson(Map<String, dynamic> json) {
+    List<String> list(String key) => (json[key] as List<dynamic>? ?? const [])
+        .map((e) => e.toString())
+        .toList();
+
+    return ColdspaChoices(
+      fixedLocation: json['fixedLocation'] as String?,
+      locationQuestion: json['locationQuestion'] as String?,
+      location: list('location'),
+      character: list('character'),
+      pattern: list('pattern'),
+      modifiers: list('modifiers'),
+      associated: list('associated'),
+    );
+  }
+}
+
 // Every symptom now has a name, a one-line summary, and a list of
-// bullet points with more detail.
+// bullet points with more detail. It may also name the conditions it is
+// commonly seen with, and carry tailored COLDSPA choices.
 class Symptom {
   final String name;
   final String summary;
   final List<String> points;
+  final List<String> conditions;
+  final ColdspaChoices? coldspa;
 
   const Symptom({
     required this.name,
     required this.summary,
     required this.points,
+    this.conditions = const [],
+    this.coldspa,
   });
 
   factory Symptom.fromJson(Map<String, dynamic> json) {
@@ -23,6 +67,12 @@ class Symptom {
       points: (json['points'] as List<dynamic>)
           .map((point) => point as String)
           .toList(),
+      conditions: (json['conditions'] as List<dynamic>? ?? const [])
+          .map((c) => c.toString())
+          .toList(),
+      coldspa: json['coldspa'] == null
+          ? null
+          : ColdspaChoices.fromJson(json['coldspa'] as Map<String, dynamic>),
     );
   }
 }

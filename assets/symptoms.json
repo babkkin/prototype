@@ -6,7 +6,43 @@
       "Can occur during activity or even while resting",
       "May be linked to heart or lung conditions",
       "Sudden or severe breathing difficulty needs urgent medical attention"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "fixedLocation": "Chest / breathing",
+      "character": [
+        "Hard to catch my breath",
+        "Tight chest",
+        "Wheezing or noisy breathing",
+        "Breathless when lying flat",
+        "Waking up at night short of breath",
+        "Breathless with little activity"
+      ],
+      "pattern": [
+        "During activity",
+        "At rest",
+        "When lying flat",
+        "At night",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse when walking or climbing stairs",
+        "Gets worse when lying flat",
+        "Gets better with rest",
+        "Gets better when sitting up",
+        "Gets better after medication"
+      ],
+      "associated": [
+        "Chest discomfort",
+        "Cough",
+        "Leg or ankle swelling",
+        "Palpitations",
+        "Tiredness",
+        "Dizziness"
+      ]
+    }
   },
   {
     "name": "Chest Discomfort",
@@ -15,7 +51,50 @@
       "Can be related to heart or circulation problems",
       "May occur together with sweating, nausea, or shortness of breath",
       "Severe or persistent chest discomfort needs urgent medical attention"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "location": [
+        "Center of the chest",
+        "Left side",
+        "Right side",
+        "Spreads to the arm, neck, jaw or back"
+      ],
+      "locationQuestion": "Where is the chest discomfort?",
+      "character": [
+        "Pressure or squeezing",
+        "Tightness",
+        "Heaviness",
+        "Sharp or stabbing",
+        "Burning",
+        "Dull ache"
+      ],
+      "pattern": [
+        "During physical activity",
+        "At rest",
+        "After eating",
+        "At night",
+        "During stress or emotional upset",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse with activity",
+        "Gets better with rest",
+        "Gets worse when breathing deeply",
+        "Gets worse after eating",
+        "Gets better after medication"
+      ],
+      "associated": [
+        "Shortness of breath",
+        "Sweating",
+        "Nausea",
+        "Dizziness",
+        "Palpitations",
+        "Pain spreading to the arm, jaw or back"
+      ]
+    }
   },
   {
     "name": "Dizziness",
@@ -24,7 +103,41 @@
       "Can be linked to low blood pressure or dehydration",
       "Sometimes caused by medication side effects",
       "May increase the risk of falls in older adults"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "fixedLocation": "Head",
+      "character": [
+        "Spinning, like the room is moving",
+        "Lightheaded, about to faint",
+        "Unsteady when standing or walking",
+        "Faint when standing up quickly"
+      ],
+      "pattern": [
+        "When standing up quickly",
+        "After taking medicine",
+        "After meals",
+        "In the morning",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse when standing up",
+        "Gets worse after taking medicine",
+        "Gets better when sitting or lying down",
+        "Gets better after drinking water"
+      ],
+      "associated": [
+        "Headache",
+        "Blurred vision",
+        "Nausea or vomiting",
+        "Palpitations",
+        "Falls or near-falls",
+        "Chest discomfort",
+        "Weakness on one side"
+      ]
+    }
   },
   {
     "name": "Fatigue",
@@ -33,7 +146,42 @@
       "May occur with diabetes, heart disease, or other chronic conditions",
       "Not always relieved by resting or sleeping",
       "Can also be related to medication effects or poor sleep"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "fixedLocation": "Whole body",
+      "character": [
+        "Tired even after resting",
+        "Weak, no strength",
+        "Heavy or sluggish",
+        "Sleepy during the day",
+        "Hard to concentrate"
+      ],
+      "pattern": [
+        "In the morning",
+        "In the afternoon",
+        "In the evening",
+        "After activity",
+        "After taking medicine",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse with activity",
+        "Gets worse after taking medicine",
+        "Gets better with rest",
+        "Gets better with sleep"
+      ],
+      "associated": [
+        "Shortness of breath",
+        "Dizziness",
+        "Swelling in the legs",
+        "Poor sleep",
+        "Loss of appetite",
+        "Low mood"
+      ]
+    }
   },
   {
     "name": "Leg or Ankle Swelling",
@@ -42,7 +190,49 @@
       "May occur with heart, kidney, or circulation problems",
       "Can become more noticeable after standing for long periods",
       "Sudden swelling on one side should be checked by a healthcare professional"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "location": [
+        "Left foot or ankle",
+        "Right foot or ankle",
+        "Both feet or ankles",
+        "Lower legs",
+        "Thighs",
+        "Whole legs"
+      ],
+      "locationQuestion": "Where is the swelling?",
+      "character": [
+        "Soft, leaves a dent when pressed",
+        "Firm or tight",
+        "Painful",
+        "Warm or red",
+        "Heavy feeling"
+      ],
+      "pattern": [
+        "Worse by evening",
+        "Worse in the morning",
+        "After standing or sitting for a long time",
+        "All day",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse after standing or sitting for long",
+        "Gets worse after salty food",
+        "Gets better when legs are raised",
+        "Gets better overnight",
+        "Gets better after medication"
+      ],
+      "associated": [
+        "Shortness of breath",
+        "Weight gain",
+        "Tiredness",
+        "Passing less urine than usual",
+        "Leg pain or redness"
+      ]
+    }
   },
   {
     "name": "Palpitations",
@@ -51,7 +241,41 @@
       "May happen during activity or while resting",
       "Can be linked to heart rhythm changes or certain medications",
       "Palpitations with chest pain or fainting need urgent attention"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "fixedLocation": "Chest",
+      "character": [
+        "Racing or fast heartbeat",
+        "Pounding or thumping",
+        "Skipping beats",
+        "Fluttering",
+        "Irregular heartbeat"
+      ],
+      "pattern": [
+        "During activity",
+        "At rest",
+        "At night",
+        "During stress or anxiety",
+        "After caffeine or meals",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse with activity",
+        "Gets worse with stress",
+        "Gets better with rest",
+        "Gets better with deep breathing"
+      ],
+      "associated": [
+        "Chest discomfort",
+        "Dizziness or fainting",
+        "Shortness of breath",
+        "Sweating",
+        "Tiredness"
+      ]
+    }
   },
   {
     "name": "Headache",
@@ -60,7 +284,50 @@
       "Can be dull and constant, or sharp and throbbing",
       "May be linked to stress, dehydration, or blood pressure changes",
       "Sometimes a side effect of medication"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "location": [
+        "Forehead",
+        "Temples",
+        "Back of the head",
+        "One side of the head",
+        "Whole head"
+      ],
+      "locationQuestion": "Where is the headache?",
+      "character": [
+        "Throbbing or pulsing",
+        "Pressure or tight band",
+        "Dull, constant ache",
+        "Sharp or stabbing",
+        "Sudden and very severe (the worst ever)"
+      ],
+      "pattern": [
+        "In the morning, on waking",
+        "During the day",
+        "At night",
+        "During stress or emotional upset",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse with stress",
+        "Gets worse with bright light or noise",
+        "Gets better with rest",
+        "Gets better after medication"
+      ],
+      "associated": [
+        "Dizziness",
+        "Blurred vision",
+        "Nausea or vomiting",
+        "Nosebleed",
+        "Chest pain or tightness",
+        "Shortness of breath",
+        "Confusion or trouble speaking",
+        "Weakness on one side"
+      ]
+    }
   },
   {
     "name": "Blurred Vision",
@@ -69,7 +336,47 @@
       "Can occur with diabetes or blood pressure problems",
       "May affect one or both eyes",
       "Sudden vision loss or major changes need urgent medical attention"
-    ]
+    ],
+    "conditions": [
+      "Hypertension"
+    ],
+    "coldspa": {
+      "location": [
+        "Left eye",
+        "Right eye",
+        "Both eyes"
+      ],
+      "locationQuestion": "Which eye is affected?",
+      "character": [
+        "Cloudy or foggy",
+        "Double vision",
+        "Spots or floaters",
+        "Flashes of light",
+        "Blind spot or partial loss of vision",
+        "Sudden loss of vision"
+      ],
+      "pattern": [
+        "In the morning",
+        "In the evening",
+        "After reading or screen use",
+        "After a headache",
+        "Any time, without a clear pattern"
+      ],
+      "modifiers": [
+        "Gets worse in bright light",
+        "Gets worse with reading or screen use",
+        "Gets better with rest",
+        "Gets better with glasses"
+      ],
+      "associated": [
+        "Headache",
+        "Dizziness",
+        "Eye pain",
+        "Nausea",
+        "Weakness on one side",
+        "Trouble speaking"
+      ]
+    }
   },
   {
     "name": "Frequent Urination",
