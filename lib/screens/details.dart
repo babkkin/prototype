@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../data/app_database.dart';
 import 'manage_medications.dart';
 import 'daily_medication_schedule.dart';
+import 'appointments_screen.dart';
 import  'vitals_screen.dart';
 import 'package:prototype_app/screens/symptoms_journal.dart';
 import '../services/medical_summary_service.dart';
@@ -284,8 +285,11 @@ class _TabButtonsRow extends StatelessWidget {
         );
         break;
       case 'Appointment':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Appointments are coming soon.')),
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AppointmentsScreen(profile: profile),
+          ),
         );
         break;
           case 'Vitals':
@@ -326,3 +330,4 @@ class _TabButtonsRow extends StatelessWidget {
     );
   }
 }
+

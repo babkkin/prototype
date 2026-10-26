@@ -130,6 +130,39 @@ class Symptoms extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+/// ---------------------------------------------------------------------
+/// APPOINTMENTS
+/// ---------------------------------------------------------------------
+
+class Appointments extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get profileId =>
+      integer().references(
+        Profiles,
+        #id,
+        onDelete: KeyAction.cascade,
+      )();
+
+  /// Purpose of the visit, e.g. "Cardiology follow-up".
+  TextColumn get title => text().withLength(min: 1, max: 150)();
+  TextColumn get doctorName => text().nullable()();
+  TextColumn get location => text().nullable()();
+
+  /// Date and time of the appointment (local time).
+  DateTimeColumn get appointmentAt => dateTime()();
+
+  TextColumn get notes => text().nullable()();
+  BoolColumn get isDone =>
+      boolean().withDefault(const Constant(false))();
+
+  DateTimeColumn get createdAt =>
+      dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 /// =====================================================================
 /// DAOs
 /// =====================================================================
@@ -310,6 +343,58 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
   }
 }
 
+/// ---------------------------------------------------------------------
+/// APPOINTMENTS DAO
+/// ---------------------------------------------------------------------
+
+@DriftAccessor(tables: [Appointments])
+class AppointmentsDao extends DatabaseAccessor<AppDatabase>
+    with _$AppointmentsDaoMixin {
+  AppointmentsDao(super.db);
+
+  /// All appointments for one profile, earliest first.
+  Stream<List<Appointment>> watchAllForProfile(
+    int profileId,
+  ) {
+    return (select(appointments)
+          ..where(
+            (t) => t.profileId.equals(profileId),
+          )
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.appointmentAt),
+          ]))
+        .watch();
+  }
+
+  Future<int> insertAppointment(
+    AppointmentsCompanion entry,
+  ) {
+    return into(appointments).insert(entry);
+  }
+
+  /// Updates only the fields present in [entry].
+  Future<void> updateAppointment(
+    int id,
+    AppointmentsCompanion entry,
+  ) {
+    return (update(appointments)
+          ..where((t) => t.id.equals(id)))
+        .write(entry);
+  }
+
+  Future<void> setDone(int id, bool done) {
+    return (update(appointments)
+          ..where((t) => t.id.equals(id)))
+        .write(AppointmentsCompanion(isDone: Value(done)));
+  }
+
+  Future<void> deleteAppointment(int id) {
+    return (delete(appointments)
+          ..where((t) => t.id.equals(id)))
+        .go();
+  }
+}
+
 /// =====================================================================
 /// DATABASE
 /// =====================================================================
@@ -320,19 +405,21 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
     VitalsTable,
     Medications,
     Symptoms,
+    Appointments,
   ],
   daos: [
     ProfilesDao,
     VitalsDao,
     MedicationsDao,
     SymptomsDao,
+    AppointmentsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration =>
@@ -361,6 +448,11 @@ class AppDatabase extends _$AppDatabase {
           if (from < 4) {
             // v3 -> v4: added Symptoms journal.
             await m.createTable(symptoms);
+          }
+
+          if (from < 5) {
+            // v4 -> v5: added Appointments.
+            await m.createTable(appointments);
           }
         },
       );

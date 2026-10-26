@@ -60,6 +60,21 @@ class SymptomsDaoManager {
       $$SymptomsTableTableManager(_db.attachedDatabase, _db.symptoms);
 }
 
+mixin _$AppointmentsDaoMixin on DatabaseAccessor<AppDatabase> {
+  $ProfilesTable get profiles => attachedDatabase.profiles;
+  $AppointmentsTable get appointments => attachedDatabase.appointments;
+  AppointmentsDaoManager get managers => AppointmentsDaoManager(this);
+}
+
+class AppointmentsDaoManager {
+  final _$AppointmentsDaoMixin _db;
+  AppointmentsDaoManager(this._db);
+  $$ProfilesTableTableManager get profiles =>
+      $$ProfilesTableTableManager(_db.attachedDatabase, _db.profiles);
+  $$AppointmentsTableTableManager get appointments =>
+      $$AppointmentsTableTableManager(_db.attachedDatabase, _db.appointments);
+}
+
 class $ProfilesTable extends Profiles with TableInfo<$ProfilesTable, Profile> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -2592,6 +2607,571 @@ class SymptomsCompanion extends UpdateCompanion<Symptom> {
   }
 }
 
+class $AppointmentsTable extends Appointments
+    with TableInfo<$AppointmentsTable, Appointment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AppointmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<int> profileId = GeneratedColumn<int>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES profiles (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 150,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _doctorNameMeta = const VerificationMeta(
+    'doctorName',
+  );
+  @override
+  late final GeneratedColumn<String> doctorName = GeneratedColumn<String>(
+    'doctor_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _locationMeta = const VerificationMeta(
+    'location',
+  );
+  @override
+  late final GeneratedColumn<String> location = GeneratedColumn<String>(
+    'location',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _appointmentAtMeta = const VerificationMeta(
+    'appointmentAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> appointmentAt =
+      GeneratedColumn<DateTime>(
+        'appointment_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isDoneMeta = const VerificationMeta('isDone');
+  @override
+  late final GeneratedColumn<bool> isDone = GeneratedColumn<bool>(
+    'is_done',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_done" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    profileId,
+    title,
+    doctorName,
+    location,
+    appointmentAt,
+    notes,
+    isDone,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'appointments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Appointment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('doctor_name')) {
+      context.handle(
+        _doctorNameMeta,
+        doctorName.isAcceptableOrUnknown(data['doctor_name']!, _doctorNameMeta),
+      );
+    }
+    if (data.containsKey('location')) {
+      context.handle(
+        _locationMeta,
+        location.isAcceptableOrUnknown(data['location']!, _locationMeta),
+      );
+    }
+    if (data.containsKey('appointment_at')) {
+      context.handle(
+        _appointmentAtMeta,
+        appointmentAt.isAcceptableOrUnknown(
+          data['appointment_at']!,
+          _appointmentAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_appointmentAtMeta);
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('is_done')) {
+      context.handle(
+        _isDoneMeta,
+        isDone.isAcceptableOrUnknown(data['is_done']!, _isDoneMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Appointment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Appointment(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      doctorName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}doctor_name'],
+      ),
+      location: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}location'],
+      ),
+      appointmentAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}appointment_at'],
+      )!,
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      isDone: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_done'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $AppointmentsTable createAlias(String alias) {
+    return $AppointmentsTable(attachedDatabase, alias);
+  }
+}
+
+class Appointment extends DataClass implements Insertable<Appointment> {
+  final int id;
+  final int profileId;
+
+  /// Purpose of the visit, e.g. "Cardiology follow-up".
+  final String title;
+  final String? doctorName;
+  final String? location;
+
+  /// Date and time of the appointment (local time).
+  final DateTime appointmentAt;
+  final String? notes;
+  final bool isDone;
+  final DateTime createdAt;
+  const Appointment({
+    required this.id,
+    required this.profileId,
+    required this.title,
+    this.doctorName,
+    this.location,
+    required this.appointmentAt,
+    this.notes,
+    required this.isDone,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['profile_id'] = Variable<int>(profileId);
+    map['title'] = Variable<String>(title);
+    if (!nullToAbsent || doctorName != null) {
+      map['doctor_name'] = Variable<String>(doctorName);
+    }
+    if (!nullToAbsent || location != null) {
+      map['location'] = Variable<String>(location);
+    }
+    map['appointment_at'] = Variable<DateTime>(appointmentAt);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['is_done'] = Variable<bool>(isDone);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  AppointmentsCompanion toCompanion(bool nullToAbsent) {
+    return AppointmentsCompanion(
+      id: Value(id),
+      profileId: Value(profileId),
+      title: Value(title),
+      doctorName: doctorName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(doctorName),
+      location: location == null && nullToAbsent
+          ? const Value.absent()
+          : Value(location),
+      appointmentAt: Value(appointmentAt),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      isDone: Value(isDone),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Appointment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Appointment(
+      id: serializer.fromJson<int>(json['id']),
+      profileId: serializer.fromJson<int>(json['profileId']),
+      title: serializer.fromJson<String>(json['title']),
+      doctorName: serializer.fromJson<String?>(json['doctorName']),
+      location: serializer.fromJson<String?>(json['location']),
+      appointmentAt: serializer.fromJson<DateTime>(json['appointmentAt']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      isDone: serializer.fromJson<bool>(json['isDone']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'profileId': serializer.toJson<int>(profileId),
+      'title': serializer.toJson<String>(title),
+      'doctorName': serializer.toJson<String?>(doctorName),
+      'location': serializer.toJson<String?>(location),
+      'appointmentAt': serializer.toJson<DateTime>(appointmentAt),
+      'notes': serializer.toJson<String?>(notes),
+      'isDone': serializer.toJson<bool>(isDone),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Appointment copyWith({
+    int? id,
+    int? profileId,
+    String? title,
+    Value<String?> doctorName = const Value.absent(),
+    Value<String?> location = const Value.absent(),
+    DateTime? appointmentAt,
+    Value<String?> notes = const Value.absent(),
+    bool? isDone,
+    DateTime? createdAt,
+  }) => Appointment(
+    id: id ?? this.id,
+    profileId: profileId ?? this.profileId,
+    title: title ?? this.title,
+    doctorName: doctorName.present ? doctorName.value : this.doctorName,
+    location: location.present ? location.value : this.location,
+    appointmentAt: appointmentAt ?? this.appointmentAt,
+    notes: notes.present ? notes.value : this.notes,
+    isDone: isDone ?? this.isDone,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Appointment copyWithCompanion(AppointmentsCompanion data) {
+    return Appointment(
+      id: data.id.present ? data.id.value : this.id,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      title: data.title.present ? data.title.value : this.title,
+      doctorName: data.doctorName.present
+          ? data.doctorName.value
+          : this.doctorName,
+      location: data.location.present ? data.location.value : this.location,
+      appointmentAt: data.appointmentAt.present
+          ? data.appointmentAt.value
+          : this.appointmentAt,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      isDone: data.isDone.present ? data.isDone.value : this.isDone,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Appointment(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('title: $title, ')
+          ..write('doctorName: $doctorName, ')
+          ..write('location: $location, ')
+          ..write('appointmentAt: $appointmentAt, ')
+          ..write('notes: $notes, ')
+          ..write('isDone: $isDone, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    profileId,
+    title,
+    doctorName,
+    location,
+    appointmentAt,
+    notes,
+    isDone,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Appointment &&
+          other.id == this.id &&
+          other.profileId == this.profileId &&
+          other.title == this.title &&
+          other.doctorName == this.doctorName &&
+          other.location == this.location &&
+          other.appointmentAt == this.appointmentAt &&
+          other.notes == this.notes &&
+          other.isDone == this.isDone &&
+          other.createdAt == this.createdAt);
+}
+
+class AppointmentsCompanion extends UpdateCompanion<Appointment> {
+  final Value<int> id;
+  final Value<int> profileId;
+  final Value<String> title;
+  final Value<String?> doctorName;
+  final Value<String?> location;
+  final Value<DateTime> appointmentAt;
+  final Value<String?> notes;
+  final Value<bool> isDone;
+  final Value<DateTime> createdAt;
+  const AppointmentsCompanion({
+    this.id = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.doctorName = const Value.absent(),
+    this.location = const Value.absent(),
+    this.appointmentAt = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.isDone = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  AppointmentsCompanion.insert({
+    this.id = const Value.absent(),
+    required int profileId,
+    required String title,
+    this.doctorName = const Value.absent(),
+    this.location = const Value.absent(),
+    required DateTime appointmentAt,
+    this.notes = const Value.absent(),
+    this.isDone = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : profileId = Value(profileId),
+       title = Value(title),
+       appointmentAt = Value(appointmentAt);
+  static Insertable<Appointment> custom({
+    Expression<int>? id,
+    Expression<int>? profileId,
+    Expression<String>? title,
+    Expression<String>? doctorName,
+    Expression<String>? location,
+    Expression<DateTime>? appointmentAt,
+    Expression<String>? notes,
+    Expression<bool>? isDone,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (profileId != null) 'profile_id': profileId,
+      if (title != null) 'title': title,
+      if (doctorName != null) 'doctor_name': doctorName,
+      if (location != null) 'location': location,
+      if (appointmentAt != null) 'appointment_at': appointmentAt,
+      if (notes != null) 'notes': notes,
+      if (isDone != null) 'is_done': isDone,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  AppointmentsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? profileId,
+    Value<String>? title,
+    Value<String?>? doctorName,
+    Value<String?>? location,
+    Value<DateTime>? appointmentAt,
+    Value<String?>? notes,
+    Value<bool>? isDone,
+    Value<DateTime>? createdAt,
+  }) {
+    return AppointmentsCompanion(
+      id: id ?? this.id,
+      profileId: profileId ?? this.profileId,
+      title: title ?? this.title,
+      doctorName: doctorName ?? this.doctorName,
+      location: location ?? this.location,
+      appointmentAt: appointmentAt ?? this.appointmentAt,
+      notes: notes ?? this.notes,
+      isDone: isDone ?? this.isDone,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<int>(profileId.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (doctorName.present) {
+      map['doctor_name'] = Variable<String>(doctorName.value);
+    }
+    if (location.present) {
+      map['location'] = Variable<String>(location.value);
+    }
+    if (appointmentAt.present) {
+      map['appointment_at'] = Variable<DateTime>(appointmentAt.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (isDone.present) {
+      map['is_done'] = Variable<bool>(isDone.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AppointmentsCompanion(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('title: $title, ')
+          ..write('doctorName: $doctorName, ')
+          ..write('location: $location, ')
+          ..write('appointmentAt: $appointmentAt, ')
+          ..write('notes: $notes, ')
+          ..write('isDone: $isDone, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2599,12 +3179,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $VitalsTableTable vitalsTable = $VitalsTableTable(this);
   late final $MedicationsTable medications = $MedicationsTable(this);
   late final $SymptomsTable symptoms = $SymptomsTable(this);
+  late final $AppointmentsTable appointments = $AppointmentsTable(this);
   late final ProfilesDao profilesDao = ProfilesDao(this as AppDatabase);
   late final VitalsDao vitalsDao = VitalsDao(this as AppDatabase);
   late final MedicationsDao medicationsDao = MedicationsDao(
     this as AppDatabase,
   );
   late final SymptomsDao symptomsDao = SymptomsDao(this as AppDatabase);
+  late final AppointmentsDao appointmentsDao = AppointmentsDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2614,6 +3198,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     vitalsTable,
     medications,
     symptoms,
+    appointments,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -2637,6 +3222,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('symptoms', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'profiles',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('appointments', kind: UpdateKind.delete)],
     ),
   ]);
 }
@@ -2708,6 +3300,24 @@ final class $$ProfilesTableReferences
     ).filter((f) => f.profileId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_symptomsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$AppointmentsTable, List<Appointment>>
+  _appointmentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.appointments,
+    aliasName: 'profiles__id__appointments__profile_id',
+  );
+
+  $$AppointmentsTableProcessedTableManager get appointmentsRefs {
+    final manager = $$AppointmentsTableTableManager(
+      $_db,
+      $_db.appointments,
+    ).filter((f) => f.profileId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_appointmentsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -2809,6 +3419,31 @@ class $$ProfilesTableFilterComposer
           }) => $$SymptomsTableFilterComposer(
             $db: $db,
             $table: $db.symptoms,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> appointmentsRefs(
+    Expression<bool> Function($$AppointmentsTableFilterComposer f) f,
+  ) {
+    final $$AppointmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.appointments,
+      getReferencedColumn: (t) => t.profileId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AppointmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.appointments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -2946,6 +3581,31 @@ class $$ProfilesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> appointmentsRefs<T extends Object>(
+    Expression<T> Function($$AppointmentsTableAnnotationComposer a) f,
+  ) {
+    final $$AppointmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.appointments,
+      getReferencedColumn: (t) => t.profileId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AppointmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.appointments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ProfilesTableTableManager
@@ -2965,6 +3625,7 @@ class $$ProfilesTableTableManager
             bool vitalsTableRefs,
             bool medicationsRefs,
             bool symptomsRefs,
+            bool appointmentsRefs,
           })
         > {
   $$ProfilesTableTableManager(_$AppDatabase db, $ProfilesTable table)
@@ -3015,6 +3676,7 @@ class $$ProfilesTableTableManager
                 vitalsTableRefs = false,
                 medicationsRefs = false,
                 symptomsRefs = false,
+                appointmentsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -3022,6 +3684,7 @@ class $$ProfilesTableTableManager
                     if (vitalsTableRefs) db.vitalsTable,
                     if (medicationsRefs) db.medications,
                     if (symptomsRefs) db.symptoms,
+                    if (appointmentsRefs) db.appointments,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -3089,6 +3752,27 @@ class $$ProfilesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (appointmentsRefs)
+                        await $_getPrefetchedData<
+                          Profile,
+                          $ProfilesTable,
+                          Appointment
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ProfilesTableReferences
+                              ._appointmentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ProfilesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).appointmentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.profileId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -3113,6 +3797,7 @@ typedef $$ProfilesTableProcessedTableManager =
         bool vitalsTableRefs,
         bool medicationsRefs,
         bool symptomsRefs,
+        bool appointmentsRefs,
       })
     >;
 typedef $$VitalsTableTableCreateCompanionBuilder =
@@ -4488,6 +5173,395 @@ typedef $$SymptomsTableProcessedTableManager =
       Symptom,
       PrefetchHooks Function({bool profileId})
     >;
+typedef $$AppointmentsTableCreateCompanionBuilder =
+    AppointmentsCompanion Function({
+      Value<int> id,
+      required int profileId,
+      required String title,
+      Value<String?> doctorName,
+      Value<String?> location,
+      required DateTime appointmentAt,
+      Value<String?> notes,
+      Value<bool> isDone,
+      Value<DateTime> createdAt,
+    });
+typedef $$AppointmentsTableUpdateCompanionBuilder =
+    AppointmentsCompanion Function({
+      Value<int> id,
+      Value<int> profileId,
+      Value<String> title,
+      Value<String?> doctorName,
+      Value<String?> location,
+      Value<DateTime> appointmentAt,
+      Value<String?> notes,
+      Value<bool> isDone,
+      Value<DateTime> createdAt,
+    });
+
+final class $$AppointmentsTableReferences
+    extends BaseReferences<_$AppDatabase, $AppointmentsTable, Appointment> {
+  $$AppointmentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ProfilesTable _profileIdTable(_$AppDatabase db) =>
+      db.profiles.createAlias('appointments__profile_id__profiles__id');
+
+  $$ProfilesTableProcessedTableManager get profileId {
+    final $_column = $_itemColumn<int>('profile_id')!;
+
+    final manager = $$ProfilesTableTableManager(
+      $_db,
+      $_db.profiles,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_profileIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$AppointmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $AppointmentsTable> {
+  $$AppointmentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get doctorName => $composableBuilder(
+    column: $table.doctorName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get location => $composableBuilder(
+    column: $table.location,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get appointmentAt => $composableBuilder(
+    column: $table.appointmentAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDone => $composableBuilder(
+    column: $table.isDone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ProfilesTableFilterComposer get profileId {
+    final $$ProfilesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableFilterComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$AppointmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $AppointmentsTable> {
+  $$AppointmentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get doctorName => $composableBuilder(
+    column: $table.doctorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get location => $composableBuilder(
+    column: $table.location,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get appointmentAt => $composableBuilder(
+    column: $table.appointmentAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDone => $composableBuilder(
+    column: $table.isDone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ProfilesTableOrderingComposer get profileId {
+    final $$ProfilesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableOrderingComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$AppointmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AppointmentsTable> {
+  $$AppointmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get doctorName => $composableBuilder(
+    column: $table.doctorName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get location =>
+      $composableBuilder(column: $table.location, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get appointmentAt => $composableBuilder(
+    column: $table.appointmentAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDone =>
+      $composableBuilder(column: $table.isDone, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$ProfilesTableAnnotationComposer get profileId {
+    final $$ProfilesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.profileId,
+      referencedTable: $db.profiles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProfilesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.profiles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$AppointmentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AppointmentsTable,
+          Appointment,
+          $$AppointmentsTableFilterComposer,
+          $$AppointmentsTableOrderingComposer,
+          $$AppointmentsTableAnnotationComposer,
+          $$AppointmentsTableCreateCompanionBuilder,
+          $$AppointmentsTableUpdateCompanionBuilder,
+          (Appointment, $$AppointmentsTableReferences),
+          Appointment,
+          PrefetchHooks Function({bool profileId})
+        > {
+  $$AppointmentsTableTableManager(_$AppDatabase db, $AppointmentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AppointmentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AppointmentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AppointmentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> profileId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String?> doctorName = const Value.absent(),
+                Value<String?> location = const Value.absent(),
+                Value<DateTime> appointmentAt = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<bool> isDone = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => AppointmentsCompanion(
+                id: id,
+                profileId: profileId,
+                title: title,
+                doctorName: doctorName,
+                location: location,
+                appointmentAt: appointmentAt,
+                notes: notes,
+                isDone: isDone,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int profileId,
+                required String title,
+                Value<String?> doctorName = const Value.absent(),
+                Value<String?> location = const Value.absent(),
+                required DateTime appointmentAt,
+                Value<String?> notes = const Value.absent(),
+                Value<bool> isDone = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => AppointmentsCompanion.insert(
+                id: id,
+                profileId: profileId,
+                title: title,
+                doctorName: doctorName,
+                location: location,
+                appointmentAt: appointmentAt,
+                notes: notes,
+                isDone: isDone,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$AppointmentsTable, Appointment>(table),
+                  $$AppointmentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({profileId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (profileId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.profileId,
+                        referencedTable: $$AppointmentsTableReferences
+                            ._profileIdTable(db),
+                        referencedColumn: $$AppointmentsTableReferences
+                            ._profileIdTable(db)
+                            .id,
+                      ) as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$AppointmentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AppointmentsTable,
+      Appointment,
+      $$AppointmentsTableFilterComposer,
+      $$AppointmentsTableOrderingComposer,
+      $$AppointmentsTableAnnotationComposer,
+      $$AppointmentsTableCreateCompanionBuilder,
+      $$AppointmentsTableUpdateCompanionBuilder,
+      (Appointment, $$AppointmentsTableReferences),
+      Appointment,
+      PrefetchHooks Function({bool profileId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -4500,4 +5574,6 @@ class $AppDatabaseManager {
       $$MedicationsTableTableManager(_db, _db.medications);
   $$SymptomsTableTableManager get symptoms =>
       $$SymptomsTableTableManager(_db, _db.symptoms);
+  $$AppointmentsTableTableManager get appointments =>
+      $$AppointmentsTableTableManager(_db, _db.appointments);
 }
