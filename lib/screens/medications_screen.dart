@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
+import 'add_medication.dart';
 import '../data/app_database.dart';
 
 class MedicationsScreen extends StatefulWidget {
@@ -167,6 +167,30 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
       },
     );
   }
+Future<void> _editMedication(
+  BuildContext context,
+  Medication med,
+) async {
+  final dao = context.read<AppDatabase>().medicationsDao;
+  final messenger = ScaffoldMessenger.of(context);
+
+  final updated = await Navigator.of(context).push<Medication>(
+    MaterialPageRoute(
+      builder: (_) => AddMedicationScreen(
+        profileId: med.profileId,
+        existingMedication: med,
+      ),
+    ),
+  );
+
+  if (updated == null) return; // user backed out
+
+  await dao.updateMedication(updated);
+
+  messenger.showSnackBar(
+    SnackBar(content: Text('${updated.medicationName} updated.')),
+  );
+}
 
   Future<void> _deleteMedication(
     BuildContext context,
@@ -421,17 +445,26 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                       _displayNullable(med.specialInstructions),
                     ),
                     const SizedBox(height: 12),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton.icon(
-                        onPressed: () => _deleteMedication(context, med),
-                        icon: const Icon(Icons.delete_outline),
-                        label: const Text('Delete medication'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Theme.of(context).colorScheme.error,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton.icon(
+                            onPressed: () => _editMedication(context, med),
+                            icon: const Icon(Icons.edit_outlined),
+                            label: const Text('Edit'),
+                          ),
+                          const SizedBox(width: 8),
+                          
+                          TextButton.icon(
+                            onPressed: () => _deleteMedication(context, med),
+                            icon: const Icon(Icons.delete_outline),
+                            label: const Text('Delete medication'),
+                            style: TextButton.styleFrom(
+                              foregroundColor: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
                   ],
                 ),
               ),
