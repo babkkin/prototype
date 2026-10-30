@@ -5,7 +5,19 @@ import 'medication_schedule.dart';
 class FrequencyTimetablePicker extends StatefulWidget {
   final ValueChanged<MedicationScheduleSelection> onChanged;
 
-  const FrequencyTimetablePicker({super.key, required this.onChanged});
+  /// Pre-fills the picker (edit mode). Null = start with defaults.
+  final MedicationScheduleSelection? initialSelection;
+
+  /// Set to false in edit mode so the picker doesn't overwrite the
+  /// saved schedule with its defaults.
+  final bool notifyOnInit;
+
+  const FrequencyTimetablePicker({
+    super.key,
+    required this.onChanged,
+    this.initialSelection,
+    this.notifyOnInit = true,
+  });
 
   @override
   State<FrequencyTimetablePicker> createState() =>
@@ -28,12 +40,35 @@ class _FrequencyTimetablePickerState extends State<FrequencyTimetablePicker> {
   TimeOfDay _dinnerTime = defaultDinnerTime;
   List<MealType> _doseMeals = [MealType.breakfast];
 
-  @override
-  void initState() {
-    super.initState();
+@override
+void initState() {
+  super.initState();
+
+  final initial = widget.initialSelection;
+  if (initial != null) {
+    _mode = initial.mode;
+    _valueController.text = initial.value.toString();
+    _firstDoseTime = initial.firstDoseTime;
+    _times = List.of(initial.times);
+
+    final meal = initial.mealTiming;
+    _mealRelation = meal.relation;
+    _mealOffsetController.text = meal.offsetValue.toString();
+    _timingUnit = meal.offsetUnit;
+    _useMealTimes = meal.useMealTimesForTimetable;
+    _breakfastTime = meal.breakfastTime;
+    _lunchTime = meal.lunchTime;
+    _dinnerTime = meal.dinnerTime;
+    _doseMeals = List.of(meal.doseMeals);
+    if (_doseMeals.isEmpty) _resetDoseMealsForCount();
+  } else {
     _regenerate(notifyParent: false);
+  }
+
+  if (widget.notifyOnInit) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _notifyParent());
   }
+}
 
   @override
   void dispose() {

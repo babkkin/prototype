@@ -8,23 +8,29 @@ import 'medication_schedule.dart';
 import 'frequency_timetable_picker.dart';
 
 class AddMedicationScreen extends StatefulWidget {
-  /// The profile this medication belongs to — required since every
-  /// Medications row must link back to a profileId.
   final int profileId;
+  final Medication? existingMedication; // null = adding, not null = editing
 
-  const AddMedicationScreen({super.key, required this.profileId});
+  const AddMedicationScreen({
+    super.key,
+    required this.profileId,
+    this.existingMedication,
+  });
 
   @override
   State<AddMedicationScreen> createState() => _AddMedicationScreenState();
 }
 
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
+  
   final _formKey = GlobalKey<FormState>();
 
   PrescriptionType _type = PrescriptionType.maintenance;
 
   List<String> _medicineNames = [];
   bool _isLoadingMedicines = true;
+  bool get _isEditing => widget.existingMedication != null;
+  
 
   final _medicationNameController = TextEditingController();
   final _brandNameController = TextEditingController();
@@ -36,6 +42,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final _maxPrnDoseFrequencyController = TextEditingController();
   final _specialInstructionsController = TextEditingController();
   final _prescriberNameController = TextEditingController();
+  
 
 
   // Flexible generated schedule returned by FrequencyTimetablePicker.
@@ -45,11 +52,29 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   DateTime? _startDate;
   DateTime? _endDate; // left null = ongoing
 
-  @override
-  void initState() {
-    super.initState();
-    _loadMedicineNames();
+@override
+void initState() {
+  super.initState();
+
+  final med = widget.existingMedication;
+  if (med != null) {
+    _type = med.prescriptionType;
+    _medicationNameController.text = med.medicationName;
+    _brandNameController.text = med.brandName ?? '';
+    _strengthController.text = med.strength ?? '';
+    _dosageController.text = med.dosage;
+    _dosageFormController.text = med.dosageForm;
+    _routeController.text = med.route;
+    _prnIndicationController.text = med.prnIndication ?? '';
+    _maxPrnDoseFrequencyController.text = med.maxPrnDoseFrequency ?? '';
+    _specialInstructionsController.text = med.specialInstructions ?? '';
+    _prescriberNameController.text = med.prescriberName ?? '';
+    _startDate = med.startDate;
+    _endDate = med.endDate;
   }
+
+  _loadMedicineNames();
+}
 
   Future<void> _loadMedicineNames() async {
     try {
@@ -167,31 +192,48 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     }
 
 
+final isPrn = _type == PrescriptionType.prn;
+final existing = widget.existingMedication;
 
+// When editing a non-PRN med and the user didn't touch the picker,
+// keep the schedule that was already saved.
+final keepExistingSchedule = !isPrn &&
+    _scheduleSelection == null &&
+    existing != null &&
+    existing.prescriptionType != PrescriptionType.prn;
 
-    final isPrn = _type == PrescriptionType.prn;
+if (!isPrn && _scheduleSelection == null && !keepExistingSchedule) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text('Please select a frequency')),
+  );
+  return;
+}
 
-    // PRN meds don't use the auto timetable (they're taken as needed,
-    // governed by maxPrnDoseFrequency instead) — frequency still needs
-    // *some* value since the column isn't nullable, so we use the PRN
-    // label directly rather than requiring a picker selection.
-    if (!isPrn && _scheduleSelection == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a frequency')),
-      );
-      return;
-    }
-
-    final frequencyValue = isPrn
-        ? 'As needed (PRN)'
+final String frequencyValue = isPrn
+    ? 'As needed (PRN)'
+    : keepExistingSchedule
+        ? existing!.frequency
         : _scheduleSelection!.storedFrequency;
 
-    final specificTimeValue = isPrn || _generatedTimes.isEmpty
-        ? null
-        : formatTimesForStorage(_generatedTimes, context);
+final String? specificTimeValue = isPrn
+    ? null
+    : keepExistingSchedule
+        ? existing!.specificTime
+        : (_generatedTimes.isEmpty
+            ? null
+            : formatTimesForStorage(_generatedTimes, context));
 
-    final newMedication = MedicationsCompanion.insert(
-      profileId: widget.profileId,
+final String? relationValue = isPrn
+    ? null
+    : keepExistingSchedule
+        ? existing!.relationToMeals
+        : _scheduleSelection!.mealTiming.storedRelation;
+
+// EDIT MODE: return an updated Medication (keeps the same id)
+if (existing != null) {
+  Navigator.pop(
+    context,
+    existing.copyWith(
       prescriptionType: _type,
       medicationName: _medicationNameController.text.trim(),
       brandName: Value(_emptyToNull(_brandNameController.text)),
@@ -201,26 +243,47 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       route: _routeController.text.trim(),
       frequency: frequencyValue,
       specificTime: Value(specificTimeValue),
-      relationToMeals: Value(isPrn
-          ? null
-          : _scheduleSelection!.mealTiming.storedRelation),
+      relationToMeals: Value(relationValue),
       startDate: _startDate!,
       endDate: Value(_endDate),
-      prnIndication: Value(isPrn
-          ? _emptyToNull(_prnIndicationController.text)
-          : null),
-      maxPrnDoseFrequency: Value(isPrn
-          ? _emptyToNull(_maxPrnDoseFrequencyController.text)
-          : null),
+      prnIndication: Value(
+          isPrn ? _emptyToNull(_prnIndicationController.text) : null),
+      maxPrnDoseFrequency: Value(
+          isPrn ? _emptyToNull(_maxPrnDoseFrequencyController.text) : null),
       specialInstructions:
           Value(_emptyToNull(_specialInstructionsController.text)),
       prescriberName: Value(_emptyToNull(_prescriberNameController.text)),
-    );
+    ),
+  );
+  return;
+}
 
-    Navigator.pop(context, newMedication);
-  }
+// ADD MODE: unchanged
+final newMedication = MedicationsCompanion.insert(
+  profileId: widget.profileId,
+  prescriptionType: _type,
+  medicationName: _medicationNameController.text.trim(),
+  brandName: Value(_emptyToNull(_brandNameController.text)),
+  strength: Value(_emptyToNull(_strengthController.text)),
+  dosage: _dosageController.text.trim(),
+  dosageForm: _dosageFormController.text.trim(),
+  route: _routeController.text.trim(),
+  frequency: frequencyValue,
+  specificTime: Value(specificTimeValue),
+  relationToMeals: Value(relationValue),
+  startDate: _startDate!,
+  endDate: Value(_endDate),
+  prnIndication:
+      Value(isPrn ? _emptyToNull(_prnIndicationController.text) : null),
+  maxPrnDoseFrequency: Value(
+      isPrn ? _emptyToNull(_maxPrnDoseFrequencyController.text) : null),
+  specialInstructions:
+      Value(_emptyToNull(_specialInstructionsController.text)),
+  prescriberName: Value(_emptyToNull(_prescriberNameController.text)),
+);
 
-
+Navigator.pop(context, newMedication);
+}
   String? _emptyToNull(String value) {
     final trimmed = value.trim();
     return trimmed.isEmpty ? null : trimmed;
@@ -274,7 +337,9 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     final isPrn = _type == PrescriptionType.prn;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Medication')),
+      appBar: AppBar(
+      title: Text(_isEditing ? 'Edit Medication' : 'Add Medication'),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Form(
@@ -384,14 +449,27 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
               if (!isPrn) ...[
                 const SizedBox(height: 4),
-                FrequencyTimetablePicker(
-                  onChanged: (selection) {
-                    setState(() {
-                      _scheduleSelection = selection;
-                      _generatedTimes = selection.times;
-                    });
-                  },
-                ),
+                if (_isEditing &&
+                    _scheduleSelection == null &&
+                    widget.existingMedication!.prescriptionType != PrescriptionType.prn)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: Text(
+                      'Current schedule: ${widget.existingMedication!.frequency}'
+                      '${widget.existingMedication!.specificTime != null ? ' at ${widget.existingMedication!.specificTime}' : ''}. '
+                      'Pick a frequency below only if you want to change it.',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                    FrequencyTimetablePicker(
+                      notifyOnInit: !_isEditing,
+                      onChanged: (selection) {
+                        setState(() {
+                          _scheduleSelection = selection;
+                          _generatedTimes = selection.times;
+                        });
+                      },
+                    ),
                 const SizedBox(height: 2),
               ],
 
