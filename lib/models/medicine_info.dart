@@ -1,49 +1,57 @@
 class MedicineInfo {
   final String name;
-  final String genericName;
-  final List<String> brandNames;
-  final String category;
-  final String form;
-  final List<String> commonStrengths;
-  final String description;
-  final List<String> commonUses;
+  final String drugClass;
+  final String usedFor;
   final String howItWorks;
   final List<String> commonSideEffects;
-  final List<String> precautions;
-  final String storage;
+  final List<String> adverseEffects;
+  final String warnings;
+  final String olderAdultSafety;
+  final String caregiverGuidance;
+  final List<String> sources;
 
   const MedicineInfo({
     required this.name,
-    required this.genericName,
-    required this.brandNames,
-    required this.category,
-    required this.form,
-    required this.commonStrengths,
-    required this.description,
-    required this.commonUses,
-    required this.howItWorks,
-    required this.commonSideEffects,
-    required this.precautions,
-    required this.storage,
+    this.drugClass = '',
+    this.usedFor = '',
+    this.howItWorks = '',
+    this.commonSideEffects = const [],
+    this.adverseEffects = const [],
+    this.warnings = '',
+    this.olderAdultSafety = '',
+    this.caregiverGuidance = '',
+    this.sources = const [],
   });
 
+  /// True when the reference sheet has details for this medicine.
+  bool get hasDetails =>
+      drugClass.isNotEmpty ||
+      usedFor.isNotEmpty ||
+      howItWorks.isNotEmpty ||
+      commonSideEffects.isNotEmpty ||
+      adverseEffects.isNotEmpty ||
+      warnings.isNotEmpty ||
+      olderAdultSafety.isNotEmpty ||
+      caregiverGuidance.isNotEmpty;
+
   factory MedicineInfo.fromJson(Map<String, dynamic> json) {
-    List<String> strings(String key) =>
-        (json[key] as List<dynamic>? ?? const []).map((e) => e.toString()).toList();
+    List<String> list(String key) => (json[key] as List<dynamic>? ?? const [])
+        .map((e) => e.toString())
+        .toList();
+
+    String text(String key) => json[key]?.toString() ?? '';
 
     return MedicineInfo(
-      name: json['name']?.toString() ?? '',
-      genericName: json['genericName']?.toString() ?? '',
-      brandNames: strings('brandNames'),
-      category: json['category']?.toString() ?? '',
-      form: json['form']?.toString() ?? '',
-      commonStrengths: strings('commonStrengths'),
-      description: json['description']?.toString() ?? '',
-      commonUses: strings('commonUses'),
-      howItWorks: json['howItWorks']?.toString() ?? '',
-      commonSideEffects: strings('commonSideEffects'),
-      precautions: strings('precautions'),
-      storage: json['storage']?.toString() ?? '',
+      name: text('name'),
+      drugClass: text('drugClass'),
+      usedFor: text('usedFor'),
+      howItWorks: text('howItWorks'),
+      commonSideEffects: list('commonSideEffects'),
+      adverseEffects: list('adverseEffects'),
+      warnings: text('warnings'),
+      olderAdultSafety: text('olderAdultSafety'),
+      caregiverGuidance: text('caregiverGuidance'),
+      sources: list('sources'),
     );
   }
 }

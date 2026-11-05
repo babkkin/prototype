@@ -18,8 +18,6 @@ class SymptomsJournal extends StatefulWidget {
 }
 
 class _SymptomsJournalState extends State<SymptomsJournal> {
-  bool _showAllSymptoms = false;
-
   late final Future<List<reference.Symptom>> _symptomsFuture;
 
   @override
@@ -262,53 +260,11 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
                 );
               }
 
-              final all = snapshot.data ?? const <reference.Symptom>[];
-
-              // Symptoms tagged for this profile's primary condition are
-              // shown on their own; a profile whose condition has no tagged
-              // symptoms simply sees the whole list.
-              final condition =
-                  widget.profile.primaryCondition.trim().toLowerCase();
-              final matching = condition.isEmpty
-                  ? const <reference.Symptom>[]
-                  : all
-                      .where(
-                        (s) => s.conditions.any(
-                          (c) => condition.contains(c.toLowerCase()),
-                        ),
-                      )
-                      .toList();
-              final filtered =
-                  matching.isNotEmpty && matching.length < all.length;
-              final narrowed = filtered && !_showAllSymptoms;
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SymptomPickerList(
-                    profile: widget.profile,
-                    symptoms: narrowed ? matching : all,
-                    loadFailed: snapshot.hasError,
-                    note: narrowed
-                        ? 'Showing symptoms common with '
-                            '${widget.profile.primaryCondition.trim()}.'
-                        : null,
-                    onInfo: _showReferenceDetails,
-                  ),
-                  if (filtered)
-                    Center(
-                      child: TextButton(
-                        onPressed: () => setState(
-                          () => _showAllSymptoms = !_showAllSymptoms,
-                        ),
-                        child: Text(
-                          _showAllSymptoms
-                              ? 'Show only symptoms for this condition'
-                              : 'Show all symptoms',
-                        ),
-                      ),
-                    ),
-                ],
+              return SymptomPickerList(
+                profile: widget.profile,
+                symptoms: snapshot.data ?? const <reference.Symptom>[],
+                loadFailed: snapshot.hasError,
+                onInfo: _showReferenceDetails,
               );
             },
           ),

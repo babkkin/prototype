@@ -1,620 +1,2061 @@
 [
   {
-    "name": "Metformin",
-    "genericName": "Metformin Hydrochloride",
-    "brandNames": [
-      "Glucophage"
-    ],
-    "category": "Biguanide Antidiabetic",
-    "form": "Tablet",
-    "commonStrengths": [
-      "500 mg",
-      "850 mg",
-      "1000 mg"
-    ],
-    "description": "A commonly used medicine for type 2 diabetes that helps lower blood glucose.",
-    "commonUses": [
-      "Type 2 diabetes mellitus"
-    ],
-    "howItWorks": "It reduces glucose production by the liver and improves the body's response to insulin.",
+    "name": "Aliskiren",
+    "drugClass": "Direct renin inhibitor",
+    "usedFor": "Treatment of hypertension (high blood pressure) in adults.",
+    "howItWorks": "Blocks a substance in the body that helps raise blood pressure. This helps blood vessels relax and lowers blood pressure.",
     "commonSideEffects": [
-      "Nausea",
       "Diarrhea",
-      "Abdominal discomfort",
-      "Reduced appetite"
+      "Dizziness may occur"
     ],
-    "precautions": [
-      "Use according to the prescribed plan.",
-      "Kidney function may need monitoring during long-term treatment."
+    "adverseEffects": [
+      "Swelling of the face, lips, tongue or throat",
+      "Severe allergic reaction",
+      "Very low blood pressure",
+      "Kidney problems",
+      "High potassium levels"
     ],
-    "storage": "Store at room temperature away from excessive heat and moisture."
-  },
-  {
-    "name": "Gliclazide",
-    "genericName": "Gliclazide",
-    "brandNames": [
-      "Diamicron"
-    ],
-    "category": "Sulfonylurea Antidiabetic",
-    "form": "Tablet",
-    "commonStrengths": [
-      "30 mg MR",
-      "60 mg MR",
-      "80 mg"
-    ],
-    "description": "An oral medicine used to help control blood glucose in some people with type 2 diabetes.",
-    "commonUses": [
-      "Type 2 diabetes mellitus"
-    ],
-    "howItWorks": "It stimulates the pancreas to release more insulin.",
-    "commonSideEffects": [
-      "Low blood sugar",
-      "Nausea",
-      "Stomach discomfort",
-      "Weight gain"
-    ],
-    "precautions": [
-      "Use only as prescribed.",
-      "Low blood sugar can occur, especially if meals are missed."
-    ],
-    "storage": "Store at room temperature in a dry place."
-  },
-  {
-    "name": "Sitagliptin",
-    "genericName": "Sitagliptin",
-    "brandNames": [
-      "Januvia"
-    ],
-    "category": "DPP-4 Inhibitor Antidiabetic",
-    "form": "Tablet",
-    "commonStrengths": [
-      "25 mg",
-      "50 mg",
-      "100 mg"
-    ],
-    "description": "An oral medicine used in type 2 diabetes to help improve blood glucose control.",
-    "commonUses": [
-      "Type 2 diabetes mellitus"
-    ],
-    "howItWorks": "It increases incretin activity, helping regulate insulin and glucagon after meals.",
-    "commonSideEffects": [
-      "Headache",
-      "Upper respiratory symptoms",
-      "Stomach discomfort"
-    ],
-    "precautions": [
-      "Use according to the prescribed instructions.",
-      "Dose adjustments may be needed in people with reduced kidney function."
-    ],
-    "storage": "Store at room temperature away from moisture."
-  },
-  {
-    "name": "Empagliflozin",
-    "genericName": "Empagliflozin",
-    "brandNames": [
-      "Jardiance"
-    ],
-    "category": "SGLT2 Inhibitor",
-    "form": "Tablet",
-    "commonStrengths": [
-      "10 mg",
-      "25 mg"
-    ],
-    "description": "A medicine used in type 2 diabetes and in selected patients with heart failure or chronic kidney disease.",
-    "commonUses": [
-      "Type 2 diabetes mellitus",
-      "Heart failure",
-      "Chronic kidney disease in selected patients"
-    ],
-    "howItWorks": "It causes the kidneys to remove more glucose and sodium through the urine.",
-    "commonSideEffects": [
-      "Increased urination",
-      "Genital infections",
-      "Thirst",
-      "Dehydration"
-    ],
-    "precautions": [
-      "Use only as prescribed.",
-      "Adequate hydration and kidney monitoring may be important."
-    ],
-    "storage": "Store at room temperature away from excessive moisture."
+    "warnings": "Extra caution is needed for people with kidney problems, diabetes, dehydration or low blood pressure. Certain combinations with other blood pressure medicines can increase the risk of kidney problems and high potassium.",
+    "olderAdultSafety": "Older adults may be more sensitive to low blood pressure and may have reduced kidney function. Blood tests may be needed to check kidney function and potassium levels.",
+    "caregiverGuidance": "Help the older adult take the medicine as prescribed. Keep scheduled blood tests. Do not give potassium supplements or potassium-based salt substitutes unless the healthcare provider approves them. If the person feels dizzy, help them sit down. Seek emergency help for swelling of the face or throat, or difficulty breathing.",
+    "sources": [
+      "DailyMed",
+      "AGS beers"
+    ]
   },
   {
     "name": "Amlodipine",
-    "genericName": "Amlodipine Besylate",
-    "brandNames": [
-      "Norvasc"
-    ],
-    "category": "Calcium Channel Blocker",
-    "form": "Tablet",
-    "commonStrengths": [
-      "2.5 mg",
-      "5 mg",
-      "10 mg"
-    ],
-    "description": "A medicine commonly used to lower blood pressure and treat certain heart-related conditions.",
-    "commonUses": [
-      "Hypertension",
-      "Angina"
-    ],
-    "howItWorks": "It relaxes blood vessels, helping blood flow more easily and lowering blood pressure.",
-    "commonSideEffects": [
-      "Ankle swelling",
-      "Flushing",
-      "Headache",
-      "Dizziness"
-    ],
-    "precautions": [
-      "Use according to the prescribed plan.",
-      "Report significant swelling, fainting, or persistent dizziness to a healthcare professional."
-    ],
-    "storage": "Store at room temperature away from heat and moisture."
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
   },
   {
-    "name": "Losartan",
-    "genericName": "Losartan Potassium",
-    "brandNames": [
-      "Cozaar"
-    ],
-    "category": "Angiotensin II Receptor Blocker",
-    "form": "Tablet",
-    "commonStrengths": [
-      "25 mg",
-      "50 mg",
-      "100 mg"
-    ],
-    "description": "A blood pressure medicine also used in some people with heart or kidney conditions.",
-    "commonUses": [
-      "Hypertension",
-      "Kidney protection in selected patients with diabetes",
-      "Heart failure in selected patients"
-    ],
-    "howItWorks": "It blocks the effects of angiotensin II, helping blood vessels relax.",
-    "commonSideEffects": [
-      "Dizziness",
-      "Low blood pressure",
-      "Increased potassium"
-    ],
-    "precautions": [
-      "Use only as prescribed.",
-      "Blood pressure, kidney function, and potassium may need monitoring."
-    ],
-    "storage": "Store at room temperature and protect from moisture."
+    "name": "Amlodipine (As Besylate)",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
   },
   {
-    "name": "Lisinopril",
-    "genericName": "Lisinopril",
-    "brandNames": [
-      "Zestril",
-      "Prinivil"
-    ],
-    "category": "ACE Inhibitor",
-    "form": "Tablet",
-    "commonStrengths": [
-      "2.5 mg",
-      "5 mg",
-      "10 mg",
-      "20 mg",
-      "40 mg"
-    ],
-    "description": "A medicine used for high blood pressure, heart failure, and selected kidney-related conditions.",
-    "commonUses": [
-      "Hypertension",
-      "Heart failure",
-      "Kidney protection in selected patients"
-    ],
-    "howItWorks": "It reduces formation of angiotensin II, helping blood vessels relax and reducing strain on the heart.",
-    "commonSideEffects": [
-      "Dry cough",
-      "Dizziness",
-      "Low blood pressure",
-      "Increased potassium"
-    ],
-    "precautions": [
-      "Use according to the prescribed plan.",
-      "Seek urgent medical help for swelling of the face, lips, tongue, or throat."
-    ],
-    "storage": "Store at room temperature away from moisture."
+    "name": "Amlodipine (As Besilate)",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
   },
   {
-    "name": "Hydrochlorothiazide",
-    "genericName": "Hydrochlorothiazide",
-    "brandNames": [
-      "HydroDIURIL"
-    ],
-    "category": "Thiazide Diuretic",
-    "form": "Tablet",
-    "commonStrengths": [
-      "12.5 mg",
-      "25 mg",
-      "50 mg"
-    ],
-    "description": "A diuretic commonly used to help lower blood pressure and reduce excess fluid.",
-    "commonUses": [
-      "Hypertension",
-      "Edema"
-    ],
-    "howItWorks": "It helps the kidneys remove sodium and water from the body.",
-    "commonSideEffects": [
-      "Increased urination",
-      "Dizziness",
-      "Electrolyte changes",
-      "Dehydration"
-    ],
-    "precautions": [
-      "Use according to the prescribed instructions.",
-      "Blood pressure and electrolyte levels may need monitoring."
-    ],
-    "storage": "Store at room temperature away from moisture and excessive heat."
-  },
-  {
-    "name": "Furosemide",
-    "genericName": "Furosemide",
-    "brandNames": [
-      "Lasix"
-    ],
-    "category": "Loop Diuretic",
-    "form": "Tablet",
-    "commonStrengths": [
-      "20 mg",
-      "40 mg",
-      "80 mg"
-    ],
-    "description": "A diuretic used to remove excess fluid in conditions such as heart failure and edema.",
-    "commonUses": [
-      "Heart failure-related fluid retention",
-      "Edema",
-      "Hypertension"
-    ],
-    "howItWorks": "It acts on the kidneys to increase removal of sodium and water.",
-    "commonSideEffects": [
-      "Increased urination",
-      "Dizziness",
-      "Dehydration",
-      "Electrolyte changes"
-    ],
-    "precautions": [
-      "Use only as prescribed.",
-      "Weight, kidney function, and electrolytes may need monitoring."
-    ],
-    "storage": "Store at room temperature and protect from excessive light and moisture."
-  },
-  {
-    "name": "Carvedilol",
-    "genericName": "Carvedilol",
-    "brandNames": [
-      "Coreg"
-    ],
-    "category": "Beta Blocker",
-    "form": "Tablet",
-    "commonStrengths": [
-      "3.125 mg",
-      "6.25 mg",
-      "12.5 mg",
-      "25 mg"
-    ],
-    "description": "A medicine used for certain cardiovascular conditions including heart failure and high blood pressure.",
-    "commonUses": [
-      "Heart failure",
-      "Hypertension"
-    ],
-    "howItWorks": "It blocks certain receptors in the heart and blood vessels, reducing heart rate and helping blood vessels relax.",
-    "commonSideEffects": [
-      "Dizziness",
-      "Tiredness",
-      "Low blood pressure",
-      "Slow heartbeat"
-    ],
-    "precautions": [
-      "Take according to the prescribed instructions.",
-      "Do not stop suddenly unless directed by the prescribing healthcare professional."
-    ],
-    "storage": "Store at room temperature away from excessive heat and moisture."
-  },
-  {
-    "name": "Metoprolol",
-    "genericName": "Metoprolol",
-    "brandNames": [
-      "Lopressor",
-      "Toprol-XL"
-    ],
-    "category": "Beta Blocker",
-    "form": "Tablet",
-    "commonStrengths": [
-      "25 mg",
-      "50 mg",
-      "100 mg"
-    ],
-    "description": "A beta blocker used for selected heart conditions and high blood pressure.",
-    "commonUses": [
-      "Hypertension",
-      "Angina",
-      "Heart failure in selected patients",
-      "Heart rate control"
-    ],
-    "howItWorks": "It slows the heart rate and reduces the heart's workload.",
-    "commonSideEffects": [
-      "Tiredness",
-      "Dizziness",
-      "Slow heartbeat",
-      "Low blood pressure"
-    ],
-    "precautions": [
-      "Use only as prescribed.",
-      "Do not stop suddenly without medical advice."
-    ],
-    "storage": "Store at room temperature away from moisture."
+    "name": "Atenolol",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
   },
   {
     "name": "Atorvastatin",
-    "genericName": "Atorvastatin Calcium",
-    "brandNames": [
-      "Lipitor"
-    ],
-    "category": "Statin",
-    "form": "Tablet",
-    "commonStrengths": [
-      "10 mg",
-      "20 mg",
-      "40 mg",
-      "80 mg"
-    ],
-    "description": "A cholesterol-lowering medicine used to reduce cardiovascular risk in appropriate patients.",
-    "commonUses": [
-      "High cholesterol",
-      "Cardiovascular risk reduction"
-    ],
-    "howItWorks": "It reduces cholesterol production in the liver and lowers LDL cholesterol.",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Atorvastatin (as calcium)",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Azilsartan",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Azilsartan medoxomil (as potassium)",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Benazepril",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Betaxolol",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Bisoprolol Fumarate",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Bumetanide",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Candesartan",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Candesartan Cilexetil",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Captopril",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Carvedilol",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Cilazapril",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Cilnidipine",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Clonidine",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Clonidine hydrochloride",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Diltiazem Hydrochloride",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Enalapril",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Enalapril Maleate",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Eplerenone",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Eprosartan",
+    "drugClass": "",
+    "usedFor": "",
+    "howItWorks": "",
+    "commonSideEffects": [],
+    "adverseEffects": [],
+    "warnings": "",
+    "olderAdultSafety": "",
+    "caregiverGuidance": "",
+    "sources": []
+  },
+  {
+    "name": "Esmolol",
+    "drugClass": "Beta-1 Adrenergic Antagonist",
+    "usedFor": "Used to slow a heartbeat that is too fast, and to keep heart rate and blood pressure from spiking during or right after surgery.",
+    "howItWorks": "Slows the heart by blocking the body's \"speed up\" signals. It works quickly and wears off quickly, so the care team canadjust it easily. At higher does it can also affect the lungs and blood vessels.",
     "commonSideEffects": [
-      "Muscle aches",
+      "Increased sweating",
+      "Dizziness",
+      "Low blood pressure"
+    ],
+    "adverseEffects": [
+      "Injection-site reactions",
+      "Poor blood circulation",
+      "Very slow heartbeat",
+      "Worsening heart failure",
+      "High potassium levels",
+      "Worsening chest pain"
+    ],
+    "warnings": "This medicine is given only in the hospital through IV. It can cause very low blood pressure, a slow heartbeat and worsenin heart failure. It should not be used in older adults with very slow heartbeat, heart block or severe heart failure.",
+    "olderAdultSafety": "Olde adults are more sensitive to low blood pressure and a slow pulse, so their heart rate and blood pressure should be monitored continuously during treatment. Dizziness and confusion can raise the risk of falls once the person is up and moving.",
+    "caregiverGuidance": "Since this medicine is administered by healthcare professionals, caregivers should observe the older adult and promptly report any changes. Inform the nurse about dizziness, fainting, chest pain, difficulty breathing, confusion, or pain and swelling at the IV site. Before discharge, ask the doctor whether any changes were made to the heart medication regimen and what monitoring is needed at home.",
+    "sources": [
+      "DailyMed",
+      "National Institutes of Health (NIH)",
+      "Mayo Clinic"
+    ]
+  },
+  {
+    "name": "Esmolol hydrochloride",
+    "drugClass": "Beta-1 Adrenergic Antagonist",
+    "usedFor": "Used to slow a heartbeat that is too fast, and to keep heart rate and blood pressure from spiking during or right after surgery.",
+    "howItWorks": "Slows the heart by blocking the body's \"speed up\" signals. It works quickly and wears off quickly, so the care team canadjust it easily. At higher does it can also affect the lungs and blood vessels.",
+    "commonSideEffects": [
+      "Increased sweating",
+      "Dizziness",
+      "Low blood pressure"
+    ],
+    "adverseEffects": [
+      "Injection-site reactions",
+      "Poor blood circulation",
+      "Very slow heartbeat",
+      "Worsening heart failure",
+      "High potassium levels",
+      "Worsening chest pain"
+    ],
+    "warnings": "This medicine is given only in the hospital through IV. It can cause very low blood pressure, a slow heartbeat and worsenin heart failure. It should not be used in older adults with very slow heartbeat, heart block or severe heart failure.",
+    "olderAdultSafety": "Olde adults are more sensitive to low blood pressure and a slow pulse, so their heart rate and blood pressure should be monitored continuously during treatment. Dizziness and confusion can raise the risk of falls once the person is up and moving.",
+    "caregiverGuidance": "Since this medicine is administered by healthcare professionals, caregivers should observe the older adult and promptly report any changes. Inform the nurse about dizziness, fainting, chest pain, difficulty breathing, confusion, or pain and swelling at the IV site. Before discharge, ask the doctor whether any changes were made to the heart medication regimen and what monitoring is needed at home.",
+    "sources": [
+      "DailyMed",
+      "National Institutes of Health (NIH)",
+      "Mayo Clinic"
+    ]
+  },
+  {
+    "name": "Felodipine",
+    "drugClass": "Calcium Channel Blockers-Dihydropyridines",
+    "usedFor": "Used to lower high blood pressure. It may be used alone or with other medicines for high blood pressure.",
+    "howItWorks": "Relaxes and widens the blood vessels. This allow blood to flow more easily, which helps lower high blood pressure. May sometimes cause a slight increase in heart rate.",
+    "commonSideEffects": [
+      "Swollen ankles/feet",
       "Headache",
-      "Digestive discomfort"
+      "Flushing",
+      "Dizziness",
+      "Tiredness"
     ],
-    "precautions": [
-      "Use according to the prescribed plan.",
-      "Report unexplained severe muscle pain or weakness."
+    "adverseEffects": [
+      "Very low blood pressure",
+      "Fainting",
+      "Chest pain",
+      "Fast or irregular heartbeat",
+      "Heart attack",
+      "Difficulty breathing",
+      "Severe allergic swelling",
+      "Severe skin reactions",
+      "Gum swelling"
     ],
-    "storage": "Store at room temperature away from excessive heat and moisture."
+    "warnings": "This medicine commonly causs ankle sweling, flushing, headache, and swollen gums. It may worsen chest pain when first started or when dose is increased. Grapefruit juice may increase the medicine's effecr and risk of side effects.",
+    "olderAdultSafety": "Older adults are more likely to experience dizziness, swelling, and falls, so doctors usually start with a low dose. New or worsening swelling should be assessed by a healthcare professional, as it may indicate an underlying heart problem, including heart failure.",
+    "caregiverGuidance": "GIve the tablet whole, preferably in the morning and do not crush or chew. Do not take it with grapefruit juice. Check blood pressure and pulse regularly, and help the older adult stand up slowly. Seek emergency medical care if fainting, chest pain, shortness of breath or sudden leg swelling occurs.",
+    "sources": [
+      "Daily Med",
+      "NHS UK",
+      "Mayo Clinic"
+    ]
   },
   {
-    "name": "Rosuvastatin",
-    "genericName": "Rosuvastatin Calcium",
-    "brandNames": [
-      "Crestor"
-    ],
-    "category": "Statin",
-    "form": "Tablet",
-    "commonStrengths": [
-      "5 mg",
-      "10 mg",
-      "20 mg",
-      "40 mg"
-    ],
-    "description": "A statin medicine used to lower cholesterol and reduce cardiovascular risk in appropriate patients.",
-    "commonUses": [
-      "High cholesterol",
-      "Cardiovascular risk reduction"
-    ],
-    "howItWorks": "It reduces cholesterol production in the liver and increases removal of LDL cholesterol from the blood.",
+    "name": "Fimasartan",
+    "drugClass": "Angiotensin II Receptor Antagonist (ARB)",
+    "usedFor": "Treatment of high blood pressure and heart failure.",
+    "howItWorks": "Blocks the signal that makes the blood vessels tighten and makes the body retain salt and water. This relaxes the blood vessel and reduces blood volume, resulting in lower blood pressure.",
     "commonSideEffects": [
-      "Muscle aches",
+      "Dizziness",
       "Headache",
-      "Abdominal discomfort"
+      "Feeling unusualy tired or weak",
+      "Diarrhea"
     ],
-    "precautions": [
-      "Use only as prescribed.",
-      "Report unexplained severe muscle pain or weakness."
+    "adverseEffects": [
+      "Severe allergic reaction",
+      "Persistent dizziness",
+      "Muscle weakness",
+      "Chest pain",
+      "Irregular heartbeat",
+      "Signs of kidney problems"
     ],
-    "storage": "Store at room temperature away from moisture."
+    "warnings": "This medicine can raise potassium levels, harm the kidneys and lower blood pressure too much, especially when the person is dehydrated. Swelling of the face, lips, tongue or throat is an emergency.",
+    "olderAdultSafety": "The 2023 Beers Criteria recommends avoiding combinations of ACE inhibitors, ARBs, or potassium-sparing diuretics in older adults with chronic kidney disease Stage 3a or higher due to the increased risk of high potassium levels. Regular blood tests are needed to monitor kidney function and potassium levels.",
+    "caregiverGuidance": "Give the medicine at the same time each day. Avoid potassium supplements and salt substitutes unless approved by the doctor. Follow the prescribed fluid intake, especially during vomiting, diarrhea, or hot weather. Monitor blood pressure regularly. Report dizziness, fainting, reduced urine output, or muscle weakness to the doctor. Seek emergency medical care for swelling of the face, lips, tongue, or throat.",
+    "sources": [
+      "DrugBank",
+      "National Library of Medicine",
+      "Apollo Pharmacy",
+      "AGS Beers Criteria"
+    ]
   },
   {
-    "name": "Clopidogrel",
-    "genericName": "Clopidogrel Bisulfate",
-    "brandNames": [
-      "Plavix"
-    ],
-    "category": "Antiplatelet",
-    "form": "Tablet",
-    "commonStrengths": [
-      "75 mg",
-      "300 mg"
-    ],
-    "description": "An antiplatelet medicine that helps reduce the formation of harmful blood clots.",
-    "commonUses": [
-      "Prevention of certain cardiovascular events in appropriate patients"
-    ],
-    "howItWorks": "It reduces the ability of platelets to stick together and form clots.",
+    "name": "Fimasartan Potassium (As Trihydrate)",
+    "drugClass": "Angiotensin II Receptor Antagonist (ARB)",
+    "usedFor": "Treatment of high blood pressure and heart failure.",
+    "howItWorks": "Blocks the signal that makes the blood vessels tighten and makes the body retain salt and water. This relaxes the blood vessel and reduces blood volume, resulting in lower blood pressure.",
     "commonSideEffects": [
-      "Easy bruising",
-      "Bleeding",
-      "Nosebleeds",
-      "Stomach discomfort"
+      "Dizziness",
+      "Headache",
+      "Feeling unusualy tired or weak",
+      "Diarrhea"
     ],
-    "precautions": [
-      "Tell healthcare professionals that this medicine is being taken before procedures or surgery.",
-      "Seek medical attention for serious or unusual bleeding."
+    "adverseEffects": [
+      "Severe allergic reaction",
+      "Persistent dizziness",
+      "Muscle weakness",
+      "Chest pain",
+      "Irregular heartbeat",
+      "Signs of kidney problems"
     ],
-    "storage": "Store at room temperature away from excessive moisture."
+    "warnings": "This medicine can raise potassium levels, harm the kidneys and lower blood pressure too much, especially when the person is dehydrated. Swelling of the face, lips, tongue or throat is an emergency.",
+    "olderAdultSafety": "The 2023 Beers Criteria recommends avoiding combinations of ACE inhibitors, ARBs, or potassium-sparing diuretics in older adults with chronic kidney disease Stage 3a or higher due to the increased risk of high potassium levels. Regular blood tests are needed to monitor kidney function and potassium levels.",
+    "caregiverGuidance": "Give the medicine at the same time each day. Avoid potassium supplements and salt substitutes unless approved by the doctor. Follow the prescribed fluid intake, especially during vomiting, diarrhea, or hot weather. Monitor blood pressure regularly. Report dizziness, fainting, reduced urine output, or muscle weakness to the doctor. Seek emergency medical care for swelling of the face, lips, tongue, or throat.",
+    "sources": [
+      "DrugBank",
+      "National Library of Medicine",
+      "Apollo Pharmacy",
+      "AGS Beers Criteria"
+    ]
   },
   {
-    "name": "Levothyroxine",
-    "genericName": "Levothyroxine Sodium",
-    "brandNames": [
-      "Synthroid",
-      "Euthyrox"
-    ],
-    "category": "Thyroid Hormone",
-    "form": "Tablet",
-    "commonStrengths": [
-      "25 mcg",
-      "50 mcg",
-      "75 mcg",
-      "100 mcg"
-    ],
-    "description": "A synthetic thyroid hormone used when the body does not produce enough thyroid hormone.",
-    "commonUses": [
-      "Hypothyroidism"
-    ],
-    "howItWorks": "It replaces or supplements thyroid hormone normally produced by the thyroid gland.",
+    "name": "Fimasartan potassium",
+    "drugClass": "Angiotensin II Receptor Antagonist (ARB)",
+    "usedFor": "Treatment of high blood pressure and heart failure.",
+    "howItWorks": "Blocks the signal that makes the blood vessels tighten and makes the body retain salt and water. This relaxes the blood vessel and reduces blood volume, resulting in lower blood pressure.",
     "commonSideEffects": [
-      "Palpitations if dose is too high",
-      "Tremor",
-      "Sweating",
-      "Sleep disturbance"
+      "Dizziness",
+      "Headache",
+      "Feeling unusualy tired or weak",
+      "Diarrhea"
     ],
-    "precautions": [
-      "Take exactly as prescribed.",
-      "Timing in relation to food and other medicines can affect absorption."
+    "adverseEffects": [
+      "Severe allergic reaction",
+      "Persistent dizziness",
+      "Muscle weakness",
+      "Chest pain",
+      "Irregular heartbeat",
+      "Signs of kidney problems"
     ],
-    "storage": "Store at room temperature away from excessive heat, light, and moisture."
+    "warnings": "This medicine can raise potassium levels, harm the kidneys and lower blood pressure too much, especially when the person is dehydrated. Swelling of the face, lips, tongue or throat is an emergency.",
+    "olderAdultSafety": "The 2023 Beers Criteria recommends avoiding combinations of ACE inhibitors, ARBs, or potassium-sparing diuretics in older adults with chronic kidney disease Stage 3a or higher due to the increased risk of high potassium levels. Regular blood tests are needed to monitor kidney function and potassium levels.",
+    "caregiverGuidance": "Give the medicine at the same time each day. Avoid potassium supplements and salt substitutes unless approved by the doctor. Follow the prescribed fluid intake, especially during vomiting, diarrhea, or hot weather. Monitor blood pressure regularly. Report dizziness, fainting, reduced urine output, or muscle weakness to the doctor. Seek emergency medical care for swelling of the face, lips, tongue, or throat.",
+    "sources": [
+      "DrugBank",
+      "National Library of Medicine",
+      "Apollo Pharmacy",
+      "AGS Beers Criteria"
+    ]
   },
   {
-    "name": "Salbutamol",
-    "genericName": "Salbutamol (Albuterol)",
-    "brandNames": [
-      "Ventolin"
-    ],
-    "category": "Short-Acting Bronchodilator",
-    "form": "Inhaler",
-    "commonStrengths": [
-      "100 mcg per actuation"
-    ],
-    "description": "A quick-relief bronchodilator used to ease bronchospasm and breathing difficulty.",
-    "commonUses": [
-      "Asthma",
-      "Chronic obstructive pulmonary disease"
-    ],
-    "howItWorks": "It relaxes airway muscles, helping the airways open.",
+    "name": "Fosinopril",
+    "drugClass": "ACE Inhibitors",
+    "usedFor": "Used to lower high blood pressure and treat heart failure.",
+    "howItWorks": "Blocks an enzyme that normally makes blood vessels tigten. This allows the blood vessels to relax and widen, lowering blood pressure and making it easier for the heart to pump.",
     "commonSideEffects": [
-      "Tremor",
-      "Palpitations",
-      "Nervousness",
+      "Dry cough",
+      "Headache",
+      "Diarrhea",
+      "Nausea and vomiting",
+      "Weakness",
+      "Dizziness"
+    ],
+    "adverseEffects": [
+      "Angioedema",
+      "Difficulty breathing",
+      "Fainting or very low blood pressure",
+      "Irregular heartbeat",
+      "High potassium",
+      "Severe stomach pain",
+      "Yellowing of the skin or eyes",
+      "Signs of infection"
+    ],
+    "warnings": "Use with caution in older adults with kidney disease or dehydration, as fosinopril may worsen kidney function and lower blood pressure. The risk of high potassium increases with kidney impairment and certain medications. Regular blood tests are needed to monitor kidney function and potassium levels.",
+    "olderAdultSafety": "According to the 2023 AGS Beers Criteria, fosinopril should not be routinely combined with another ACE inhibitor, an ARB, or a potassium-sparing diuretic in older adults with chronic kidney disease Stage 3a or higher. Using fosinopril with lithium should generally be avoided or require close monitoring of lithium levels. Older adults may also be more prone to dizziness and falls.",
+    "caregiverGuidance": "Give the medicine at the prescribed time each day. Monitor blood pressure as directed by the doctor. Avoid potassium supplements and salt substitutes unless approved by the doctor. Report a persistent cough, dizziness, fainting, reduced urine output, or unusual muscle weakness. Seek emergency medical care for swelling of the lips, tongue, or throat.",
+    "sources": [
+      "AGS Beers Criteria",
+      "MedlinePlus",
+      "Mayo Clinic"
+    ]
+  },
+  {
+    "name": "Fosinopril Sodium",
+    "drugClass": "ACE Inhibitors",
+    "usedFor": "Used to lower high blood pressure and treat heart failure.",
+    "howItWorks": "Blocks an enzyme that normally makes blood vessels tigten. This allows the blood vessels to relax and widen, lowering blood pressure and making it easier for the heart to pump.",
+    "commonSideEffects": [
+      "Dry cough",
+      "Headache",
+      "Diarrhea",
+      "Nausea and vomiting",
+      "Weakness",
+      "Dizziness"
+    ],
+    "adverseEffects": [
+      "Angioedema",
+      "Difficulty breathing",
+      "Fainting or very low blood pressure",
+      "Irregular heartbeat",
+      "High potassium",
+      "Severe stomach pain",
+      "Yellowing of the skin or eyes",
+      "Signs of infection"
+    ],
+    "warnings": "Use with caution in older adults with kidney disease or dehydration, as fosinopril may worsen kidney function and lower blood pressure. The risk of high potassium increases with kidney impairment and certain medications. Regular blood tests are needed to monitor kidney function and potassium levels.",
+    "olderAdultSafety": "According to the 2023 AGS Beers Criteria, fosinopril should not be routinely combined with another ACE inhibitor, an ARB, or a potassium-sparing diuretic in older adults with chronic kidney disease Stage 3a or higher. Using fosinopril with lithium should generally be avoided or require close monitoring of lithium levels. Older adults may also be more prone to dizziness and falls.",
+    "caregiverGuidance": "Give the medicine at the prescribed time each day. Monitor blood pressure as directed by the doctor. Avoid potassium supplements and salt substitutes unless approved by the doctor. Report a persistent cough, dizziness, fainting, reduced urine output, or unusual muscle weakness. Seek emergency medical care for swelling of the lips, tongue, or throat.",
+    "sources": [
+      "AGS Beers Criteria",
+      "MedlinePlus",
+      "Mayo Clinic"
+    ]
+  },
+  {
+    "name": "Furosemide",
+    "drugClass": "Diuretics-Loop",
+    "usedFor": "A \"water pill\" that helps the body get rid of excess salt and water through urine. This helps reduce swelling/fluid retention and can also help lower blood pressure.",
+    "howItWorks": "Blocks the kidney from taking back too much salt. So the salt stays in the urine, and water follows the salt.",
+    "commonSideEffects": [
+      "Increased urination",
+      "Low blood pressure",
+      "Electrolyte changes",
+      "Increased blood sugar",
+      "Pain, itching, swelling or redness at injection site (for injectable forms)"
+    ],
+    "adverseEffects": [
+      "Severe hypotension with dehydration and worsening kidney function",
+      "Serious electrolyte imbalance",
+      "Hearing loss",
+      "Severe allergic reaction"
+    ],
+    "warnings": "This medicine may cause dehydration, low sodium and potassium levels, low blood pressure, and increased urination. High doses may affect hearing. Use with caution in older adults wit kidney disease or gout.",
+    "olderAdultSafety": "The 2023 AGS Beers Criteria recommends caution with diuretics because they can cause low sodium levels. Sodium levels should be checked soon after starting furosemide or changing its dose. In older women, avoid combining furosemide with alpha-1 blockers such as doxazosin, prazosin, or terazosin because this may increase the risk of urinary incontinence. Furosemide may also increase lithium levels, so lithium levels should be closely monitored when the medicines are used together.",
+    "caregiverGuidance": "Give the medicine in the morning, or as directed, to reduce nighttime trips to the bathroom. Keep the path to the toilet clear and use a night light or bedside commode if needed to prevent falls. If the older adult has heart failure, monitor and record their weight daily. Report confusion, leg cramps, extreme thirst, dizziness, or very little urine to the doctor. Seek immediate medical attention for fainting, rapid weight gain, or ringing in the ears, especially after high doses.",
+    "sources": [
+      "DailyMed",
+      "WebMD",
+      "AGS Beers Criteria"
+    ]
+  },
+  {
+    "name": "Hydralazine",
+    "drugClass": "Direct Vasodilators",
+    "usedFor": "Used to treat high blood pressure.",
+    "howItWorks": "Relaxes and widens the blood vessels. This makes it easier for blood to flow, so the pressure inside the blood vessels goes down.",
+    "commonSideEffects": [
+      "Headache",
+      "Decreased appetite",
+      "Nausea and vomiting",
+      "Diarrhea",
+      "Fast heartbeat",
+      "Chest pain or discomfort"
+    ],
+    "adverseEffects": [
+      "Lupus-like symptoms",
+      "Serious chest pain",
+      "Blood disorders",
+      "Peripheral neuropathy",
+      "Severe allergic reaction"
+    ],
+    "warnings": "This medicine may cause headaches, a rapid heartbeat, and fluid retention. Long-term use at higher doses may cause a lupus-like reaction, which can include joint pain, fever, and rash. Use caution in older adults with coronary artery disease, as the medicine may increase the heart's workload.",
+    "olderAdultSafety": "Older adults are more susceptible to low blood pressure, dizziness, and falls, so the dose should be increased gradually under medical supervision. A rapid heartbeat may also trigger chest pain in older adults with heart disease.",
+    "caregiverGuidance": "Give the medicine consistently each day, either with food or on an empty stomach, as directed. Check the older adult’s pulse and blood pressure regularly, and help them rise slowly from a bed or chair to prevent dizziness and falls. Contact the doctor if joint pain, fever, rash, chest pain, a racing heartbeat, or leg swelling occurs. Seek emergency medical care for severe chest pain or difficulty breathing.",
+    "sources": [
+      "WebMD",
+      "DailyMed",
+      "MedlinePlus"
+    ]
+  },
+  {
+    "name": "Hydralazine Hydrochloride",
+    "drugClass": "Direct Vasodilators",
+    "usedFor": "Used to lower high blood pressure.",
+    "howItWorks": "Relaxes and widens blood vessels, making it easier for blood to flow and lowering blood pressure.",
+    "commonSideEffects": [
+      "Headache",
+      "Decreased appetite",
+      "Nausea and vomiting",
+      "Diarrhea",
+      "Fast heartbeat",
+      "Chest pain or discomfort"
+    ],
+    "adverseEffects": [
+      "Lupus-like symptoms",
+      "Serious chest pain",
+      "Blood disorders",
+      "Peripheral neuropathy",
+      "Severe allergic reaction"
+    ],
+    "warnings": "This medicine may cause headaches, a rapid heartbeat, and fluid retention. Long-term use at higher doses may cause a lupus-like reaction, which can include joint pain, fever, and rash. Use caution in older adults with coronary artery disease, as the medicine may increase the heart's workload.",
+    "olderAdultSafety": "Older adults are more susceptible to low blood pressure, dizziness, and falls, so the dose should be increased gradually under medical supervision. A rapid heartbeat may also trigger chest pain in older adults with heart disease.",
+    "caregiverGuidance": "Give the medicine consistently each day, either with food or on an empty stomach, as directed. Check the older adult’s pulse and blood pressure regularly, and help them rise slowly from a bed or chair to prevent dizziness and falls. Contact the doctor if joint pain, fever, rash, chest pain, a racing heartbeat, or leg swelling occurs. Seek emergency medical care for severe chest pain or difficulty breathing.",
+    "sources": [
+      "WebMD",
+      "Patsnap Synapse"
+    ]
+  },
+  {
+    "name": "Hydrochlorothiazide",
+    "drugClass": "Thiazide or Thiazide-Type Diuretics",
+    "usedFor": "Used to lower high blood pressure and remove excess water from the body.",
+    "howItWorks": "Makes the kidneys remove more salt and water from the body through urine. Reduces reabsorption of sodium and chloride.",
+    "commonSideEffects": [
+      "Frequent urination",
+      "Diarrhea",
+      "Loss of appetite",
+      "Headache",
+      "Hairloss"
+    ],
+    "adverseEffects": [
+      "Dehydration and electrolyte imbalance",
+      "Severe skin reactions",
+      "Allergic reactions",
+      "Infection/blood-related problems",
+      "Pancreatitis",
+      "Joint pain or swelling",
+      "Eye/vision problems"
+    ],
+    "warnings": "This medicine may cause low sodium and potassium levels, dehydration, gout flare-ups, and increased sensitivity to sunlight. Seek urgent medical care if eye pain or sudden changes in vision occur.",
+    "olderAdultSafety": "The 2023 AGS Beers Criteria rcommends caution when using diuretics in older adults because low sodium levels can lead to confusion, falls, and fractures. Sodium levels should be checked soon after starting treatment or changing the dose. Older adults are also more susceptible to dehydration and dizzines, which can increase their risk of falls.",
+    "caregiverGuidance": "Give the medicine in the morning, as directed. Encourage regular fluid intake unless the doctor has restricted fluids, and protect the older adult’s skin from sunlight by using protective clothing and sunscreen. Contact the doctor for confusion, weakness, muscle cramps, or dizziness. Seek urgent medical care for fainting or eye pain, especially if accompanied by sudden vision changes.",
+    "sources": [
+      "WebMD",
+      "AGS Beers Criteria",
+      "MedlinePlus"
+    ]
+  },
+  {
+    "name": "Hydroflumethiazide",
+    "drugClass": "Thiazide or Thiazide-Type Diuretics",
+    "usedFor": "Used to lower high blood pressure and reduce",
+    "howItWorks": "Works in the kidneys by blocking the reabsorption of sodium and chloride, causing more salt and water to leave the body through urine. This helps reduce fluid and lower blood pressure.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Nausea and vomting",
+      "Diarrhea",
+      "Stomach cramps",
+      "Fatigue",
+      "Low blood pressure",
+      "Increased blood sugar",
+      "Increased sensitivity to light"
+    ],
+    "adverseEffects": [
+      "Severe electrolyte imbalance",
+      "Severe dehydration",
+      "Very low blod pressure or fainting",
+      "Severe allergic and skin reactions",
+      "Severe liver and kidney problems"
+    ],
+    "warnings": "This medicine may cause low sodium and potassium levels, dehydration, and gout flare-ups. It may also increase blood sugar and cholesterol levels.",
+    "olderAdultSafety": "The 2023 AGS Beers Criteria recommends caution with diuretics because low sodium levels can cause confusion and increase the risk of falls. Sodium and potassium levels should be checked early in treatment and monitored as directed by the healthcare provider.",
+    "caregiverGuidance": "Give the medicine in the morning, as directed. Watch for extreme thirst, weakness, muscle cramps, or confusion. Report vomiting or diarrhea to the doctor, as these can worsen dehydration and electrolyte imbalances. Contact the doctor promptly for dizziness or fainting.",
+    "sources": [
+      "AGS Beers Criteria",
+      "MedlinePlus",
+      "Mayo Clinic"
+    ]
+  },
+  {
+    "name": "Imidapril",
+    "drugClass": "ACE Inhibitors",
+    "usedFor": "Used to lower high blood pressure",
+    "howItWorks": "Blocks the enzyme that makes angiotensin II, a substance that normally makes blood vessels tighten. By blocking it, the blood vessels widen and relax, and the kidneys retain less water, helping lower blood pressure.",
+    "commonSideEffects": [
+      "Dry cough",
+      "Dizziness",
+      "Tiredness or sleepiness",
+      "Nausea",
       "Headache"
     ],
-    "precautions": [
-      "Use according to the prescribed inhaler plan.",
-      "Needing rescue inhaler doses more often than usual may indicate worsening breathing control."
+    "adverseEffects": [
+      "Difficulty breathing",
+      "Swellng of the face, mouth, tongue, or throat",
+      "Yellowing of the skin or eyes"
     ],
-    "storage": "Store according to inhaler labeling; protect from excessive heat."
+    "warnings": "This medicine may cause a dry cough, high potassium levels, kidney problems, and low blood pressure. Rarely, it can cause serious swelling of the face, lips, tongue, or throat, which requires emergency medical attention.",
+    "olderAdultSafety": "The 2023 AGS Beers Criteria recommends avoiding combinations of ACE inhibitors with other renin-angiotensin system drugs or potassium-sparing diuretics in older adults with chronic kidney disease Stage 3a or higher. Combining this medicine with lithium should generally be avoided or requires close monitoring of lithium levels. Regular blood tests are needed to monitor kidney function and potassium levels.",
+    "caregiverGuidance": "Give the medicine at the same time each day, as directed. Avoid potassium supplements and salt substitutes unless approved by the doctor. Check blood pressure regularly. Report a new or persistent cough, dizziness, or reduced urination to the doctor. Call emergency services immediately if swelling of the face, lips, tongue, or throat occurs.",
+    "sources": [
+      "AGS Beers Criteria",
+      "Mayo Clinic",
+      "MedlinePlus",
+      "DailyMed",
+      "PatientInfo"
+    ]
   },
   {
-    "name": "Budesonide/Formoterol",
-    "genericName": "Budesonide and Formoterol",
-    "brandNames": [
-      "Symbicort"
-    ],
-    "category": "Inhaled Corticosteroid / Long-Acting Bronchodilator",
-    "form": "Inhaler",
-    "commonStrengths": [
-      "80/4.5 mcg",
-      "160/4.5 mcg"
-    ],
-    "description": "A combination inhaler used for long-term control of asthma and selected patients with COPD.",
-    "commonUses": [
-      "Asthma",
-      "Chronic obstructive pulmonary disease"
-    ],
-    "howItWorks": "Budesonide reduces airway inflammation while formoterol relaxes airway muscles.",
+    "name": "Imidapril Hydrochloride",
+    "drugClass": "ACE Inhibitors",
+    "usedFor": "Used to lower high blood pressure",
+    "howItWorks": "Blocks the enzyme that makes angiotensin II, a substance that normally makes blood vessels tighten. By blocking it, the blood vessels widen and relax, and the kidneys retain less water, helping lower blood pressure.",
     "commonSideEffects": [
-      "Throat irritation",
-      "Hoarseness",
-      "Oral thrush",
-      "Tremor"
+      "Dry cough",
+      "Dizziness",
+      "Tiredness or sleepiness",
+      "Nausea",
+      "Headache"
     ],
-    "precautions": [
-      "Use according to the prescribed inhaler plan.",
-      "Rinsing the mouth after use can help reduce oral thrush risk."
+    "adverseEffects": [
+      "Difficulty breathing",
+      "Swellng of the face, mouth, tongue, or throat",
+      "Yellowing of the skin or eyes"
     ],
-    "storage": "Store as directed on the inhaler label and protect from excessive heat."
+    "warnings": "This medicine may cause a dry cough, high potassium levels, kidney problems, and low blood pressure. Rarely, it can cause serious swelling of the face, lips, tongue, or throat, which requires emergency medical attention.",
+    "olderAdultSafety": "The 2023 AGS Beers Criteria recommends avoiding combinations of ACE inhibitors with other renin-angiotensin system drugs or potassium-sparing diuretics in older adults with chronic kidney disease Stage 3a or higher. Combining this medicine with lithium should generally be avoided or requires close monitoring of lithium levels. Regular blood tests are needed to monitor kidney function and potassium levels.",
+    "caregiverGuidance": "Give the medicine at the same time each day, as directed. Avoid potassium supplements and salt substitutes unless approved by the doctor. Check blood pressure regularly. Report a new or persistent cough, dizziness, or reduced urination to the doctor. Call emergency services immediately if swelling of the face, lips, tongue, or throat occurs.",
+    "sources": [
+      "AGS Beers Criteria",
+      "Mayo Clinic",
+      "MedlinePlus",
+      "DailyMed",
+      "PatientInfo"
+    ]
   },
   {
-    "name": "Tiotropium",
-    "genericName": "Tiotropium Bromide",
-    "brandNames": [
-      "Spiriva"
-    ],
-    "category": "Long-Acting Anticholinergic Bronchodilator",
-    "form": "Inhaler",
-    "commonStrengths": [
-      "18 mcg capsule for inhalation",
-      "2.5 mcg per actuation"
-    ],
-    "description": "A long-acting inhaled medicine used to help keep the airways open in chronic respiratory disease.",
-    "commonUses": [
-      "Chronic obstructive pulmonary disease",
-      "Asthma in selected patients"
-    ],
-    "howItWorks": "It blocks certain airway receptors that cause bronchial muscle tightening.",
+    "name": "Indapamide",
+    "drugClass": "Thiazide-like Diuretic",
+    "usedFor": "Used to lower high blood pressure and help remove excess salt and water from the body when fluid retention ocurs, such as in heart failure.",
+    "howItWorks": "Makes the kidneys remove more salt and water from the body through urine. This decreases the amount of fluid in the blood vessels, which helps lower blood pressure and reduce swelling.",
     "commonSideEffects": [
-      "Dry mouth",
-      "Throat irritation",
-      "Constipation"
+      "Low blood pressure",
+      "Electrolyte changes",
+      "Increased blood sugar",
+      "Increased urination",
+      "Headache",
+      "Dizziness",
+      "Tiredness",
+      "Muscle cramps"
     ],
-    "precautions": [
-      "Use only as prescribed.",
-      "This is generally a maintenance medicine rather than a rapid-relief treatment."
+    "adverseEffects": [
+      "Severe low blood pressure with dehydration and worsening kidney function",
+      "Serious elctrolyte imbalance",
+      "Nearsightedness and glaucoma",
+      "Severe allergic reaction",
+      "Severe skin reactions",
+      "Pancreatitis",
+      "Liver damage"
     ],
-    "storage": "Store according to product labeling and keep dry."
+    "warnings": "This medicine may cause low sodium and potassium levels and dehydration. Low potassium can also lead to an irregular heartbeat. Use caution in older adults with kidney or liver problems, as they may be more vulnerable to complications.",
+    "olderAdultSafety": "The 2023 AGS Beers Criteria recommends caution with diuretics because they can cause low sodium levels, particularly in older adults. Sodium and potassium levels should be checked early in treatment and monitored as directed by the healthcare provider.",
+    "caregiverGuidance": "Give the tablet whole with water, preferably in the morning, if directed for that formulation. Watch for confusion, weakness, muscle cramps, palpitations, or dizziness. Contact the doctor promptly if these symptoms occur. Seek emergency medical care for fainting or a suspected irregular heartbeat.",
+    "sources": [
+      "DailyMed",
+      "WebMD",
+      "MedlinePlus"
+    ]
   },
   {
-    "name": "Omeprazole",
-    "genericName": "Omeprazole",
-    "brandNames": [
-      "Losec",
-      "Prilosec"
+    "name": "Irbesartan",
+    "drugClass": "Angiotensin II Receptor Blocker",
+    "usedFor": "Lowers blood pressure and reduces the risk of cardiovascular events such as stroke and heart attack",
+    "howItWorks": "Irbesartan blocks angiotensin II, causing blood vessels to relax and lowering blood pressure.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Diarrhea",
+      "Cough",
+      "Indigestion",
+      "Stomach discomfort",
+      "Heartburn",
+      "Joint pain"
     ],
-    "category": "Proton Pump Inhibitor",
-    "form": "Capsule / Tablet",
-    "commonStrengths": [
-      "10 mg",
-      "20 mg",
-      "40 mg"
+    "adverseEffects": [
+      "Hypotension or fainting",
+      "Hyperkalemia",
+      "Decreased urine output",
+      "Irregular heartbeat",
+      "Chest pain",
+      "Shortness of breath",
+      "Swelling of the face, lips, tongue, throat",
+      "Yellowing of the skin or eyes"
     ],
-    "description": "A medicine that reduces stomach acid and is used for chronic acid-related conditions.",
-    "commonUses": [
-      "Gastroesophageal reflux disease",
-      "Certain stomach and intestinal ulcers"
-    ],
-    "howItWorks": "It blocks an enzyme in stomach cells involved in producing stomach acid.",
+    "warnings": "Monitor blood pressure, renal function, and serum potassium. Use cautiously in patients with kidney impairment, dehydration, hypotension, or heart failure. Avoid potassium supplements and potassium-containing salt substitutes unless approved. Check for drug interactions, especially lithium, NSAIDs/COX-2 inhibitors, ACE inhibitors, other ARBs, aliskiren, and potassium-raising drugs.",
+    "olderAdultSafety": "The 2023 AGS Beers Criteria recommends avoiding certain combinations involving an ACE inhibitor or ARB with another ACE inhibitor, ARB, or potassium-sparing diuretic in older adults with CKD Stage 3a or higher, because of increased risk of kidney injury and hyperkalemia. Lithium use should also be avoided when possible or closely monitored. Regular monitoring of kidney function and potassium is important in older adults.",
+    "caregiverGuidance": "Give at the same time each day, with or without food. Check BP regularly and attend scheduled blood tests for kidney function and potassium. Check all medications for possible interactions, especially NSAIDs and lithium. Avoid potassium supplements and salt substitutes unless approved. Report dizziness, fainting, decreased urine output, or muscle weakness. Seek emergency care for swelling of the face, lips, tongue, or throat or difficulty breathing",
+    "sources": [
+      "DailyMed",
+      "Mayo Clinic"
+    ]
+  },
+  {
+    "name": "Isosorbide dinitrate",
+    "drugClass": "Organic Nitrate Vasodilator",
+    "usedFor": "Preventin of chest pain caused by coronary artery disease.",
+    "howItWorks": "Relaxes the blood vessels, especially the veins, reducing the amount of blood returning to the heart and decreasing the heart's workload.",
     "commonSideEffects": [
       "Headache",
-      "Abdominal pain",
-      "Nausea",
-      "Diarrhea"
+      "Lightheadedness",
+      "Dizziness especially when standing",
+      "Nausea"
     ],
-    "precautions": [
-      "Follow the prescribed instructions and treatment duration.",
-      "Discuss prolonged use with a healthcare professional."
+    "adverseEffects": [
+      "Severe hypotension",
+      "Fainting",
+      "Rebound hypertension",
+      "Worsening chest pain",
+      "Methemoglobinemia (blood cannot carry oxygen properly)",
+      "Fast heartbeat"
     ],
-    "storage": "Store at room temperature away from heat and moisture."
+    "warnings": "This medicine commonly causes headaches, flushing, and dizziness. Never combine it with sildenafil, tadalafil, or similar medicines, as this can cause a dangerous drop in blood pressure. Do not stop taking it suddenly without medical advice.",
+    "olderAdultSafety": "Older adults are more susceptible to dizziness, fainting, and falls, particularly when standing up or shortly after taking a dose. Treatment should start at a low dose and be adjusted carefully under medical supervision.",
+    "caregiverGuidance": "Give each dose at the times prescribed by the doctor. Do not crush or chew extended-release tablets. If the older adult feels dizzy, have them sit or lie down and help them stand slowly. Ensure they do not take sildenafil, tadalafil, or similar medicines with this treatment. Seek emergency medical care for fainting or chest pain that does not go away.",
+    "sources": [
+      "DailyMed",
+      "DrugBank",
+      "Mayo Clinis"
+    ]
   },
   {
-    "name": "Allopurinol",
-    "genericName": "Allopurinol",
-    "brandNames": [
-      "Zyloprim"
-    ],
-    "category": "Xanthine Oxidase Inhibitor",
-    "form": "Tablet",
-    "commonStrengths": [
-      "100 mg",
-      "300 mg"
-    ],
-    "description": "A medicine used for long-term reduction of uric acid in conditions such as gout.",
-    "commonUses": [
-      "Chronic gout",
-      "Hyperuricemia in selected patients"
-    ],
-    "howItWorks": "It reduces production of uric acid in the body.",
+    "name": "Ivabradine (as HCL)",
+    "drugClass": "Hyperpolarization-Activated Cyclic Nucleotide-Gated (HCN) Channel Blockers",
+    "usedFor": "Used to reduce the risk of hospitalization due to worsening chronic heart failure.",
+    "howItWorks": "Slows the heart rate by acting on the pacemaker cells of the heart without reducing the heart's pumping strength.",
     "commonSideEffects": [
-      "Rash",
+      "Temporary visual brightness or flashing lights",
+      "Slow heart rate",
+      "Dizziness"
+    ],
+    "adverseEffects": [
+      "Irregular heartbeat",
+      "Fainting",
+      "Low blood pressure",
+      "Very fast heartbeat from the lower chambers of the heart (ventricular tachycardia)",
+      "Chaotic heartbeat that prevents proper pumping (ventricular fibrillation)",
+      "Dangerous abnormal heart rhythm (torsade de pointes)",
+      "Swelling of the face, lips, tongue and throat"
+    ],
+    "warnings": "This medicine may cause a very slow heartbeat, an irregular heart rhythm such as atrial fibrillation, and temporary flashes of light in the field of vision. Grapefruit juice and certain antibiotics and antifungal medicines can increase the amount of the medicine in the body, raising the risk of side effects.",
+    "olderAdultSafety": "Older adults may be more susceptible to a slow heart rate and dizziness. Heart rate should be checked regularly, and the doctor may adjust the dose if it becomes too slow.",
+    "caregiverGuidance": "Give the medicine with breakfast and dinner, as prescribed. Check and record the older adult’s pulse daily. Avoid grapefruit and grapefruit juice, and consult the doctor or pharmacist before starting any new medicine and check for any drug interaction. Contact the doctor promptly for an unusually slow or irregular heartbeat. Seek emergency medical care for fainting, chest pain, or shortness of breath.",
+    "sources": [
+      "DailyMed",
+      "Mayo Clinic"
+    ]
+  },
+  {
+    "name": "Labetalol",
+    "drugClass": "Beta-Blockers- Combined Alpha and Beta-Receptor Blockers",
+    "usedFor": "Used to quickly lower very high blood pressure (severe hypertension), especially in hospitalized patients.",
+    "howItWorks": "Relaxes the blood vessels and slows the heart, causing blood pressure to decrease.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Tingling of the scalp or skin",
       "Nausea",
-      "Diarrhea"
+      "Vomiting",
+      "Stuffy nose",
+      "Sleepiness or drowsiness",
+      "Indigestion or stomach discomfort"
     ],
-    "precautions": [
-      "Use according to the prescribed plan.",
-      "Seek medical attention promptly for a new or severe rash."
+    "adverseEffects": [
+      "Very low blood pressure",
+      "Fainting",
+      "Slow heartbeat",
+      "Abnormal heart rhythm",
+      "Worsening heart failure",
+      "Severe liver injury",
+      "Yellowing of the skin or eyes",
+      "Severe allergic reaction with swelling and difficulty breathing",
+      "Difficulty breathing due to airway narrowing"
     ],
-    "storage": "Store at room temperature away from moisture."
+    "warnings": "Labetalol may cause low blood pressure, dizziness, and a slow heartbeat. Rarely, it may cause liver problems. It can mask some warning signs of low blood sugar and may worsen asthma or other conditions involving airway narrowing. It should not be stopped abruptly without medical advice.",
+    "olderAdultSafety": "Older adults are more susceptible to low blood pressure, dizziness, and falls. IV labetalol requires careful monitoring of blood pressure and heart rate during and after administration. The dose should be adjusted according to the patient’s response.",
+    "caregiverGuidance": "Since labetalol is administered by a healthcare professional, caregivers should report dizziness, weakness, wheezing, or unusual changes in alertness immediately. Help the older adult change positions slowly once permitted. Inform the healthcare team of any history of asthma, diabetes, or liver disease. Report yellowing of the skin or eyes, dark urine, or an unusually slow heartbeat promptly. Seek emergency medical attention for fainting, severe breathing difficulty, or signs of dangerously low blood pressure.",
+    "sources": [
+      "Mayo Clinic",
+      "DailyMed"
+    ]
+  },
+  {
+    "name": "Labetalol hydrochloride",
+    "drugClass": "Beta-Blockers- Combined Alpha and Beta-Receptor Blockers",
+    "usedFor": "Used to quickly lower very high blood pressure (severe hypertension), especially in hospitalized patients.",
+    "howItWorks": "Relaxes the blood vessels and slows the heart, causing blood pressure to decrease.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Tingling of the scalp or skin",
+      "Nausea",
+      "Vomiting",
+      "Stuffy nose",
+      "Sleepiness or drowsiness",
+      "Indigestion or stomach discomfort"
+    ],
+    "adverseEffects": [
+      "Very low blood pressure",
+      "Fainting",
+      "Slow heartbeat",
+      "Abnormal heart rhythm",
+      "Worsening heart failure",
+      "Severe liver injury",
+      "Yellowing of the skin or eyes",
+      "Severe allergic reaction with swelling and difficulty breathing",
+      "Difficulty breathing due to airway narrowing"
+    ],
+    "warnings": "Labetalol may cause low blood pressure, dizziness, and a slow heartbeat. Rarely, it may cause liver problems. It can mask some warning signs of low blood sugar and may worsen asthma or other conditions involving airway narrowing. It should not be stopped abruptly without medical advice.",
+    "olderAdultSafety": "Older adults are more susceptible to low blood pressure, dizziness, and falls. IV labetalol requires careful monitoring of blood pressure and heart rate during and after administration. The dose should be adjusted according to the patient’s response.",
+    "caregiverGuidance": "Since labetalol is administered by a healthcare professional, caregivers should report dizziness, weakness, wheezing, or unusual changes in alertness immediately. Help the older adult change positions slowly once permitted. Inform the healthcare team of any history of asthma, diabetes, or liver disease. Report yellowing of the skin or eyes, dark urine, or an unusually slow heartbeat promptly. Seek emergency medical attention for fainting, severe breathing difficulty, or signs of dangerously low blood pressure.",
+    "sources": [
+      "Mayo Clinic",
+      "DailyMed"
+    ]
+  },
+  {
+    "name": "Lacidipine",
+    "drugClass": "Calcium Channel Blockers",
+    "usedFor": "Used to lower high blood presure. It can be used alone or with other antihypertensive medicines.",
+    "howItWorks": "Blocks calcium from entering the muscles of blood vessels, causing blood vessels to relax and widen, which owers blood pressure.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Headache",
+      "Palpitations",
+      "Flushing",
+      "Swelling, especially of the ankles",
+      "Nausea",
+      "Stomach discomfort",
+      "Skin rash or itching",
+      "Increased urination",
+      "Weakness"
+    ],
+    "adverseEffects": [
+      "Low blood pressure",
+      "Fainting",
+      "Worsening chest pain",
+      "Swelling of the face, lips, mouth or throat",
+      "Hives",
+      "Swollen gums"
+    ],
+    "warnings": "This medicine may cause dizziness, headache, flushing, ankle swelling, and a fast or uneven heartbeat. Use caution in patients with an uneven heartbeat, other heart problems, or liver problems. Lacidipine may cause chest pain, particularly when treatment is first started, and may lower blood pressure too much. Patients should also inform their healthcare provider about other medicines they are taking, especially other antihypertensives, rifampicin, itraconazole, cyclosporin, cimetidine, and corticosteroids. Grapefruit juice should be avoided because it may affect the action of lacidipine.",
+    "olderAdultSafety": "Older adults should be monitored for dizziness, low blood pressure, and ankle or leg swelling because these may increase the risk of falls. The lowest effective dose should be used as appropriate, and any new or worsening swelling should be assessed by a healthcare professional. Extra caution is needed in older adults with liver or heart problems because these conditions may affect the response to lacidipine.",
+    "caregiverGuidance": "Give the tablet in the morning as prescribed and instruct the patient to swallow it with water. It may be taken with or without food, but grapefruit juice should be avoided. Check blood pressure regularly and monitor for dizziness, fainting, fast or irregular heartbeat, and ankle or leg swelling. Inform the healthcare professional if swelling develops or worsens. Seek emergency medical care if the patient develops chest pain, fainting, or rapid swelling of the face, mouth, or throat with difficulty breathing.",
+    "sources": [
+      "Mayo Clinic",
+      "Electronic Medicines Compendium (EMC)"
+    ]
+  },
+  {
+    "name": "Lercanidipine",
+    "drugClass": "Calcium Channel Blocker - Dihydropyridine",
+    "usedFor": "Used to treat mild to moderate high blood pressure (essential hypertension) in adults.",
+    "howItWorks": "Blocks clacium from entering the muscle cells of the blood vessels. This relaxes and widens the blood vessels, reducing resistance to blood flow and lowering blood pressure.",
+    "commonSideEffects": [
+      "Headache",
+      "Dizziness",
+      "Fastheartbeat",
+      "Palpitations",
+      "Flushing",
+      "Swelling of the ankles or legs",
+      "Indigestion",
+      "Nausea",
+      "Weakness"
+    ],
+    "adverseEffects": [
+      "Low blood pressure",
+      "Fainting",
+      "Chest pain",
+      "Swelling of the face, lips, or throat",
+      "Hives",
+      "Increased liver enzymes",
+      "Very rarely heart attack",
+      "In older adults on peritoneal dialysis, cloudy dialysis fluid (peritoneal cloudy effluent)"
+    ],
+    "warnings": "This medicine may cause headache, dizziness, flushing, palpitations, ankle swelling, and low blood pressure. Avoid grapefruit juice and alcohol. Use with caution in patients with heart problems, mild to moderate liver or kidney disease, or sick sinus syndrome without a pacemaker. Avoid use with strong CYP3A4 inhibitors and cyclosporine. Severe liver or kidney disease is a contraindication.",
+    "olderAdultSafety": "No routine dose adjustment is required based on age alone, but treatment should be started carefully in older adults. Monitor for dizziness, low blood pressure, fainting, and falls. Use caution with liver or kidney problems, especially because severe impairment is a contraindication.",
+    "caregiverGuidance": "Give in the morning at least 15 minutes before breakfast, at the same time each day. Do not give grapefruit juice or alcohol. Monitor blood pressure, dizziness, fainting, ankle swelling, and chest pain. Help the patient stand slowly to prevent falls. Report severe chest pain, fainting, difficulty breathing, or unusual swelling.",
+    "sources": [
+      "Mayo Clinic",
+      "Electronic Medicines Compendium (EMC)"
+    ]
+  },
+  {
+    "name": "Levamlodipine (as besilate)",
+    "drugClass": "Calcium Channel Blocker- Dihydropyridine",
+    "usedFor": "Used to lower high blood pressure in adults. It may used alone or with other hypertensive medicines.",
+    "howItWorks": "Blocks calcium from entering heart and blood vessel cells, causing the blood vessels to relax and widen. This lowers blood pressure and improves blood flow to the heart.",
+    "commonSideEffects": [
+      "Sleepiness or unusual drowsiness",
+      "Headache",
+      "Dizziness",
+      "Flushing",
+      "Palpitations",
+      "Swelling of the ankles or feet",
+      "Nausea"
+    ],
+    "adverseEffects": [
+      "Very low blood pressure",
+      "Fainting",
+      "Slow heartbeat",
+      "Fastor irregular heartbeat",
+      "Worsening chest pain",
+      "Heart attack",
+      "Severe allergic reaction with swelling of the face, lips, tongue or throat",
+      "Serious liver problems"
+    ],
+    "warnings": "This medicine may cause ankle swelling, flushing, dizziness, headache, and low blood pressure. Use with caution in patients with liver disease, low blood pressure, angina, heart disease, or severe aortic stenosis. Monitor for worsening chest pain or heart problems. Do not suddenly stop the medicine because blood pressure or chest pain may worsen.",
+    "olderAdultSafety": "Older adults do not necessarily need a lower dose because of age alone, but they may have age-related kidney, liver, or heart problems that require caution or dose adjustment. Monitor for dizziness, low blood pressure, fainting, and falls.",
+    "caregiverGuidance": "Give the medicine at the same time each day, with or without food. Check blood pressure regularly and monitor for ankle/leg swelling, dizziness, and fainting. Help the patient stand slowly, especially after lying or sitting. Avoid excessive heat or strenuous activity if dizziness occurs. Report chest pain, fainting, difficulty breathing, fast or irregular heartbeat, or signs of liver problems such as dark urine or yellowing of the eyes/skin.",
+    "sources": [
+      "Mayo Clinic",
+      "DrugBank"
+    ]
+  },
+  {
+    "name": "Levamlodipine Besylate",
+    "drugClass": "Calcium Channel Blocker- Dihydropyridine",
+    "usedFor": "Used to lower high blood pressure in adults. It may used alone or with other hypertensive medicines.",
+    "howItWorks": "Blocks calcium from entering heart and blood vessel cells, causing the blood vessels to relax and widen. This lowers blood pressure and improves blood flow to the heart.",
+    "commonSideEffects": [
+      "Sleepiness or unusual drowsiness",
+      "Headache",
+      "Dizziness",
+      "Flushing",
+      "Palpitations",
+      "Swelling of the ankles or feet",
+      "Nausea"
+    ],
+    "adverseEffects": [
+      "Very low blood pressure",
+      "Fainting",
+      "Slow heartbeat",
+      "Fastor irregular heartbeat",
+      "Worsening chest pain",
+      "Heart attack",
+      "Severe allergic reaction with swelling of the face, lips, tongue or throat",
+      "Serious liver problems"
+    ],
+    "warnings": "This medicine may cause ankle swelling, flushing, dizziness, headache, and low blood pressure. Use with caution in patients with liver disease, low blood pressure, angina, heart disease, or severe aortic stenosis. Monitor for worsening chest pain or heart problems. Do not suddenly stop the medicine because blood pressure or chest pain may worsen.",
+    "olderAdultSafety": "Older adults do not necessarily need a lower dose because of age alone, but they may have age-related kidney, liver, or heart problems that require caution or dose adjustment. Monitor for dizziness, low blood pressure, fainting, and falls.",
+    "caregiverGuidance": "Give the medicine at the same time each day, with or without food. Check blood pressure regularly and monitor for ankle/leg swelling, dizziness, and fainting. Help the patient stand slowly, especially after lying or sitting. Avoid excessive heat or strenuous activity if dizziness occurs. Report chest pain, fainting, difficulty breathing, fast or irregular heartbeat, or signs of liver problems such as dark urine or yellowing of the eyes/skin.",
+    "sources": [
+      "Mayo Clinic",
+      "DrugBank"
+    ]
+  },
+  {
+    "name": "Lisinopril",
+    "drugClass": "ACE Inhibitor",
+    "usedFor": "Treat high blood pressure (hypertension)",
+    "howItWorks": "Works by blocking a substance in the body that causes the blood vessels to tighten. It relaxes the blood vessels. This lowers blood pressure and increases the supply of blood and oxygen to the heart.",
+    "commonSideEffects": [
+      "Blurred vision",
+      "Cloudy urine",
+      "Confusion",
+      "Decrease in urine output or decrease in urine-concentrating ability",
+      "Dizziness",
+      "Faintness or lightheadedness when getting up suddenly from a lying or sitting position",
+      "Sweating",
+      "Unusual tiredness or weakness"
+    ],
+    "adverseEffects": [
+      "Swelling of the face, lips, tongue, throat or limbs (angioedema)",
+      "Hoarseness or trouble breathing or swallowing",
+      "Fainting or chest pain",
+      "Fever, sore throat or chills (signs of infection)",
+      "Yellowing of the skin or eyes",
+      "Very low blood pressure",
+      "Kidney problems",
+      "High potassium levels"
+    ],
+    "warnings": "Extra caution is needed for people with kidney problems, dehydration, low blood pressure or high potassium. Do not use with sacubitril/valsartan, and avoid use with aliskiren in people with diabetes. Aspirin, NSAIDs (such as ibuprofen), potassium supplements and potassium-based salt substitutes can interact. Vomiting, diarrhea or heavy sweating can lower blood pressure.",
+    "olderAdultSafety": "Older adults may be more sensitive to low blood pressure and may have reduced kidney function. Taking it together with another blood pressure medicine of this type (an ARB, ARNI or aliskiren) or a potassium-sparing water pill can raise potassium to unsafe levels, especially with kidney disease. Blood tests may be needed to check kidney function and potassium levels.",
+    "caregiverGuidance": "Help the older adult take the medicine once daily at about the same time. Do not stop it without asking the doctor, even if they feel well. Keep blood pressure checks and scheduled blood tests. Do not give potassium supplements or potassium-based salt substitutes unless the healthcare provider approves. If the person feels dizzy, help them sit down and rise slowly. If a dose is missed, give it when remembered unless the next dose is near; never double up. Seek emergency help for swelling of the face, lips, tongue or throat, or difficulty breathing.",
+    "sources": [
+      "DailyMed (Zestril)",
+      "MedLine Plus",
+      "AGS Beers"
+    ]
+  },
+  {
+    "name": "Lisinopril (as dihydrate)",
+    "drugClass": "ACE Inhibitor",
+    "usedFor": "Treat high blood pressure (hypertension)",
+    "howItWorks": "Works by blocking a substance in the body that causes the blood vessels to tighten. It relaxes the blood vessels. This lowers blood pressure and increases the supply of blood and oxygen to the heart.",
+    "commonSideEffects": [
+      "Blurred vision",
+      "Cloudy urine",
+      "Confusion",
+      "Decrease in urine output or decrease in urine-concentrating ability",
+      "Dizziness",
+      "Faintness or lightheadedness when getting up suddenly from a lying or sitting position",
+      "Sweating",
+      "Unusual tiredness or weakness"
+    ],
+    "adverseEffects": [
+      "Swelling of the face, lips, tongue, throat or limbs (angioedema)",
+      "Hoarseness or trouble breathing or swallowing",
+      "Fainting or chest pain",
+      "Fever, sore throat or chills (signs of infection)",
+      "Yellowing of the skin or eyes",
+      "Very low blood pressure",
+      "Kidney problems",
+      "High potassium levels"
+    ],
+    "warnings": "Extra caution is needed for people with kidney problems, dehydration, low blood pressure or high potassium. Do not use with sacubitril/valsartan, and avoid use with aliskiren in people with diabetes. Aspirin, NSAIDs (such as ibuprofen), potassium supplements and potassium-based salt substitutes can interact. Vomiting, diarrhea or heavy sweating can lower blood pressure.",
+    "olderAdultSafety": "Older adults may be more sensitive to low blood pressure and may have reduced kidney function. Taking it together with another blood pressure medicine of this type (an ARB, ARNI or aliskiren) or a potassium-sparing water pill can raise potassium to unsafe levels, especially with kidney disease. Blood tests may be needed to check kidney function and potassium levels.",
+    "caregiverGuidance": "Help the older adult take the medicine once daily at about the same time. Do not stop it without asking the doctor, even if they feel well. Keep blood pressure checks and scheduled blood tests. Do not give potassium supplements or potassium-based salt substitutes unless the healthcare provider approves. If the person feels dizzy, help them sit down and rise slowly. If a dose is missed, give it when remembered unless the next dose is near; never double up. Seek emergency help for swelling of the face, lips, tongue or throat, or difficulty breathing.",
+    "sources": [
+      "DailyMed (Zestril)",
+      "MedLine Plus",
+      "AGS Beers"
+    ]
+  },
+  {
+    "name": "Losartan",
+    "drugClass": "Angiotensin II receptor blocker (ARB)",
+    "usedFor": "Treatment of hypertension (high blood pressure); lowering stroke risk in people with hypertension and an enlarged heart; and protecting the kidneys in type 2 diabetes with hypertension.",
+    "howItWorks": "Blocks angiotensin II, a substance that narrows blood vessels, from acting on blood vessels. Blood vessels relax, which lowers blood pressure.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Leg, knee or back pain",
+      "Muscle cramps or weakness",
+      "Diarrhea",
+      "Heartburn"
+    ],
+    "adverseEffects": [
+      "Swelling of the face, lips, tongue, throat or limbs (angioedema)",
+      "Hoarseness",
+      "Trouble breathing or swallowing",
+      "Chest pain",
+      "Very low blood pressure",
+      "Kidney problems",
+      "High potassium levels"
+    ],
+    "warnings": "Extra caution is needed for people with kidney or liver problems, heart failure or dehydration. Avoid use with aliskiren in people with diabetes. Aspirin, NSAIDs (such as ibuprofen), potassium supplements and potassium-based salt substitutes can interact. Dizziness is most likely when starting or standing up quickly.",
+    "olderAdultSafety": "Older adults may be more sensitive to low blood pressure and may have reduced kidney function. Taking it together with another blood pressure medicine of this type (an ACE inhibitor, ARNI or aliskiren) or a potassium-sparing water pill can raise potassium to unsafe levels, especially with kidney disease. Blood tests may be needed to check kidney function and potassium levels.",
+    "caregiverGuidance": "Help the older adult take the medicine as prescribed, at the same time each day. Do not stop it without asking the doctor, even if they feel well. Full effect can take 3 to 6 weeks, so keep blood pressure checks and scheduled blood tests. Do not give potassium supplements or potassium-based salt substitutes unless the healthcare provider approves. Help them sit down if dizzy and rise slowly. Seek emergency help for swelling of the face, lips, tongue or throat, or difficulty breathing.",
+    "sources": [
+      "DailyMed",
+      "MedLine Plus",
+      "AGS Beers"
+    ]
+  },
+  {
+    "name": "Losartan (as Potassium)",
+    "drugClass": "Angiotensin II receptor Blocker (ARB)",
+    "usedFor": "Treatment of hypertension; lowering stroke risk in people with hypertension and an enlarged left heart; kidney protection in type 2 diabetes with hypertension",
+    "howItWorks": "Blocks substances that tighten blood vessels, so blood vessels relax and blood pressure drops.",
+    "commonSideEffects": [
+      "Leg, knee or back pain",
+      "Muscle cramps or weakness",
+      "Diarrhea",
+      "Heartburn"
+    ],
+    "adverseEffects": [
+      "Swelling of the face, throat, tongue, lips or limbs",
+      "Hoarseness",
+      "Trouble breathing or swallowing",
+      "Chest pain"
+    ],
+    "warnings": "Dizziness or fainting is most likely when starting, or when they stand up quickly. Vomiting, diarrhea or poor drinking can make it worse, so call the doctor. Don’t give ibuprofen, naproxen or potassium products unless approved. Kidney and potassium blood tests are needed. Tell the doctor about liver problems, since a lower starting dose may be needed.",
+    "olderAdultSafety": "The label found no overall differences in safety or effectiveness between older and younger patients, but some older people may be more sensitive. Watch for dizziness and falls, and keep blood pressure checks.",
+    "caregiverGuidance": "Give at the same times daily; full effect takes 3 to 6 weeks. Don’t stop it or double a missed dose. Avoid potassium products and NSAIDs unless approved. Have them rest their feet on the floor before standing, and call the doctor about vomiting or diarrhea. Emergency: facial or throat swelling.",
+    "sources": [
+      "DailyMed",
+      "Medline Plus"
+    ]
+  },
+  {
+    "name": "Manidipine",
+    "drugClass": "Dihydropyridine calcium channel blocker",
+    "usedFor": "Treatment of mild to moderate hypertension.",
+    "howItWorks": "Relaxes blood vessels with little effect on heart pumping, which lowers blood pressure.",
+    "commonSideEffects": [
+      "Dizziness",
+      "Headache",
+      "Flushing",
+      "Palpitations",
+      "Ankle swelling"
+    ],
+    "adverseEffects": [
+      "Very low blood pressure",
+      "Allergic reactions (rash, itching, swelling)",
+      "Raised liver enzymes (rare)"
+    ],
+    "warnings": "Dizziness and low blood pressure can lead to falls, so check blood pressure regularly if the doctor asked. Don’t give grapefruit juice. Ask the pharmacist before adding antifungals or antibiotics. Tell the doctor about liver or kidney problems, or heart problems such as unstable angina.",
+    "olderAdultSafety": "Once-daily manidipine as effective and generally well tolerated in younger and elderly adults with mild to moderate hypertension. It was also effective in patients with type 2 diabetes or kidney impairment, with less ankle swelling than amlodipine in a large trial.",
+    "caregiverGuidance": "Give once daily, usually in the morning. No grapefruit juice. Help them rise slowly and watch for ankle swelling. Check with the pharmacist before adding antifungals or antibiotics. Emergency: fainting or chest pain",
+    "sources": [
+      "PubMed"
+    ]
+  },
+  {
+    "name": "Mannitol",
+    "drugClass": "Osmotic diuretic",
+    "usedFor": "Reducing pressure inside the skull (and brain swelling) and elevated pressure inside the eye. Given by IV.",
+    "howItWorks": "Draws water from tissues into the blood, and the kidneys remove the extra water as urine.",
+    "commonSideEffects": [
+      "Increased urination",
+      "Nausea",
+      "Vomiting",
+      "Headache",
+      "Fever or chills",
+      "Dizziness"
+    ],
+    "adverseEffects": [
+      "Allergic reactions including anaphylaxis",
+      "Kidney failure",
+      "Confusion, lethargy, seizures or coma",
+      "Fluid overload, heart failure or lung fluid",
+      "Low or high sodium and potassium",
+      "Pain or swelling at the IV site"
+    ],
+    "warnings": "Given by IV by hospital staff, not at home. Staff check kidney, heart, lung and fluid status first. Your role is to tell the nurse about confusion, unusual sleepiness, shortness of breath, swelling, little urine, or IV-site pain. Bring a current medicine list, because water pills and some other drugs raise kidney risk.",
+    "olderAdultSafety": "Mannitol is cleared mainly by the kidneys, so adverse reactions may be greater in elderly patients with impaired kidney function. Check kidney, heart and lung status first and correct fluid and electrolyte problems before giving it.",
+    "caregiverGuidance": "Given by IV by staff, not at home. Stay with them and tell the nurse about confusion, unusual sleepiness, shortness of breath, swelling, little urine, or IV-site pain or swelling. Bring a current medicine list.",
+    "sources": [
+      "Daily Med",
+      "Drugs.com"
+    ]
+  },
+  {
+    "name": "Meformin hydrochloride",
+    "drugClass": "Biguanide (oral antidiabetic)",
+    "usedFor": "Control of blood sugar in adults and children 10 and older with type 2 diabetes, with diet and exercise.",
+    "howItWorks": "Reduces sugar made by the liver and absorbed from food, and improves the body’s response to insulin.",
+    "commonSideEffects": [
+      "Diarrhea",
+      "Nausea or vomiting",
+      "Gas",
+      "Indigestion",
+      "Abdominal discomfort",
+      "Weakness",
+      "Headache"
+    ],
+    "adverseEffects": [
+      "Lactic acidosis (weakness, muscle pain, trouble breathing, unusual sleepiness, stomach pain, nausea or vomiting, feeling cold, dizziness, slow or irregular heartbeat)",
+      "Low vitamin B12",
+      "Low blood sugar when combined with insulin or sulfonylureas"
+    ],
+    "warnings": "Rare but serious lactic acidosis is more likely at 65 and older, with kidney trouble, dehydration or heavy alcohol use. Keep kidney blood tests, at least yearly. On sick days with vomiting, severe diarrhea, fever or poor drinking, call the doctor the same day, since it may need pausing. Tell the doctor before surgery or X-ray dye tests. Seek emergency help for fast breathing, severe weakness, stomach pain or unusual sleepiness.",
+    "olderAdultSafety": "The label advises starting at a low dose in older adults and checking kidney function more often, because kidney function declines with age.",
+    "caregiverGuidance": "Give with meals; swallow extended-release tablets whole. Check blood sugar and keep kidney tests. Call the doctor the same day for vomiting, severe diarrhea, fever or poor drinking, and before surgery or X-ray dye. Emergency: fast breathing, severe weakness, stomach pain or unusual sleepiness.",
+    "sources": [
+      "MedlinePlus",
+      "DailyMed"
+    ]
+  },
+  {
+    "name": "Methyldopa",
+    "drugClass": "Centrally acting antihypertensive",
+    "usedFor": "Treatment of hypertension.",
+    "howItWorks": "Relaxes blood vessels so blood flows more easily.",
+    "commonSideEffects": [
+      "Headache",
+      "Muscle weakness",
+      "Swollen ankles or feet",
+      "Upset stomach",
+      "Vomiting",
+      "Diarrhea",
+      "Gas",
+      "Dry mouth",
+      "Rash"
+    ],
+    "adverseEffects": [
+      "Unexplained fever",
+      "Extreme tiredness",
+      "Yellowing of the skin or eyes"
+    ],
+    "warnings": "Never stop it suddenly. It can cause drowsiness, so no driving for 48 to 72 hours after starting or a dose increase. Don’t give iron supplements unless approved. Keep blood tests for red blood cells and liver function. Report unexplained fever, extreme tiredness, or yellowing of the skin or eyes right away",
+    "olderAdultSafety": "Named in the 2023 AGS Beers Criteria (Table 8) as still potentially inappropriate for older adults. The article doesn’t restate the reason, but MedlinePlus says safer medicines exist. Ask the doctor whether a different one would suit them, and watch for confusion and falls.",
+    "caregiverGuidance": "Never stop suddenly. Avoid iron supplements unless approved. No driving for 48 to 72 hours after starting or a dose increase. Watch for falls, and ask the doctor about safer options. Call the doctor right away for unexplained fever, extreme tiredness, or yellowing of the skin or eyes.",
+    "sources": [
+      "MedlinePlus",
+      "AGS Beers 2023"
+    ]
+  },
+  {
+    "name": "Methyldopa (As Sesquihydrate)",
+    "drugClass": "Centrally acting antihypertensive",
+    "usedFor": "Treatment of hypertension.",
+    "howItWorks": "Relaxes blood vessels so blood flows more easily.",
+    "commonSideEffects": [
+      "Headache",
+      "Muscle weakness",
+      "Swollen ankles or feet",
+      "Upset stomach",
+      "Vomiting",
+      "Diarrhea",
+      "Gas",
+      "Dry mouth",
+      "Rash"
+    ],
+    "adverseEffects": [
+      "Unexplained fever",
+      "Extreme tiredness",
+      "Yellowing of the skin or eyes"
+    ],
+    "warnings": "Never stop it suddenly. It can cause drowsiness, so no driving for 48 to 72 hours after starting or a dose increase. Don’t give iron supplements unless approved. Keep blood tests for red blood cells and liver function. Report unexplained fever, extreme tiredness, or yellowing of the skin or eyes right away",
+    "olderAdultSafety": "Named in the 2023 AGS Beers Criteria (Table 8) as still potentially inappropriate for older adults. The article doesn’t restate the reason, but MedlinePlus says safer medicines exist. Ask the doctor whether a different one would suit them, and watch for confusion and falls.",
+    "caregiverGuidance": "Never stop suddenly. Avoid iron supplements unless approved. No driving for 48 to 72 hours after starting or a dose increase. Watch for falls, and ask the doctor about safer options. Call the doctor right away for unexplained fever, extreme tiredness, or yellowing of the skin or eyes.",
+    "sources": [
+      "MedlinePlus",
+      "AGS Beers 2023"
+    ]
+  },
+  {
+    "name": "Metolazone",
+    "drugClass": "Thiazide-like diuretic (water pill)",
+    "usedFor": "Treatment of fluid retention (edema) from heart failure or kidney disease, and of hypertension.",
+    "howItWorks": "Blocks salt reabsorption in the kidneys, so more salt and water leave as urine.",
+    "commonSideEffects": [
+      "Dizziness or lightheadedness",
+      "Weakness",
+      "Drowsiness",
+      "Headache",
+      "Muscle cramps",
+      "Nausea",
+      "Diarrhea or constipation"
+    ],
+    "adverseEffects": [
+      "Low sodium or potassium (rarely rapid and severe)",
+      "Signs of dehydration",
+      "Dizziness on standing or fainting",
+      "Chest pain or irregular heartbeat",
+      "High uric acid with gout attacks",
+      "High blood sugar",
+      "Blistering or peeling skin",
+      "Sore throat with fever",
+      "Yellowing of the skin or eyes"
+    ],
+    "warnings": "Low sodium or potassium can cause confusion, weakness, cramps or an irregular heartbeat, so keep blood tests. Dizziness on standing is worsened by alcohol and other blood pressure medicines. Don’t give ibuprofen or naproxen unless approved. Tell the doctor about gout, diabetes, lupus or kidney problems. Vomiting or diarrhea can cause dehydration, so call the doctor. Don’t switch brands without the pharmacist.",
+    "olderAdultSafety": "Start at a low dose in older adults, because they are more likely to have reduced kidney, liver or heart function. Toxic reactions may be greater with poor kidney function, so kidney monitoring may help",
+    "caregiverGuidance": "Give once daily; don’t switch brands or stop without advice. Keep blood tests, avoid alcohol and NSAIDs unless approved, and use sunscreen. Help them rise slowly. Call the doctor for muscle weakness, confusion or very little urine. Emergency: fainting, chest pain or racing heartbeat.",
+    "sources": [
+      "MedlinePlus",
+      "DailyMed"
+    ]
+  },
+  {
+    "name": "Metoprolol",
+    "drugClass": "Beta-1 selective (cardioselective) beta-blocker",
+    "usedFor": "It treats high blood pressure, angina (chest pain), and heart failure. It also improves survival after a heart attack and is sometimes used for irregular heartbeats.",
+    "howItWorks": "It blocks beta-1 receptors in the heart, so the heart beats more slowly and with less force. This lowers blood pressure and the heart’s workload.",
+    "commonSideEffects": [
+      "Tiredness, dizziness, a slow pulse, cold hands and feet, and low blood pressure are the most common"
+    ],
+    "adverseEffects": [
+      "More serious effects include heart block, worsening heart failure, wheezing, and depression. It can also hide the fast heartbeat that warns of low blood sugar in people with diabetes"
+    ],
+    "warnings": "It must never be stopped suddenly, because abrupt withdrawal can cause serious heart problems. At home, check pulse and blood pressure as the doctor directs, and ask what pulse number should prompt holding a dose and calling. Extended-release succinate tablets should not be crushed or chewed. The older adult should stand up slowly to avoid falls.",
+    "olderAdultSafety": "For metoprolol, the main older adult concerns are a pulse that becomes too slow, dizziness on standing, tiredness, and falls. Older adults are usually started on a low dose and adjusted gradually. At home, watch for new confusion, fainting, unusual weakness, or a pulse below the number the doctor set.",
+    "caregiverGuidance": "Keep a daily record of pulse and blood pressure. Give doses at the same times each day, and refill early so the medicine never runs out. Call the doctor for fainting, a very slow pulse, new shortness of breath, leg swelling, or fast weight gain.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs.com",
+      "Patient leaflet (UK)",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Metoprolol (As Tartrate)",
+    "drugClass": "Beta-1 selective (cardioselective) beta-blocker",
+    "usedFor": "It treats high blood pressure, angina (chest pain), and heart failure.Tartrate is the mmediate-release form.",
+    "howItWorks": "It blocks beta-1 receptors in the heart, so the heart beats more slowly and with less force. This lowers blood pressure and the heart’s workload.",
+    "commonSideEffects": [
+      "Tiredness, dizziness, a slow pulse, cold hands and feet, and low blood pressure are the most common"
+    ],
+    "adverseEffects": [
+      "More serious effects include heart block, worsening heart failure, wheezing, and depression. It can also hide the fast heartbeat that warns of low blood sugar in people with diabetes"
+    ],
+    "warnings": "It must never be stopped suddenly, because abrupt withdrawal can cause serious heart problems. At home, check pulse and blood pressure as the doctor directs, and ask what pulse number should prompt holding a dose and calling. Extended-release succinate tablets should not be crushed or chewed. The older adult should stand up slowly to avoid falls.",
+    "olderAdultSafety": "For metoprolol, the main older adult concerns are a pulse that becomes too slow, dizziness on standing, tiredness, and falls. Older adults are usually started on a low dose and adjusted gradually. At home, watch for new confusion, fainting, unusual weakness, or a pulse below the number the doctor set.",
+    "caregiverGuidance": "Keep a daily record of pulse and blood pressure. Give doses at the same times each day, and refill early so the medicine never runs out. Call the doctor for fainting, a very slow pulse, new shortness of breath, leg swelling, or fast weight gain.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs.com",
+      "Patient leaflet (UK)",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Metoprolol Tartrate",
+    "drugClass": "Beta-1 selective (cardioselective) beta-blocker",
+    "usedFor": "It treats high blood pressure, angina (chest pain), and heart failure.Tartrate is the mmediate-release form.",
+    "howItWorks": "It blocks beta-1 receptors in the heart, so the heart beats more slowly and with less force. This lowers blood pressure and the heart’s workload.",
+    "commonSideEffects": [
+      "Tiredness, dizziness, a slow pulse, cold hands and feet, and low blood pressure are the most common"
+    ],
+    "adverseEffects": [
+      "More serious effects include heart block, worsening heart failure, wheezing, and depression. It can also hide the fast heartbeat that warns of low blood sugar in people with diabetes"
+    ],
+    "warnings": "It must never be stopped suddenly, because abrupt withdrawal can cause serious heart problems. At home, check pulse and blood pressure as the doctor directs, and ask what pulse number should prompt holding a dose and calling. Extended-release succinate tablets should not be crushed or chewed. The older adult should stand up slowly to avoid falls.",
+    "olderAdultSafety": "For metoprolol, the main older adult concerns are a pulse that becomes too slow, dizziness on standing, tiredness, and falls. Older adults are usually started on a low dose and adjusted gradually. At home, watch for new confusion, fainting, unusual weakness, or a pulse below the number the doctor set.",
+    "caregiverGuidance": "Keep a daily record of pulse and blood pressure. Give doses at the same times each day, and refill early so the medicine never runs out. Call the doctor for fainting, a very slow pulse, new shortness of breath, leg swelling, or fast weight gain.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs.com",
+      "Patient leaflet (UK)",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Metoprolol Succinate",
+    "drugClass": "Beta-1 selective (cardioselective) beta-blocker",
+    "usedFor": "It treats high blood pressure, angina (chest pain), and heart failure. Succinate is the extended-release form",
+    "howItWorks": "It blocks beta-1 receptors in the heart, so the heart beats more slowly and with less force. This lowers blood pressure and the heart’s workload.",
+    "commonSideEffects": [
+      "Tiredness, dizziness, a slow pulse, cold hands and feet, and low blood pressure are the most common"
+    ],
+    "adverseEffects": [
+      "More serious effects include heart block, worsening heart failure, wheezing, and depression. It can also hide the fast heartbeat that warns of low blood sugar in people with diabetes"
+    ],
+    "warnings": "It must never be stopped suddenly, because abrupt withdrawal can cause serious heart problems. At home, check pulse and blood pressure as the doctor directs, and ask what pulse number should prompt holding a dose and calling. Extended-release succinate tablets should not be crushed or chewed. The older adult should stand up slowly to avoid falls.",
+    "olderAdultSafety": "For metoprolol, the main older adult concerns are a pulse that becomes too slow, dizziness on standing, tiredness, and falls. Older adults are usually started on a low dose and adjusted gradually. At home, watch for new confusion, fainting, unusual weakness, or a pulse below the number the doctor set.",
+    "caregiverGuidance": "Keep a daily record of pulse and blood pressure. Give doses at the same times each day, and refill early so the medicine never runs out. Call the doctor for fainting, a very slow pulse, new shortness of breath, leg swelling, or fast weight gain.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs.com",
+      "Patient leaflet (UK)",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Nebivolol",
+    "drugClass": "Beta-1 selective blocker",
+    "usedFor": "Treat high blood pressure.",
+    "howItWorks": "It slows the heart by blocking beta-1 receptors. It also widens blood vessels by stimulating nitric oxide production, which lowers blood pressure further.",
+    "commonSideEffects": [
+      "Headache, tiredness, and dizziness are the most common"
+    ],
+    "adverseEffects": [
+      "Serious effects include a very slow pulse, low blood pressure, worsening heart failure, and breathing difficulty in people prone to wheezing. It can also mask the warning signs of low blood sugar in people with diabetes"
+    ],
+    "warnings": "Do not stop it suddenly, especially in people with coronary artery disease, because angina or a heart attack can worsen. Some antidepressants, such as fluoxetine and paroxetine, and some heart-rhythm drugs can raise nebivolol levels. The doctor may increase the dose gradually, no more often than every two weeks. It is not recommended in severe liver impairment.",
+    "olderAdultSafety": "Treatment usually starts low with slow increases. Because other medicines can change nebivolol levels, older adults who take several drugs need a regular medication review by the pharmacist or doctor. Watch for dizziness on standing, new tiredness, and a pulse that is slower than usual.",
+    "caregiverGuidance": "Check blood pressure and pulse regularly and give the tablet at the same time every day, with or without food. Tell the doctor or dentist about nebivolol before any surgery. Report fainting, a very slow pulse, or shortness of breath.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs.com",
+      "Healthline (interactions)",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Nebivolol (as hydrochloride)",
+    "drugClass": "Beta-1 selective blocker",
+    "usedFor": "Treat high blood pressure.",
+    "howItWorks": "It slows the heart by blocking beta-1 receptors. It also widens blood vessels by stimulating nitric oxide production, which lowers blood pressure further.",
+    "commonSideEffects": [
+      "Headache, tiredness, and dizziness are the most common"
+    ],
+    "adverseEffects": [
+      "Serious effects include a very slow pulse, low blood pressure, worsening heart failure, and breathing difficulty in people prone to wheezing. It can also mask the warning signs of low blood sugar in people with diabetes"
+    ],
+    "warnings": "Do not stop it suddenly, especially in people with coronary artery disease, because angina or a heart attack can worsen. Some antidepressants, such as fluoxetine and paroxetine, and some heart-rhythm drugs can raise nebivolol levels. The doctor may increase the dose gradually, no more often than every two weeks. It is not recommended in severe liver impairment.",
+    "olderAdultSafety": "Treatment usually starts low with slow increases. Because other medicines can change nebivolol levels, older adults who take several drugs need a regular medication review by the pharmacist or doctor. Watch for dizziness on standing, new tiredness, and a pulse that is slower than usual.",
+    "caregiverGuidance": "Check blood pressure and pulse regularly and give the tablet at the same time every day, with or without food. Tell the doctor or dentist about nebivolol before any surgery. Report fainting, a very slow pulse, or shortness of breath.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs.com",
+      "Healthline (interactions)",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Nicardipine",
+    "drugClass": "Dihydropyridine calcium channel blocker.",
+    "usedFor": "The oral capsules treat high blood pressure and prevent angina. Nicardipine is also given by IV in hospitals for urgent blood pressure control, which is not a home use.",
+    "howItWorks": "It blocks calcium entry into the muscle of blood vessel walls. The vessels relax and widen, which lowers blood pressure and increases blood and oxygen supply to the heart.",
+    "commonSideEffects": [
+      "Headache, flushing, ankle swelling, dizziness, and palpitations are common"
+    ],
+    "adverseEffects": [
+      "Serious effects include low blood pressure, a fast heartbeat, and worsening chest pain in some people with heart disease"
+    ],
+    "warnings": "Regular capsules can be taken with or without food, while extended-release capsules should be swallowed whole and taken with food, avoiding high-fat meals. It controls angina but does not stop an attack once it starts. Cimetidine can interact with it, and blood pressure should be checked regularly.",
+    "olderAdultSafety": "The product label reports that blood levels of nicardipine in elderly patients aged 65 and older are similar to those in younger adults. Even so, older adults can be more sensitive to the blood pressure drop and may feel dizzy, which raises the risk of falls. Check for low blood pressure on standing. Standing up slowly, checking blood pressure at home, and reporting leg swelling or dizziness are the key safety steps.",
+    "caregiverGuidance": "Give it at the same times every day and do not stop it without the doctor’s advice. Report fainting, severe headache, chest pain, or marked swelling of the legs.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs. com",
+      "PubMed Centrall"
+    ]
+  },
+  {
+    "name": "Nicardipine Hydrochloride",
+    "drugClass": "Dihydropyridine calcium channel blocker.",
+    "usedFor": "The oral capsules treat high blood pressure and prevent angina. Nicardipine is also given by IV in hospitals for urgent blood pressure control, which is not a home use.",
+    "howItWorks": "It blocks calcium entry into the muscle of blood vessel walls. The vessels relax and widen, which lowers blood pressure and increases blood and oxygen supply to the heart.",
+    "commonSideEffects": [
+      "Headache, flushing, ankle swelling, dizziness, and palpitations are common"
+    ],
+    "adverseEffects": [
+      "Serious effects include low blood pressure, a fast heartbeat, and worsening chest pain in some people with heart disease"
+    ],
+    "warnings": "Regular capsules can be taken with or without food, while extended-release capsules should be swallowed whole and taken with food, avoiding high-fat meals. It controls angina but does not stop an attack once it starts. Cimetidine can interact with it, and blood pressure should be checked regularly.",
+    "olderAdultSafety": "The product label reports that blood levels of nicardipine in elderly patients aged 65 and older are similar to those in younger adults. Even so, older adults can be more sensitive to the blood pressure drop and may feel dizzy, which raises the risk of falls. Check for low blood pressure on standing. Standing up slowly, checking blood pressure at home, and reporting leg swelling or dizziness are the key safety steps.",
+    "caregiverGuidance": "Give it at the same times every day and do not stop it without the doctor’s advice. Report fainting, severe headache, chest pain, or marked swelling of the legs.",
+    "sources": [
+      "MedlinePlus",
+      "Drugs. com",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Nifedipine",
+    "drugClass": "Dihydropyridine calcium channel blocker.",
+    "usedFor": "It treats high blood pressure and angina. It is also sometimes used for preterm labor and Raynaud’s syndrome. It comes as a capsule and as an extended-release tablet.",
+    "howItWorks": "It relaxes blood vessels so the heart does not have to pump as hard, and it improves blood and oxygen supply to the heart.",
+    "commonSideEffects": [
+      "Headache, flushing, ankle swelling, dizziness, and constipation are common"
+    ],
+    "adverseEffects": [
+      "Serious effects include low blood pressure, a fast heartbeat, and worsening angina in some people"
+    ],
+    "warnings": "Extended-release tablets should be swallowed whole and never split, chewed, or crushed. They are taken once daily on an empty stomach, one hour before or two hours after a meal. Alcohol can make side effects worse, and grapefruit can raise nifedipine levels. Some extended-release tablets leave a tablet-like shell in the stool, which is harmless.",
+    "olderAdultSafety": "The concern is potential for hypotension and risk of precipitating myocardial ischemia. The Beers criteria apply to adults 65 and older in most care settings, except hospice and end-of-life care. If an older adult at home takes a short-acting capsule, ask the doctor or pharmacist whether an extended-release form is more appropriate",
+    "caregiverGuidance": "Check the label for “ER,” “XL,” or “CC,” which mean extended release. Never give an extra dose to make up for a missed one. Check blood pressure regularly, and be extra watchful for dizziness after any dose change.",
+    "sources": [
+      "2023 AGS Beers Criteria",
+      "MedlinePlus",
+      "Drugs.com"
+    ]
+  },
+  {
+    "name": "Nimodipine",
+    "drugClass": "Dihydropyridine calcium channel blocker.",
+    "usedFor": "It reduces brain damage after a subarachnoid hemorrhage, which is bleeding in the space around the brain. It is not a routine blood pressure medicine. Treatment should begin as soon as possible, no later than 96 hours after the bleed.",
+    "howItWorks": "It relaxes blood vessels in the brain, allowing more blood to reach damaged areas.",
+    "commonSideEffects": [
+      "Low blood pressure, headache, flushing, and nausea are the most common"
+    ],
+    "adverseEffects": [
+      "The main serious effect is a significant drop in blood pressure. Heartbeat changes and swelling can also occur"
+    ],
+    "warnings": "It must never be given into a vein, because this can cause life-threatening effects or death. If the capsule contents must be given through a feeding tube, only an oral syringe should be used, as the care team instructs. Grapefruit and grapefruit juice should be avoided. The full course should be completed, and the doctor will watch blood pressure closely.",
+    "olderAdultSafety": "Older adults recovering from a brain bleed are often frail, so the main concern is a fall in blood pressure causing dizziness, fainting, and falls. Blood pressure is monitored carefully during treatment. Check blood pressure and avoiding unnecessary extra blood-pressure-lowering drugs. At home, the older adult should have help when getting up, and any new confusion or drowsiness should be reported right away.",
+    "caregiverGuidance": "Follow the exact schedule and duration the doctor gave. Label any oral syringe “Not for IV use” if one is used. Report fainting, severe dizziness, a worsening headache, or new confusion right away.",
+    "sources": [
+      "MedlinePlus",
+      "ClinicalTrials.gov",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Nitrogylcerin",
+    "drugClass": "Nitrate Vasodilator",
+    "usedFor": "It treats episodes of angina in people with coronary artery disease. Sublingual tablets are taken under the tongue as needed and can also be used just before activities that trigger angina. Patches, ointment, and sprays also exist.",
+    "howItWorks": "It treats episodes of angina in people with coronary artery disease. Sublingual tablets are taken under the tongue as needed and can also be used just before activities that trigger angina. Patches, ointment, and sprays also exist.",
+    "commonSideEffects": [
+      "It relaxes blood vessels so the heart does not need as much oxygen, which eases chest pain"
+    ],
+    "adverseEffects": [
+      "Headache, flushing, dizziness, and a fast heartbeat are common. A burning or tingling feeling under the tongue is normal and does not show whether the tablet is working"
+    ],
+    "warnings": "It should not be combined with erectile dysfunction drugs such as sildenafil or tadalafil, because blood pressure can fall dangerously. It is also contraindicated with riociguat. The label advises taking sublingual tablets at rest, preferably sitting. Tablets are not to be chewed, crushed, or swallowed. If chest pain is not relieved as the doctor’s plan directs, call emergency services right away.",
+    "olderAdultSafety": "Older adults are more likely to have blood pressure that drops when they stand, so nitroglycerin can cause dizziness, fainting, and falls. The safest practice at home is to sit down before taking a tablet, stay seated until the dizziness passes, and stand up slowly afterward. Check for low blood pressure on standing in older adults taking blood-pressure-lowering drugs. Because chest pain can be a medical emergency, older adults should also have a written plan and know when to call for help.",
+    "caregiverGuidance": "Know where the medicine is kept and how to use it, and make sure everyone caring for the person knows the emergency plan for chest pain. Keep tablets in the original tightly closed glass container, away from heat and light, and replace them as the label advises.",
+    "sources": [
+      "MedlinePlus",
+      "Heathline",
+      "DailyMed",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Olmesartan",
+    "drugClass": "Angiotensin II receptor blocker (ARB)",
+    "usedFor": "It treats high blood pressure and is often combined with amlodipine or a water pill",
+    "howItWorks": "It blocks angiotensin II from binding to its receptors, so blood vessels relax and blood pressure falls.",
+    "commonSideEffects": [
+      "Dizziness is the main common effect and is more likely when treatment starts"
+    ],
+    "adverseEffects": [
+      "Serious effects include high potassium, worsening kidney function, low blood pressure, and angioedema (swelling of the face, lips, or throat). Rarely it causes a severe celiac-like bowel problem with chronic diarrhea and weight loss"
+    ],
+    "warnings": "Potassium supplements and salt substitutes should be avoided unless the doctor approves, and NSAID pain relievers can harm the kidneys. Ask the doctor what to do during vomiting, diarrhea, or poor fluid intake. Blood pressure, kidney function, and potassium need regular checks.",
+    "olderAdultSafety": "At home, dizziness on standing, reduced urine, and poor drinking during illness are the warning signs. Lab tests for kidney function and potassium should be kept on schedule.",
+    "caregiverGuidance": "Give it at the same time each day, even when the person feels well. Keep lab appointments. Report face or lip swelling, persistent diarrhea, very little urine, or fainting right away.",
+    "sources": [
+      "MedlinePlus",
+      "DailyMed",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Olmesartan Medoxomil",
+    "drugClass": "Angiotensin II receptor blocker (ARB)",
+    "usedFor": "It treats high blood pressure and is often combined with amlodipine or a water pill",
+    "howItWorks": "Olmesartan medoxomil is converted to the active olmesartan during absorption.",
+    "commonSideEffects": [
+      "Dizziness is the main common effect and is more likely when treatment starts"
+    ],
+    "adverseEffects": [
+      "Serious effects include high potassium, worsening kidney function, low blood pressure, and angioedema (swelling of the face, lips, or throat). Rarely it causes a severe celiac-like bowel problem with chronic diarrhea and weight loss"
+    ],
+    "warnings": "Potassium supplements and salt substitutes should be avoided unless the doctor approves, and NSAID pain relievers can harm the kidneys. Ask the doctor what to do during vomiting, diarrhea, or poor fluid intake. Blood pressure, kidney function, and potassium need regular checks.",
+    "olderAdultSafety": "At home, dizziness on standing, reduced urine, and poor drinking during illness are the warning signs. Lab tests for kidney function and potassium should be kept on schedule.",
+    "caregiverGuidance": "Give it at the same time each day, even when the person feels well. Keep lab appointments. Report face or lip swelling, persistent diarrhea, very little urine, or fainting right away.",
+    "sources": [
+      "MedlinePlus",
+      "DailyMed",
+      "PubMed Central"
+    ]
+  },
+  {
+    "name": "Perindopril",
+    "drugClass": "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
+    "usedFor": "Treats high blood pressure. Lowers the risk of heart attack and heart-related death in people with stable coronary artery disease.",
+    "howItWorks": "Blocks a substance in the body that tightens blood vessels. The vessels relax, which lowers blood pressure.",
+    "commonSideEffects": [
+      "Dry cough, dizziness, back pain, headache, weakness, and cold-like symptoms (stuffy or runny nose, sore throat)"
+    ],
+    "adverseEffects": [
+      "Angioedema, hypotension, hyperkalemia, kidney problems, liver problems, and fetal harm during pregnancy"
+    ],
+    "warnings": "Use cautiously in patients with kidney or liver impairment, heart failure, dehydration, or diabetes. Monitor blood pressure, kidney function, and potassium levels. Avoid potassium supplements, potassium-sparing diuretics, and NSAIDs unless approved by the doctor. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema.",
+    "olderAdultSafety": "Older adults may have increased drug levels and a higher risk of dizziness, hypotension, falls, and kidney problems.",
+    "caregiverGuidance": "Administer as prescribed, even if the patient feels well, and monitor kidney function and potassium levels. Assist with slow position changes to prevent dizziness and falls. Report persistent dry cough, vomiting, or diarrhea. Avoid potassium supplements and salt substitutes, and consult the doctor before taking NSAIDs. Inform all healthcare providers about the medication and seek emergency help for facial or throat swelling or difficulty breathing.",
+    "sources": [
+      "AGS BEERS",
+      "Mayo clinicn Dailymed"
+    ]
+  },
+  {
+    "name": "Perindopril (as arginine)",
+    "drugClass": "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
+    "usedFor": "Treats high blood pressure. Lowers the risk of heart attack and heart-related death in people with stable coronary artery disease.",
+    "howItWorks": "Blocks a substance in the body that tightens blood vessels. The vessels relax, which lowers blood pressure.",
+    "commonSideEffects": [
+      "Dry cough, dizziness, back pain, headache, weakness, and cold-like symptoms (stuffy or runny nose, sore throat)"
+    ],
+    "adverseEffects": [
+      "Angioedema, hypotension, hyperkalemia, kidney problems, liver problems, and fetal harm during pregnancy"
+    ],
+    "warnings": "Use cautiously in patients with kidney or liver impairment, heart failure, dehydration, or diabetes. Monitor blood pressure, kidney function, and potassium levels. Avoid potassium supplements, potassium-sparing diuretics, and NSAIDs unless approved by the doctor. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema.",
+    "olderAdultSafety": "Older adults may have increased drug levels and a higher risk of dizziness, hypotension, falls, and kidney problems.",
+    "caregiverGuidance": "Administer as prescribed, even if the patient feels well, and monitor kidney function and potassium levels. Assist with slow position changes to prevent dizziness and falls. Report persistent dry cough, vomiting, or diarrhea. Avoid potassium supplements and salt substitutes, and consult the doctor before taking NSAIDs. Inform all healthcare providers about the medication and seek emergency help for facial or throat swelling or difficulty breathing.",
+    "sources": [
+      "AGS BEERS",
+      "Mayo clinicn Dailymed"
+    ]
+  },
+  {
+    "name": "Perindopril (as Erbumine)",
+    "drugClass": "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
+    "usedFor": "Treats high blood pressure. Lowers the risk of heart attack and heart-related death in people with stable coronary artery disease.",
+    "howItWorks": "Blocks a substance in the body that tightens blood vessels. The vessels relax, which lowers blood pressure.",
+    "commonSideEffects": [
+      "Dry cough, dizziness, back pain, headache, weakness, and cold-like symptoms (stuffy or runny nose, sore throat)"
+    ],
+    "adverseEffects": [
+      "Angioedema, hypotension, hyperkalemia, kidney problems, liver problems, and fetal harm during pregnancy"
+    ],
+    "warnings": "Use cautiously in patients with kidney or liver impairment, heart failure, dehydration, or diabetes. Monitor blood pressure, kidney function, and potassium levels. Avoid potassium supplements, potassium-sparing diuretics, and NSAIDs unless approved by the doctor. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema.",
+    "olderAdultSafety": "Older adults may have increased drug levels and a higher risk of dizziness, hypotension, falls, and kidney problems.",
+    "caregiverGuidance": "Administer as prescribed, even if the patient feels well, and monitor kidney function and potassium levels. Assist with slow position changes to prevent dizziness and falls. Report persistent dry cough, vomiting, or diarrhea. Avoid potassium supplements and salt substitutes, and consult the doctor before taking NSAIDs. Inform all healthcare providers about the medication and seek emergency help for facial or throat swelling or difficulty breathing.",
+    "sources": [
+      "AGS BEERS",
+      "Mayo clinicn Dailymed"
+    ]
+  },
+  {
+    "name": "Perindopril Erbumine",
+    "drugClass": "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
+    "usedFor": "Treats high blood pressure. Lowers the risk of heart attack and heart-related death in people with stable coronary artery disease.",
+    "howItWorks": "Blocks a substance in the body that tightens blood vessels. The vessels relax, which lowers blood pressure.",
+    "commonSideEffects": [
+      "Dry cough, dizziness, back pain, headache, weakness, and cold-like symptoms (stuffy or runny nose, sore throat)"
+    ],
+    "adverseEffects": [
+      "Angioedema, hypotension, hyperkalemia, kidney problems, liver problems, and fetal harm during pregnancy"
+    ],
+    "warnings": "Use cautiously in patients with kidney or liver impairment, heart failure, dehydration, or diabetes. Monitor blood pressure, kidney function, and potassium levels. Avoid potassium supplements, potassium-sparing diuretics, and NSAIDs unless approved by the doctor. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema.",
+    "olderAdultSafety": "Older adults may have increased drug levels and a higher risk of dizziness, hypotension, falls, and kidney problems.",
+    "caregiverGuidance": "Administer as prescribed, even if the patient feels well, and monitor kidney function and potassium levels. Assist with slow position changes to prevent dizziness and falls. Report persistent dry cough, vomiting, or diarrhea. Avoid potassium supplements and salt substitutes, and consult the doctor before taking NSAIDs. Inform all healthcare providers about the medication and seek emergency help for facial or throat swelling or difficulty breathing.",
+    "sources": [
+      "mayo Clinic",
+      "Daily Med"
+    ]
+  },
+  {
+    "name": "Pindolol",
+    "drugClass": "Beta-blocker (non-cardioselective, with intrinsic sympathomimetic activity)",
+    "usedFor": "Treats high blood pressure, alone or with other medicines such as a water pill. Sometimes used for angina (chest pain).",
+    "howItWorks": "Blocks the effect of nerve signals on the heart. The heart beats slower and blood pressure drops. It lowers the resting heart rate less than most other beta-blockers.",
+    "commonSideEffects": [
+      "Trouble sleeping and vivid dreams, muscle or joint pain, dizziness, tiredness, nervousness, nausea, and swelling of the feet or ankles. Numbness or tingling and cold hands or feet can occur"
+    ],
+    "adverseEffects": [
+      "Worsening or new heart failure (swelling, weight gain, shortness of breath). Slow or irregular heartbeat and heart block. Low blood pressure and fainting. Wheezing or trouble breathing. Chest pain or heart attack if stopped suddenly. Hides the warning signs of low blood sugar. Seeing or hearing things that are not there (rare)"
+    ],
+    "warnings": "Contraindicated in asthma, overt heart failure, cardiogenic shock, heart block, and severe bradycardia. Use cautiously in diabetes, bronchitis, emphysema, thyroid disorders, and kidney or liver disease. Do not stop abruptly; taper over 1–2 weeks. Avoid thioridazine and consult a doctor about potential drug interactions. Inform healthcare providers before surgery.",
+    "olderAdultSafety": "Older adults may be more sensitive to pindolol, increasing the risk of dizziness, low blood pressure, and slow heartbeat.",
+    "caregiverGuidance": "Monitor blood pressure and heart rate, assist with slow position changes to prevent falls, and report fainting or unusually slow heartbeat. Do not stop the medication abruptl",
+    "sources": [
+      "mayo clinic",
+      "medline plus"
+    ]
+  },
+  {
+    "name": "Propranolol",
+    "drugClass": "Nonselective beta-blocker",
+    "usedFor": "Treats high blood pressure, angina, irregular heart rhythms, tremors, and helps prevent migraines.",
+    "howItWorks": "Blocks beta-adrenergic receptors, slowing the heart rate and reducing blood pressure and the heart's workload.",
+    "commonSideEffects": [
+      "Dizziness, tiredness, weakness, nausea, diarrhea, and cold hands or feet"
+    ],
+    "adverseEffects": [
+      "Severe bradycardia, hypotension, heart block, worsening heart failure, bronchospasm, and severe allergic reactions"
+    ],
+    "warnings": "Contraindicated in asthma, severe bradycardia, cardiogenic shock, and certain heart blocks. Use cautiously in diabetes and liver or kidney disease. Do not stop abruptly.",
+    "olderAdultSafety": "Older adults may be more sensitive to its effects and may have a higher risk of dizziness, low blood pressure, slow heartbeat, and falls.",
+    "caregiverGuidance": "Administer as prescribed and monitor blood pressure and pulse. Assist with slow position changes to prevent falls. Watch for wheezing, fainting, or worsening shortness of breath. Do not stop abruptly. Monitor for low blood sugar, especially in diabetic patients.",
+    "sources": [
+      "Mayo Clinic",
+      "MedlinePlus"
+    ]
+  },
+  {
+    "name": "Propranolol Hydrochloride",
+    "drugClass": "Nonselective beta-blocker",
+    "usedFor": "Treats high blood pressure, angina, irregular heart rhythms, tremors, and helps prevent migraines.",
+    "howItWorks": "Blocks beta-adrenergic receptors, slowing the heart rate and reducing blood pressure and the heart's workload.",
+    "commonSideEffects": [
+      "Dizziness, tiredness, weakness, nausea, diarrhea, and cold hands or feet"
+    ],
+    "adverseEffects": [
+      "Severe bradycardia, hypotension, heart block, worsening heart failure, and bronchospasm"
+    ],
+    "warnings": "Contraindicated in asthma, cardiogenic shock, severe bradycardia, and certain heart blocks. Use cautiously in diabetes and liver or kidney disease. Do not stop abruptly.",
+    "olderAdultSafety": "Older adults may have a higher risk of dizziness, hypotension, slow heartbeat, falls, and other adverse effects.",
+    "caregiverGuidance": "Administer as prescribed and monitor blood pressure and pulse. Assist with slow position changes to prevent falls. Watch for wheezing, fainting, or worsening shortness of breath. Do not stop abruptly. Monitor for low blood sugar, especially in diabetic patients.",
+    "sources": [
+      "Mayo Clinic",
+      "DailyMed",
+      "MedlinePlus"
+    ]
+  },
+  {
+    "name": "Quinapril",
+    "drugClass": "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
+    "usedFor": "Treats high blood pressure and heart failure.",
+    "howItWorks": "Blocks a substance in the body that tightens blood vessels. The vessels relax, which lowers blood pressure and helps the heart pump more efficiently.",
+    "commonSideEffects": [
+      "Dizziness, excessive tiredness, dry cough, upset stomach, and vomiting"
+    ],
+    "adverseEffects": [
+      "Angioedema, severe hypotension, hyperkalemia, kidney problems, liver problems, and fetal harm during pregnancy"
+    ],
+    "warnings": "Use cautiously in patients with kidney or liver impairment, heart failure, dehydration, or diabetes. Monitor blood pressure, kidney function, and potassium levels. Avoid potassium supplements, potassium-based salt substitutes, and NSAIDs unless approved by the doctor. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema. Avoid use with sacubitril/valsartan or within 36 hours of switching to or from it.",
+    "olderAdultSafety": "Older adults may have a higher risk of dizziness, hypotension, falls, and kidney problems. A lower initial dose may be needed, with careful monitoring of blood pressure and kidney function.",
+    "caregiverGuidance": "Administer as prescribed and monitor kidney function and potassium levels. Assist with slow position changes to prevent falls. Report persistent cough, vomiting, or diarrhea. Avoid potassium supplements and salt substitutes, and consult the doctor before taking NSAIDs. Seek emergency help for facial or throat swelling or difficulty breathing.",
+    "sources": [
+      "Mayo Clinic",
+      "DailyMed",
+      "MedlinePlus"
+    ]
+  },
+  {
+    "name": "Quinapril Hydrochloride",
+    "drugClass": "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
+    "usedFor": "Treats high blood pressure and heart failure.)",
+    "howItWorks": "Blocks a substance that tightens blood vessels, allowing them to relax and lowering blood pressure.",
+    "commonSideEffects": [
+      "Dry cough, dizziness, headache, fatigue, and nausea"
+    ],
+    "adverseEffects": [
+      "Angioedema, severe hypotension, hyperkalemia, kidney problems, and fetal harm during pregnancy"
+    ],
+    "warnings": "Use cautiously in kidney or liver impairment, heart failure, dehydration, or diabetes. Monitor blood pressure, kidney function, and potassium. Avoid potassium supplements and NSAIDs unless approved. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema.",
+    "olderAdultSafety": "Older adults may have a higher risk of dizziness, hypotension, falls, and kidney problems.",
+    "caregiverGuidance": "Administer as prescribed and monitor kidney function and potassium levels. Assist with slow position changes to prevent falls. Report persistent cough, vomiting, or diarrhea. Avoid potassium supplements and salt substitutes, and consult the doctor before taking NSAIDs. Seek emergency help for facial or throat swelling or difficulty breathing.",
+    "sources": [
+      "Mayo Clinic",
+      "DailyMed",
+      "MedlinePlus"
+    ]
+  },
+  {
+    "name": "Ramipril",
+    "drugClass": "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
+    "usedFor": "Treats high blood pressure, heart failure, and reduces the risk of heart attack and stroke in high-risk patients.",
+    "howItWorks": "Relaxes blood vessels by blocking the formation of a substance that tightens them, lowering blood pressure.",
+    "commonSideEffects": [
+      "Dry cough, dizziness, headache, fatigue, and nausea"
+    ],
+    "adverseEffects": [
+      "Angioedema, severe hypotension, hyperkalemia, kidney problems, and fetal harm during pregnancy"
+    ],
+    "warnings": "Use cautiously in kidney impairment, heart failure, dehydration, or diabetes. Monitor blood pressure, kidney function, and potassium. Avoid potassium supplements and NSAIDs unless approved. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema.",
+    "olderAdultSafety": "Older adults may have a higher risk of dizziness, hypotension, falls, and kidney problems.",
+    "caregiverGuidance": "Administer as prescribed and monitor kidney function and potassium levels. Assist with slow position changes to prevent falls. Report persistent cough, vomiting, or diarrhea. Avoid potassium supplements and salt substitutes, and consult the doctor before taking NSAIDs. Seek emergency help for facial or throat swelling or difficulty breathing.",
+    "sources": [
+      "Mayo clinic",
+      "dailymed"
+    ]
+  },
+  {
+    "name": "Sodium Nitroprusside",
+    "drugClass": "Direct-acting vasodilator; antihypertensive",
+    "usedFor": "Rapidly lowers dangerously high blood pressure, treats acute heart failure in selected patients, and produces controlled low blood pressure during surgery.",
+    "howItWorks": "Relaxes blood vessels, causing arteries and veins to widen. This lowers blood pressure and reduces the workload of the heart.",
+    "commonSideEffects": [
+      "Nausea, dizziness, headache, sweating, and palpitations"
+    ],
+    "adverseEffects": [
+      "Severe hypotension, cyanide toxicity, thiocyanate toxicity, methemoglobinemia, and increased intracranial pressure"
+    ],
+    "warnings": "Administer only as a controlled IV infusion using an infusion pump. Continuously monitor blood pressure and assess acid-base balance and signs of toxicity. Use caution in kidney or liver impairment. Protect the solution from light according to product instructions. Avoid concomitant use with sildenafil, tadalafil, vardenafil, or riociguat.",
+    "olderAdultSafety": "Older adults may be more sensitive to blood pressure reduction, increasing the risk of dizziness, falls, and reduced blood flow to vital organs. Closely monitor blood pressure, kidney function, and signs of toxicity.",
+    "caregiverGuidance": "This medication requires hospital monitoring and is not intended for home administration. The healthcare team should continuously monitor blood pressure and watch for confusion, unusual sweating, rapid breathing, or worsening metabolic acidosis, which may indicate toxicity.",
+    "sources": [
+      "daily meds",
+      "statpearls"
+    ]
+  },
+  {
+    "name": "Spironolactone",
+    "drugClass": "Potassium-sparing diuretic; aldosterone receptor antagonist",
+    "usedFor": "Helps manage heart failure, high blood pressure, and swelling caused by fluid buildup. This lowers blood pressure and reduces swelling.",
+    "howItWorks": "Helps remove excess salt and water through urine while keeping potassium in the body.",
+    "commonSideEffects": [
+      "Stomach upset, leg cramps, dizziness, tiredness, and breast swelling or soreness (in men and women). Lowered sexual desire or erection problems and hair thinning may also occur"
+    ],
+    "adverseEffects": [
+      "High potassium (weakness or heavy legs, tingling, irregular heartbeat, confusion), kidney problems, dehydration or very low blood pressure, severe allergic reaction (swelling of the face, lips, or tongue), and yellow skin or eyes"
+    ],
+    "warnings": "Use with caution in people with kidney problems or high potassium levels. Avoid potassium supplements and salt substitutes containing potassium unless prescribed.",
+    "olderAdultSafety": "Older adults are more likely to have reduced kidney function and may be more sensitive to low blood pressure and dizziness. Regular blood tests for kidney function and potassium are important.",
+    "caregiverGuidance": "Help the older adult take the medicine as prescribed and attend scheduled blood tests. Help them sit down if dizzy. Report muscle weakness, irregular heartbeat, very little urine, or confusion promptly. Seek emergency help for severe symptoms.",
+    "sources": [
+      "AGS BEERS",
+      "Mayo clinic"
+    ]
+  },
+  {
+    "name": "Tadalafil",
+    "drugClass": "Phosphodiesterase type 5 (PDE5) inhibitor; vasodilator",
+    "usedFor": "Treats erectile dysfunction (ED), symptoms of benign prostatic hyperplasia (BPH), and, in specific formulations, pulmonary arterial hypertension (PAH).",
+    "howItWorks": "Inhibits the PDE5 enzyme, increasing cGMP levels and relaxing smooth muscles in blood vessels. This improves blood flow and, depending on the indication, helps achieve an erection, relieve urinary symptoms, or lower pressure in pulmonary arteries.",
+    "commonSideEffects": [
+      "Headache, indigestion, back pain, muscle aches, flushing, and nasal congestion"
+    ],
+    "adverseEffects": [
+      "Severe hypotension, prolonged erection lasting over 4 hours (priapism), sudden vision or hearing loss, and serious cardiovascular events in susceptible patients"
+    ],
+    "warnings": "Must not be taken with nitrates (e.g., nitroglycerin) or riociguat because of the risk of severe hypotension. Use cautiously with alpha-blockers, antihypertensives, and alcohol. Dose adjustment may be needed in kidney or liver impairment. Seek urgent care for chest pain, sudden vision or hearing loss, or an erection lasting over 4 hours.",
+    "olderAdultSafety": "Older adults may be more vulnerable to dizziness and low blood pressure, particularly when taking other antihypertensives. Review kidney and liver function and the patient's medication list before treatment.",
+    "caregiverGuidance": "Administer only as prescribed and check for possible interactions with other medicines. Assist with position changes if dizziness occurs. Teach the patient not to use nitrates while taking tadalafil and to seek emergency care for chest pain, sudden vision or hearing changes, or a prolonged erection.",
+    "sources": [
+      "dailyMed"
+    ]
+  },
+  {
+    "name": "Telmisartan",
+    "drugClass": "Angiotensin II receptor blocker (ARB); antihypertensive",
+    "usedFor": "Treats hypertension and reduces cardiovascular risk, including heart attack and stroke, in eligible high-risk patients.",
+    "howItWorks": "Blocks angiotensin II from tightening blood vessels, allowing them to relax and lowering blood pressure.",
+    "commonSideEffects": [
+      "Back pain, diarrhea, and sinusitis",
+      "Dizziness may also occur"
+    ],
+    "adverseEffects": [
+      "Severe hypotension, hyperkalemia, kidney impairment, and fetal harm during pregnancy"
+    ],
+    "warnings": "Monitor blood pressure, kidney function, and potassium levels. Use cautiously in dehydration, kidney or liver impairment. Avoid potassium supplements and salt substitutes unless approved. Avoid combining with ACE inhibitors; NSAIDs may increase kidney risks. Contraindicated during pregnancy.",
+    "olderAdultSafety": "Older adults may be more susceptible to dizziness and low blood pressure, especially when dehydrated or taking other blood pressure medicines. Monitor blood pressure, kidney function, and potassium, particularly after dose changes.",
+    "caregiverGuidance": "Administer as prescribed and monitor blood pressure. Assist with slow position changes to reduce fall risk. Report fainting, unusual weakness, or reduced urine output. Avoid potassium supplements and salt substitutes unless approved, and consult the healthcare provider before using NSAIDs.",
+    "sources": [
+      "DailyMed",
+      "Medline Plus"
+    ]
+  },
+  {
+    "name": "Terazosin Hydrochloride",
+    "drugClass": "Alpha-1 adrenergic blocker; antihypertensive",
+    "usedFor": "Treats hypertension and relieves urinary symptoms caused by benign prostatic hyperplasia (BPH), or an enlarged prostate.",
+    "howItWorks": "Blocks alpha-1 receptors, relaxing blood vessels to lower blood pressure and relaxing muscles in the prostate and bladder neck to improve urine flow.",
+    "commonSideEffects": [
+      "Dizziness, weakness, headache, drowsiness, nasal congestion, and blurred vision"
+    ],
+    "adverseEffects": [
+      "Severe postural hypotension, fainting, rapid heartbeat, allergic reactions, and priapism (prolonged, painful erection)"
+    ],
+    "warnings": "Start at a low dose, usually at bedtime, as prescribed. Monitor blood pressure, especially after the first dose or dose increases. Use caution with other antihypertensives and PDE5 inhibitors, such as tadalafil, due to increased hypotension risk. Inform the eye surgeon before cataract surgery.",
+    "olderAdultSafety": "Generally avoid using terazosin as a first-line treatment for hypertension in older adults because of the risk of orthostatic hypotension and falls. Monitor closely for dizziness, fainting, and changes in blood pressure, especially when starting or restarting therapy.",
+    "caregiverGuidance": "Give the first dose at bedtime if prescribed that way. Assist the patient when standing and encourage slow position changes. Monitor for dizziness or fainting, and report these symptoms to the healthcare provider. Seek emergency care for severe allergic reactions or a prolonged, painful erection.",
+    "sources": [
+      "MedlinePlus",
+      "DailyMed",
+      "AGS BEERS"
+    ]
+  },
+  {
+    "name": "Tolvaptan",
+    "drugClass": "Selective vasopressin V2-receptor antagonist; aquaretic agent",
+    "usedFor": "Treats certain cases of low blood sodium (hyponatremia), including those associated with heart failure or SIADH. Certain formulations are also used to slow kidney function decline in adults with rapidly progressing autosomal dominant polycystic kidney disease (ADPKD).",
+    "howItWorks": "Blocks vasopressin at the kidneys, increasing the excretion of free water while retaining electrolytes. This helps raise blood sodium levels or, in ADPKD, slow kidney disease progression.",
+    "commonSideEffects": [
+      "Thirst, dry mouth, increased urination, frequent nighttime urination, and constipation"
+    ],
+    "adverseEffects": [
+      "Overly rapid sodium correction, severe dehydration, low blood volume, and serious liver injury"
+    ],
+    "warnings": "For hyponatremia, initiate or restart only in a hospital with close serum sodium monitoring. Monitor fluid balance, electrolytes, and kidney and liver function as appropriate. Avoid use in patients unable to sense thirst, with hypovolemic hyponatremia, or with anuria. Formulation-specific restrictions apply.",
+    "olderAdultSafety": "Older adults may be more vulnerable to dehydration, electrolyte disturbances, and falls from frequent urination or dizziness. Monitor sodium levels, hydration, urine output, and kidney function closely.",
+    "caregiverGuidance": "Administer exactly as prescribed. Monitor fluid intake and urine output as directed, and report excessive thirst, weakness, confusion, or reduced fluid intake. Report signs of liver injury, such as dark urine, yellowing of the skin or eyes, or persistent nausea. Do not independently restrict fluids or change the dose.",
+    "sources": [
+      "dailymed"
+    ]
+  },
+  {
+    "name": "Torasemide",
+    "drugClass": "Loop diuretic; antihypertensive",
+    "usedFor": "Treats edema caused by heart failure, kidney disease, or liver disease. It is also used to treat hypertension.",
+    "howItWorks": "Blocks sodium and chloride reabsorption in the kidneys, increasing the excretion of salt and water through urine. This reduces fluid buildup and may lower blood pressure.",
+    "commonSideEffects": [
+      "Frequent urination, headache, dizziness, nausea, and diarrhea"
+    ],
+    "adverseEffects": [
+      "Severe dehydration, hypotension, electrolyte imbalance (especially low potassium), worsening kidney function, and hearing problems"
+    ],
+    "warnings": "Monitor blood pressure, fluid balance, kidney function, electrolytes, and blood glucose. Use cautiously in kidney or liver disease, diabetes, and gout. NSAIDs may reduce its effect and increase kidney risks. Avoid use in anuria or hepatic coma.",
+    "olderAdultSafety": "Older adults may be more prone to dehydration, electrolyte imbalance, low blood pressure, and falls. Monitor weight, urine output, kidney function, and electrolyte levels, especially after dose changes.",
+    "caregiverGuidance": "Administer as prescribed, preferably in the morning to reduce nighttime urination. Monitor weight and urine output as directed. Assist with slow position changes and report severe dizziness, muscle cramps, unusual weakness, reduced urination, or hearing changes. Do not change fluid or potassium intake without healthcare-provider guidance.",
+    "sources": [
+      "DailyMed"
+    ]
+  },
+  {
+    "name": "Urapidil",
+    "drugClass": "Alpha-1 adrenergic blocker; centrally acting antihypertensive",
+    "usedFor": "Treats hypertension. The intravenous formulation is used for severe hypertension or hypertensive emergencies in settings where it is approved.",
+    "howItWorks": "Blocks alpha-1 receptors in blood vessels, reducing vascular resistance. It also acts centrally to reduce sympathetic activity, lowering blood pressure.",
+    "commonSideEffects": [
+      "Dizziness, headache, nausea, and fatigue"
+    ],
+    "adverseEffects": [
+      "Excessive hypotension, orthostatic hypotension, slow or rapid heartbeat, palpitations, and allergic reactions. Rarely, priapism or a decrease in platelet count may occur"
+    ],
+    "warnings": "Monitor blood pressure and heart rate closely, especially during IV administration. Use cautiously in liver or kidney impairment, dehydration, and certain heart conditions. Other antihypertensives, alpha-blockers, and alcohol may increase the risk of hypotension.",
+    "olderAdultSafety": "Older adults may have slower drug clearance and increased sensitivity to blood pressure changes. A lower starting dose may be needed. Monitor for dizziness, postural hypotension, and falls.",
+    "caregiverGuidance": "Administer as prescribed and monitor blood pressure. Assist with slow position changes to prevent falls. Report fainting, unusual weakness, palpitations, or allergic reactions. Avoid alcohol and consult the healthcare provider before combining it with other blood pressure medicines.",
+    "sources": [
+      "MIMSZ",
+      "IUPHARBBPS Guide to Pharmacology"
+    ]
+  },
+  {
+    "name": "Valsartan",
+    "drugClass": "Angiotensin II receptor blocker (ARB); antihypertensive",
+    "usedFor": "Treats hypertension and heart failure. It also reduces cardiovascular mortality in clinically stable patients with left ventricular dysfunction after a heart attack.",
+    "howItWorks": "Blocks angiotensin II receptors, preventing blood vessels from narrowing. This relaxes blood vessels, lowers blood pressure, and reduces the workload of the heart.",
+    "commonSideEffects": [
+      "Dizziness, headache, fatigue, diarrhea, and abdominal pain"
+    ],
+    "adverseEffects": [
+      "Severe hypotension, hyperkalemia, kidney impairment, angioedema, and fetal harm during pregnancy"
+    ],
+    "warnings": "Monitor blood pressure, kidney function, and potassium levels. Use cautiously in dehydration or kidney disease. Avoid potassium supplements and potassium-containing salt substitutes unless approved. NSAIDs may increase kidney risks. Do not use during pregnancy. Avoid combining with aliskiren in patients with diabetes.",
+    "olderAdultSafety": "Older adults may be more susceptible to dizziness, hypotension, and kidney impairment, especially with dehydration or other blood pressure medicines. Monitor blood pressure, kidney function, and potassium levels.",
+    "caregiverGuidance": "Administer as prescribed and monitor blood pressure. Assist with slow position changes to prevent falls. Report fainting, unusual weakness, or reduced urine output. Avoid potassium supplements and salt substitutes unless approved, and consult the healthcare provider before taking NSAIDs.",
+    "sources": [
+      "Medline Plus",
+      "DailyMed"
+    ]
+  },
+  {
+    "name": "Verapamil",
+    "drugClass": "Non-dihydropyridine calcium channel blocker; antianginal; antiarrhythmic",
+    "usedFor": "Treats hypertension, angina (chest pain), and certain abnormal heart rhythms, particularly supraventricular arrhythmias.",
+    "howItWorks": "Blocks calcium entry into heart and blood vessel muscle cells. This relaxes blood vessels, lowers blood pressure, slows the heart rate, and reduces the heart's workload.",
+    "commonSideEffects": [
+      "Constipation, dizziness, headache, nausea, and low blood pressure"
+    ],
+    "adverseEffects": [
+      "Severe bradycardia, heart block, worsening heart failure, and severe hypotension"
+    ],
+    "warnings": "Monitor blood pressure and heart rate. Use cautiously in heart failure, conduction disorders, and liver impairment. Combining with beta-blockers may increase the risk of severe bradycardia and heart block. Grapefruit may interact with some formulations.",
+    "olderAdultSafety": "Older adults may be more sensitive to its effects and may have an increased risk of constipation, dizziness, hypotension, and slow heart rate. Monitor blood pressure, pulse, bowel habits, and signs of worsening heart failure.",
+    "caregiverGuidance": "Administer as prescribed and monitor blood pressure and pulse. Assist with slow position changes to prevent falls. Encourage fiber-rich foods and adequate fluids if not restricted. Report fainting, an unusually slow heartbeat, swelling, or difficulty breathing. Do not stop the medication without consulting the healthcare provider.",
+    "sources": [
+      "Medline Plus",
+      "DailyMed"
+    ]
+  },
+  {
+    "name": "Zofenopril",
+    "drugClass": "Angiotensin-converting enzyme (ACE) inhibitor; antihypertensive",
+    "usedFor": "Treats hypertension and may be used to treat acute myocardial infarction in eligible patients, depending on the approved product indication.",
+    "howItWorks": "Blocks the conversion of angiotensin I to angiotensin II, helping blood vessels relax and reducing blood pressure and the workload of the heart.",
+    "commonSideEffects": [
+      "Dizziness, headache, fatigue, nausea, vomiting, diarrhea, and dry cough"
+    ],
+    "adverseEffects": [
+      "Angioedema, severe hypotension, hyperkalemia, kidney impairment, liver injury, and reduced white blood cell counts"
+    ],
+    "warnings": "Monitor blood pressure, kidney function, and potassium levels. Use cautiously in dehydration, kidney disease, and liver impairment. Avoid potassium supplements and salt substitutes unless approved. Do not use during pregnancy, and avoid combining with sacubitril/valsartan without the required washout period.",
+    "olderAdultSafety": "Older adults may be more susceptible to low blood pressure, dizziness, and kidney impairment, especially with dehydration or diuretic use. Monitor blood pressure, kidney function, and potassium closely after starting treatment or adjusting the dose.",
+    "caregiverGuidance": "prescribed and monitor blood pressure. Assist with slow position changes to reduce fall risk. Report persistent cough, unusual weakness, or reduced urine output. Seek emergency care for swelling of the face or throat or difficulty breathing.",
+    "sources": [
+      "MIMS"
+    ]
+  },
+  {
+    "name": "Zofenopril Calcium",
+    "drugClass": "Angiotensin-converting enzyme (ACE) inhibitor; antihypertensive",
+    "usedFor": "Treats hypertension and may be used to treat acute myocardial infarction in eligible patients, depending on the approved product indication.",
+    "howItWorks": "Blocks the conversion of angiotensin I to angiotensin II, helping blood vessels relax and reducing blood pressure and the workload of the heart.",
+    "commonSideEffects": [
+      "Dizziness, headache, fatigue, cough, nausea, and gastrointestinal discomfort"
+    ],
+    "adverseEffects": [
+      "Angioedema, severe hypotension, hyperkalemia, kidney impairment, liver injury, and neutropenia"
+    ],
+    "warnings": "Monitor blood pressure, kidney function, and potassium. Use cautiously in kidney impairment or dehydration. Avoid potassium supplements and potassium-containing salt substitutes unless approved. Contraindicated during pregnancy and in patients with a history of ACE inhibitor-related angioedema. Do not combine with sacubitril/valsartan within 36 hours of switching.",
+    "olderAdultSafety": "Older adults may be more susceptible to hypotension and kidney impairment, particularly with dehydration or diuretic use. Monitor blood pressure, renal function, and potassium after starting treatment or adjusting the dose.",
+    "caregiverGuidance": "Administer as prescribed and monitor blood pressure. Assist with slow position changes to prevent falls. Report persistent cough, unusual weakness, or reduced urine output. Seek emergency help for swelling of the face, lips, or throat or difficulty breathing.",
+    "sources": [
+      "MIMS",
+      "EMC"
+    ]
   }
 ]
