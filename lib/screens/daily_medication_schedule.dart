@@ -259,6 +259,8 @@ class _MedicationDoseCard extends StatelessWidget {
     final doseAndRoute = [medication.dosage, medication.route]
         .where((value) => value.trim().isNotEmpty)
         .join(' • ');
+    final isOverdue = intake == null &&
+        _minutesOfDay(TimeOfDay.now()) > _minutesOfDay(time);  
 
     return Container(
       width: double.infinity,
@@ -279,10 +281,25 @@ class _MedicationDoseCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+                  Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                if (isOverdue)
+                  Text(
+                    'Overdue',
+                    style: TextStyle(
+                      color: Colors.red.shade700,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+              ],
+            ),  
             if (doseAndRoute.isNotEmpty) ...[
               const SizedBox(height: 4),
               Text(doseAndRoute),
@@ -359,31 +376,32 @@ class _MedicationDoseCard extends StatelessWidget {
       );
     }
 
-    final now = TimeOfDay.now();
-    final overdue = _minutesOfDay(now) > minutes;
+
 
     return Row(
       children: [
-        FilledButton.tonalIcon(
-          onPressed: () => mark(IntakeStatus.taken),
-          icon: const Icon(Icons.check, size: 18),
-          label: const Text('Taken'),
-        ),
-        const SizedBox(width: 8),
-        OutlinedButton(
-          onPressed: () => mark(IntakeStatus.skipped),
-          child: const Text('Skip'),
-        ),
-        if (overdue) ...[
-          const SizedBox(width: 10),
-          Text(
-            'Not recorded yet',
-            style: TextStyle(
-              color: Colors.red.shade700,
-              fontSize: 12,
+        Expanded(
+          child: FilledButton.tonalIcon(
+            onPressed: () => mark(IntakeStatus.taken),
+            icon: const Icon(Icons.check, size: 18),
+            label: const Text('Taken'),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(0, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
             ),
           ),
-        ],
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: OutlinedButton(
+            onPressed: () => mark(IntakeStatus.skipped),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(0, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+            ),
+            child: const Text('Skip'),
+          ),
+        ),
       ],
     );
   }
