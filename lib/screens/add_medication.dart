@@ -552,7 +552,7 @@ Navigator.pop(context, newMedication);
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _submit,
-                  child: const Text('Save Medication'),
+                  child: Text(_isEditing ? 'Save Changes' : 'Save Medication'),
                 ),
               ),
             ],
