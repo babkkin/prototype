@@ -130,7 +130,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
   }
 }
 
-/// Collapsed: drug name + drug class. Expanded: the memo layout.
+/// List row: drug name + drug class. Tapping opens the memo-style details.
 class _MedicineTile extends StatelessWidget {
   final MedicineInfo medicine;
 
@@ -140,28 +140,31 @@ class _MedicineTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
 
-    return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        leading: CircleAvatar(
-          backgroundColor: scheme.primaryContainer,
-          foregroundColor: scheme.onPrimaryContainer,
-          child: const Icon(Icons.medication_outlined),
-        ),
-        title: Text(
-          medicine.name,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        subtitle: Text(
-          medicine.drugClass.isNotEmpty
-              ? medicine.drugClass
-              : 'Information not available yet',
-        ),
-        children: [_MedicineBody(medicine: medicine)],
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      leading: CircleAvatar(
+        backgroundColor: scheme.primaryContainer,
+        foregroundColor: scheme.onPrimaryContainer,
+        child: const Icon(Icons.medication_outlined),
       ),
+      title: Text(
+        medicine.name,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      subtitle: Text(
+        medicine.drugClass.isNotEmpty
+            ? medicine.drugClass
+            : 'Information not available yet',
+      ),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => MedicineDetailsScreen(medicine: medicine),
+          ),
+        );
+      },
     );
   }
 }
