@@ -49,12 +49,8 @@ class _MedicineScreenState extends State<MedicineScreen> {
 
     final searchable = [
       medicine.name,
-      medicine.genericName,
-      medicine.category,
-      medicine.form,
-      ...medicine.brandNames,
-      ...medicine.commonStrengths,
-      ...medicine.commonUses,
+      medicine.drugClass,
+      medicine.usedFor,
     ].join(' ').toLowerCase();
 
     return searchable.contains(query);
@@ -117,60 +113,54 @@ class _MedicineScreenState extends State<MedicineScreen> {
                     ? const Center(child: Text('No medicines found.'))
                     : ListView.separated(
                         itemCount: medicines.length,
-                        separatorBuilder: (_, __) => const Divider(
+                        separatorBuilder: (_, _) => const Divider(
                           height: 1,
                           indent: 16,
                           endIndent: 16,
                         ),
-                        itemBuilder: (context, index) {
-                          final medicine = medicines[index];
-
-                          return ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            leading: CircleAvatar(
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                              foregroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                              child: const Icon(Icons.medication_outlined),
-                            ),
-                            title: Text(
-                              medicine.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                '${medicine.category}\n'
-                                '${medicine.form} • ${medicine.commonStrengths.join(', ')}',
-                              ),
-                            ),
-                            isThreeLine: true,
-                            trailing: const Icon(Icons.chevron_right),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MedicineDetailsScreen(
-                                    medicine: medicine,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
+                        itemBuilder: (context, index) =>
+                            _MedicineTile(medicine: medicines[index]),
                       ),
               ),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// Collapsed: drug name + drug class. Expanded: the memo layout.
+class _MedicineTile extends StatelessWidget {
+  final MedicineInfo medicine;
+
+  const _MedicineTile({required this.medicine});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        leading: CircleAvatar(
+          backgroundColor: scheme.primaryContainer,
+          foregroundColor: scheme.onPrimaryContainer,
+          child: const Icon(Icons.medication_outlined),
+        ),
+        title: Text(
+          medicine.name,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        subtitle: Text(
+          medicine.drugClass.isNotEmpty
+              ? medicine.drugClass
+              : 'Information not available yet',
+        ),
+        children: [_MedicineBody(medicine: medicine)],
       ),
     );
   }
@@ -198,133 +188,163 @@ class MedicineDetailsScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            medicine.genericName,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
-          const SizedBox(height: 16),
-          _InfoRow(label: 'Category', value: medicine.category),
-          _InfoRow(label: 'Form', value: medicine.form),
-          _InfoRow(
-            label: 'Common strengths',
-            value: medicine.commonStrengths.join(', '),
-          ),
-          if (medicine.brandNames.isNotEmpty)
-            _InfoRow(
-              label: 'Brand names',
-              value: medicine.brandNames.join(', '),
-            ),
-          const Divider(height: 32),
-          _TextSection(
-            title: 'Description',
-            text: medicine.description,
-          ),
-          _ListSection(
-            title: 'Common uses',
-            items: medicine.commonUses,
-          ),
-          _TextSection(
-            title: 'How it works',
-            text: medicine.howItWorks,
-          ),
-          _ListSection(
-            title: 'Common side effects',
-            items: medicine.commonSideEffects,
-          ),
-          _ListSection(
-            title: 'Precautions',
-            items: medicine.precautions,
-          ),
-          _TextSection(
-            title: 'Storage',
-            text: medicine.storage,
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).colorScheme.outlineVariant,
+          if (medicine.drugClass.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                medicine.drugClass,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
               ),
-              borderRadius: BorderRadius.circular(8),
             ),
-            child: const Text(
-              'Reference information only. Follow the patient-specific prescription and healthcare professional instructions.',
-            ),
-          ),
+          const SizedBox(height: 16),
+          _MedicineBody(medicine: medicine),
         ],
       ),
     );
   }
 }
 
-class _InfoRow extends StatelessWidget {
-  final String label;
-  final String value;
+class _MedicineBody extends StatelessWidget {
+  final MedicineInfo medicine;
 
-  const _InfoRow({
-    required this.label,
-    required this.value,
-  });
+  const _MedicineBody({required this.medicine});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).colorScheme.outlineVariant,
-          ),
+    if (!medicine.hasDetails) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          'Detailed information for this medicine has not been added yet. '
+          'Ask the prescriber or pharmacist about it.',
         ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 125,
-            child: Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+      );
+    }
+
+    final scheme = Theme.of(context).colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _InfoBox(title: 'What is it used for?', text: medicine.usedFor),
+        _InfoBox(title: 'How does it work?', text: medicine.howItWorks),
+        _Dropdown(
+          title: 'Side effects',
+          hasContent: medicine.commonSideEffects.isNotEmpty ||
+              medicine.adverseEffects.isNotEmpty,
+          children: [
+            _ListSection(
+              title: 'Common',
+              items: medicine.commonSideEffects,
             ),
-          ),
-          Expanded(child: Text(value)),
-        ],
-      ),
+            _ListSection(
+              title: 'Serious \u2014 get medical help',
+              items: medicine.adverseEffects,
+            ),
+          ],
+        ),
+        _Dropdown(
+          title: 'Warnings',
+          hasContent: medicine.warnings.isNotEmpty,
+          children: [Text(medicine.warnings)],
+        ),
+        _Dropdown(
+          title: 'Older adult safety',
+          hasContent: medicine.olderAdultSafety.isNotEmpty,
+          children: [Text(medicine.olderAdultSafety)],
+        ),
+        _Dropdown(
+          title: 'Caregiver guidance',
+          hasContent: medicine.caregiverGuidance.isNotEmpty,
+          children: [Text(medicine.caregiverGuidance)],
+        ),
+        if (medicine.sources.isNotEmpty)
+          _InfoBox(title: 'Source:', text: medicine.sources.join('\n')),
+        const SizedBox(height: 4),
+        Text(
+          'Reference information only. Follow the patient-specific '
+          'prescription and healthcare professional instructions.',
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall
+              ?.copyWith(color: scheme.onSurfaceVariant),
+        ),
+      ],
     );
   }
 }
 
-class _TextSection extends StatelessWidget {
+class _InfoBox extends StatelessWidget {
   final String title;
   final String text;
 
-  const _TextSection({
-    required this.title,
-    required this.text,
-  });
+  const _InfoBox({required this.title, required this.text});
 
   @override
   Widget build(BuildContext context) {
     if (text.trim().isEmpty) return const SizedBox.shrink();
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 6),
           Text(text),
         ],
+      ),
+    );
+  }
+}
+
+/// A row with a title and an arrow; tapping reveals its content.
+class _Dropdown extends StatelessWidget {
+  final String title;
+  final bool hasContent;
+  final List<Widget> children;
+
+  const _Dropdown({
+    required this.title,
+    required this.hasContent,
+    required this.children,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!hasContent) return const SizedBox.shrink();
+
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+            ),
+          ),
+        ),
+        child: ExpansionTile(
+          tilePadding: EdgeInsets.zero,
+          childrenPadding: const EdgeInsets.only(bottom: 12),
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          children: children,
+        ),
       ),
     );
   }

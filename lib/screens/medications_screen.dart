@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'add_medication.dart';
+
 import '../data/app_database.dart';
+import '../models/medicine_info.dart';
+import 'medicine.dart';
 
 class MedicationsScreen extends StatefulWidget {
   final List<Medication> medications;
@@ -21,20 +23,15 @@ class MedicationsScreen extends StatefulWidget {
 class _MedicationsScreenState extends State<MedicationsScreen> {
   final Set<int> _expandedMedicationIds = {};
 
-  Future<Map<String, dynamic>?> _findMedicineInfo(
-    String medicationName,
-  ) async {
+  Future<MedicineInfo?> _findMedicineInfo(String medicationName) async {
     try {
-      final raw = await rootBundle.loadString('assets/meadsv2.json');
+      final raw = await rootBundle.loadString('assets/medicines.json');
       final decoded = jsonDecode(raw) as List<dynamic>;
+      final target = medicationName.trim().toLowerCase();
 
       for (final item in decoded) {
-        final medicine = item as Map<String, dynamic>;
-        final name = medicine['name']?.toString().trim().toLowerCase();
-
-        if (name == medicationName.trim().toLowerCase()) {
-          return medicine;
-        }
+        final medicine = MedicineInfo.fromJson(item as Map<String, dynamic>);
+        if (medicine.name.trim().toLowerCase() == target) return medicine;
       }
     } catch (_) {
       return null;
@@ -62,135 +59,13 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
       return;
     }
 
-    List<String> stringList(String key) {
-      return (medicine[key] as List<dynamic>? ?? const [])
-          .map((e) => e.toString())
-          .toList();
-    }
-
-    final genericName = medicine['genericName']?.toString() ?? '';
-    final category = medicine['category']?.toString() ?? '';
-    final form = medicine['form']?.toString() ?? '';
-    final description = medicine['description']?.toString() ?? '';
-    final howItWorks = medicine['howItWorks']?.toString() ?? '';
-    final storage = medicine['storage']?.toString() ?? '';
-
-    final brandNames = stringList('brandNames');
-    final commonStrengths = stringList('commonStrengths');
-    final commonUses = stringList('commonUses');
-    final commonSideEffects = stringList('commonSideEffects');
-    final precautions = stringList('precautions');
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(
-            medicine['name']?.toString() ?? medication.medicationName,
-          ),
-          content: SizedBox(
-            width: 520,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (genericName.isNotEmpty) ...[
-                    Text(
-                      genericName,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant,
-                          ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                  _InfoLine(label: 'Category', value: category),
-                  _InfoLine(label: 'Form', value: form),
-                  if (brandNames.isNotEmpty)
-                    _InfoLine(
-                      label: 'Brand names',
-                      value: brandNames.join(', '),
-                    ),
-                  if (commonStrengths.isNotEmpty)
-                    _InfoLine(
-                      label: 'Common strengths',
-                      value: commonStrengths.join(', '),
-                    ),
-                  const Divider(height: 28),
-                  if (description.isNotEmpty)
-                    _InfoSection(
-                      title: 'Description',
-                      child: Text(description),
-                    ),
-                  if (commonUses.isNotEmpty)
-                    _InfoSection(
-                      title: 'Common uses',
-                      child: _BulletList(items: commonUses),
-                    ),
-                  if (howItWorks.isNotEmpty)
-                    _InfoSection(
-                      title: 'How it works',
-                      child: Text(howItWorks),
-                    ),
-                  if (commonSideEffects.isNotEmpty)
-                    _InfoSection(
-                      title: 'Common side effects',
-                      child: _BulletList(items: commonSideEffects),
-                    ),
-                  if (precautions.isNotEmpty)
-                    _InfoSection(
-                      title: 'Precautions',
-                      child: _BulletList(items: precautions),
-                    ),
-                  if (storage.isNotEmpty)
-                    _InfoSection(
-                      title: 'Storage',
-                      child: Text(storage),
-                    ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Reference information only. Follow the patient-specific prescription and healthcare professional instructions.',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MedicineDetailsScreen(medicine: medicine),
+      ),
     );
   }
-Future<void> _editMedication(
-  BuildContext context,
-  Medication med,
-) async {
-  final dao = context.read<AppDatabase>().medicationsDao;
-  final messenger = ScaffoldMessenger.of(context);
-
-  final updated = await Navigator.of(context).push<Medication>(
-    MaterialPageRoute(
-      builder: (_) => AddMedicationScreen(
-        profileId: med.profileId,
-        existingMedication: med,
-      ),
-    ),
-  );
-
-  if (updated == null) return; // user backed out
-
-  await dao.updateMedication(updated);
-
-  messenger.showSnackBar(
-    SnackBar(content: Text('${updated.medicationName} updated.')),
-  );
-}
 
   Future<void> _deleteMedication(
     BuildContext context,
@@ -286,7 +161,7 @@ Future<void> _editMedication(
     return ListView.separated(
       padding: const EdgeInsets.only(bottom: 88),
       itemCount: widget.medications.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
+      separatorBuilder: (_, _) => const Divider(height: 1),
       itemBuilder: (context, index) {
         final med = widget.medications[index];
         final isExpanded = _expandedMedicationIds.contains(med.id);
@@ -445,26 +320,17 @@ Future<void> _editMedication(
                       _displayNullable(med.specialInstructions),
                     ),
                     const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton.icon(
-                            onPressed: () => _editMedication(context, med),
-                            icon: const Icon(Icons.edit_outlined),
-                            label: const Text('Edit'),
-                          ),
-                          const SizedBox(width: 8),
-                          
-                          TextButton.icon(
-                            onPressed: () => _deleteMedication(context, med),
-                            icon: const Icon(Icons.delete_outline),
-                            label: const Text('Delete medication'),
-                            style: TextButton.styleFrom(
-                              foregroundColor: Theme.of(context).colorScheme.error,
-                            ),
-                          ),
-                        ],
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton.icon(
+                        onPressed: () => _deleteMedication(context, med),
+                        icon: const Icon(Icons.delete_outline),
+                        label: const Text('Delete medication'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Theme.of(context).colorScheme.error,
+                        ),
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -505,94 +371,6 @@ class _PrescriptionDetailRow extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _InfoLine extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _InfoLine({
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (value.trim().isEmpty) return const SizedBox.shrink();
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 130,
-            child: Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-          Expanded(child: Text(value)),
-        ],
-      ),
-    );
-  }
-}
-
-class _InfoSection extends StatelessWidget {
-  final String title;
-  final Widget child;
-
-  const _InfoSection({
-    required this.title,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 6),
-          child,
-        ],
-      ),
-    );
-  }
-}
-
-class _BulletList extends StatelessWidget {
-  final List<String> items;
-
-  const _BulletList({
-    required this.items,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: items
-          .map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('•  '),
-                  Expanded(child: Text(item)),
-                ],
-              ),
-            ),
-          )
-          .toList(),
     );
   }
 }

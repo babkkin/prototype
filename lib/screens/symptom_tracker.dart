@@ -27,28 +27,6 @@ const String _kOther = 'Other / Not sure';
 // SYMPTOM (names come from assets/symptoms.json)
 // ---------------------------------------------------------------------
 
-const _defaultLocations = [
-  'Head',
-  'Neck',
-  'Chest',
-  'Stomach area',
-  'Back',
-  'Arms or legs',
-  'Joints (e.g., knees, shoulders)',
-  'Whole body',
-];
-
-const _defaultCharacters = [
-  'Aching, like sore muscles',
-  'Sharp, like being pricked or stabbed',
-  'Burning, like a hot sensation',
-  'Throbbing, like a pulsing pain',
-  'Dull, like a constant ache',
-  'Pressure or tightness',
-  'Tingling or numbness',
-  'Weak or tired feeling',
-];
-
 const _onsetOptions = [
   'Just now',
   'Earlier today',
@@ -65,35 +43,6 @@ const _durationOptions = [
   'Several hours',
   'It comes and goes throughout the day',
   'It does not go away',
-];
-
-const _patternOptions = [
-  'In the morning',
-  'At night',
-  'When moving or doing activities',
-  'After eating',
-  'Any time, without a clear pattern',
-];
-
-const _modifierOptions = [
-  'Gets worse when moving',
-  'Gets better with rest',
-  'Gets worse after eating',
-  'Gets better after medication',
-  'Nothing seems to help',
-];
-
-const _associatedOptions = [
-  'Fever',
-  'Nausea or vomiting',
-  'Dizziness',
-  'Shortness of breath',
-  'Tiredness',
-  'Sweating',
-  'Loss of appetite',
-  'Cough',
-  'Headache',
-  'No other symptoms',
 ];
 
 const _defaultLocationQuestion = 'Which part of the body is affected?';
@@ -118,20 +67,18 @@ class _SymptomDef {
     required this.color,
     this.fixedLocation,
     this.locationQuestion = _defaultLocationQuestion,
-    this.locationOptions = _defaultLocations,
-    this.characterOptions = _defaultCharacters,
-    this.patternOptions = _patternOptions,
-    this.modifierOptions = _modifierOptions,
-    this.associatedOptions = _associatedOptions,
+    this.locationOptions = const [],
+    this.characterOptions = const [],
+    this.patternOptions = const [],
+    this.modifierOptions = const [],
+    this.associatedOptions = const [],
   });
 
-  /// Uses the symptom's own COLDSPA choices from assets/symptoms.json where
-  /// it has them, and the shared generic choices for anything it leaves out.
+  /// Every choice comes from the symptom's `coldspa` block in
+  /// assets/symptoms.json. A question left out of the JSON offers only
+  /// "Other / Not sure".
   factory _SymptomDef.fromReference(reference.Symptom s, Color color) {
     final c = s.coldspa;
-
-    List<String> pick(List<String>? custom, List<String> fallback) =>
-        (custom == null || custom.isEmpty) ? fallback : custom;
 
     return _SymptomDef(
       name: s.name,
@@ -139,11 +86,11 @@ class _SymptomDef {
       color: color,
       fixedLocation: c?.fixedLocation,
       locationQuestion: c?.locationQuestion ?? _defaultLocationQuestion,
-      locationOptions: pick(c?.location, _defaultLocations),
-      characterOptions: pick(c?.character, _defaultCharacters),
-      patternOptions: pick(c?.pattern, _patternOptions),
-      modifierOptions: pick(c?.modifiers, _modifierOptions),
-      associatedOptions: pick(c?.associated, _associatedOptions),
+      locationOptions: c?.location ?? const [],
+      characterOptions: c?.character ?? const [],
+      patternOptions: c?.pattern ?? const [],
+      modifierOptions: c?.modifiers ?? const [],
+      associatedOptions: c?.associated ?? const [],
     );
   }
 }
@@ -250,9 +197,6 @@ class SymptomPickerList extends StatelessWidget {
   final List<reference.Symptom> symptoms;
   final bool loadFailed;
 
-  /// Optional line shown above the list (e.g. which filter is applied).
-  final String? note;
-
   /// Opens the reference information (summary and points) for a symptom.
   final void Function(reference.Symptom symptom)? onInfo;
 
@@ -261,7 +205,6 @@ class SymptomPickerList extends StatelessWidget {
     required this.profile,
     required this.symptoms,
     this.loadFailed = false,
-    this.note,
     this.onInfo,
   });
 
@@ -270,23 +213,6 @@ class SymptomPickerList extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (_) => _SymptomWizardScreen(profile: profile, symptom: def),
-      ),
-    );
-  }
-
-  Future<void> _askCustom(BuildContext context) async {
-    final name = await showDialog<String>(
-      context: context,
-      builder: (_) => const _CustomSymptomDialog(),
-    );
-    if (name == null || !context.mounted) return;
-
-    await _open(
-      context,
-      _SymptomDef(
-        name: name,
-        icon: Icons.edit_note,
-        color: Theme.of(context).colorScheme.primary,
       ),
     );
   }
@@ -356,11 +282,6 @@ class SymptomPickerList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (note != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(note!, style: const TextStyle(fontSize: 12)),
-          ),
         if (loadFailed)
           const Padding(
             padding: EdgeInsets.only(bottom: 8),
@@ -372,56 +293,6 @@ class SymptomPickerList extends StatelessWidget {
             child: Text('No symptoms available.'),
           ),
         for (final symptom in symptoms) _tile(context, symptom),
-        OutlinedButton.icon(
-          onPressed: () => _askCustom(context),
-          icon: const Icon(Icons.edit_note),
-          label: const Text('Other symptom (type your own)'),
-        ),
-      ],
-    );
-  }
-}
-
-class _CustomSymptomDialog extends StatefulWidget {
-  const _CustomSymptomDialog();
-
-  @override
-  State<_CustomSymptomDialog> createState() => _CustomSymptomDialogState();
-}
-
-class _CustomSymptomDialogState extends State<_CustomSymptomDialog> {
-  final _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _submit() {
-    final text = _controller.text.trim();
-    if (text.isEmpty) return;
-    Navigator.pop(context, text);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Which symptom?'),
-      content: TextField(
-        controller: _controller,
-        autofocus: true,
-        maxLength: 60,
-        textCapitalization: TextCapitalization.sentences,
-        decoration: const InputDecoration(hintText: 'Type the symptom'),
-        onSubmitted: (_) => _submit(),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(onPressed: _submit, child: const Text('Continue')),
       ],
     );
   }
