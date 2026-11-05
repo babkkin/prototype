@@ -75,6 +75,25 @@ class DailyMedicationSchedule extends StatelessWidget {
 
           final orderedMinutes = grouped.keys.toList()..sort();
 
+          return StreamBuilder<List<MedicationIntake>>(
+            stream: context
+                .read<AppDatabase>()
+                .medicationIntakesDao
+                .watchForDay(profile.id, today),
+            builder: (context, intakeSnapshot) {
+              final intakes =
+                  intakeSnapshot.data ?? const <MedicationIntake>[];
+
+              final takenCount = scheduledEntries
+                  .where((e) =>
+                      _findScheduled(
+                        intakes,
+                        e.medication.id,
+                        _minutesOfDay(e.time),
+                      )?.status ==
+                      IntakeStatus.taken)
+                  .length;
+
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
             children: [
@@ -95,6 +114,13 @@ class DailyMedicationSchedule extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
+              if (scheduledEntries.isNotEmpty) ...[
+                _ProgressBar(
+                  taken: takenCount,
+                  total: scheduledEntries.length,
+                ),
+                const SizedBox(height: 12),
+              ],
               if (orderedMinutes.isEmpty)
                 const _NoScheduledMedicationMessage()
               else
@@ -103,6 +129,8 @@ class DailyMedicationSchedule extends StatelessWidget {
                   return _TimeGroup(
                     time: entries.first.time,
                     entries: entries,
+                    day: today,
+                    intakes: intakes,
                   );
                 }),
               if (prnMedications.isNotEmpty) ...[
@@ -119,11 +147,20 @@ class DailyMedicationSchedule extends StatelessWidget {
                 ...prnMedications.map(
                   (medication) => Padding(
                     padding: const EdgeInsets.only(bottom: 10),
-                    child: _PrnMedicationCard(medication: medication),
+                    child: _PrnMedicationCard(
+                      medication: medication,
+                      doses: intakes
+                          .where((i) =>
+                              i.medicationId == medication.id &&
+                              i.scheduledMinutes == null)
+                          .toList(),
+                    ),
                   ),
                 ),
               ],
             ],
+          );
+            },
           );
         },
       ),
@@ -134,10 +171,14 @@ class DailyMedicationSchedule extends StatelessWidget {
 class _TimeGroup extends StatelessWidget {
   final TimeOfDay time;
   final List<_DoseEntry> entries;
+  final DateTime day;
+  final List<MedicationIntake> intakes;
 
   const _TimeGroup({
     required this.time,
     required this.entries,
+    required this.day,
+    required this.intakes,
   });
 
   @override
@@ -181,6 +222,13 @@ class _TimeGroup extends StatelessWidget {
                   .map(
                     (entry) => _MedicationDoseCard(
                       medication: entry.medication,
+                      time: entry.time,
+                      day: day,
+                      intake: _findScheduled(
+                        intakes,
+                        entry.medication.id,
+                        _minutesOfDay(entry.time),
+                      ),
                     ),
                   )
                   .toList(),
@@ -194,8 +242,16 @@ class _TimeGroup extends StatelessWidget {
 
 class _MedicationDoseCard extends StatelessWidget {
   final Medication medication;
+  final TimeOfDay time;
+  final DateTime day;
+  final MedicationIntake? intake;
 
-  const _MedicationDoseCard({required this.medication});
+  const _MedicationDoseCard({
+    required this.medication,
+    required this.time,
+    required this.day,
+    required this.intake,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -247,9 +303,116 @@ class _MedicationDoseCard extends StatelessWidget {
                     ),
               ),
             ],
+            const SizedBox(height: 8),
+            _buildIntakeRow(context),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildIntakeRow(BuildContext context) {
+    final dao = context.read<AppDatabase>().medicationIntakesDao;
+    final minutes = _minutesOfDay(time);
+
+    Future<void> mark(IntakeStatus status) {
+      return dao.setScheduledStatus(
+        profileId: medication.profileId,
+        medicationId: medication.id,
+        day: day,
+        minutes: minutes,
+        status: status,
+      );
+    }
+
+    final record = intake;
+
+    if (record != null) {
+      final taken = record.status == IntakeStatus.taken;
+      final color = taken ? Colors.green.shade700 : Colors.grey.shade700;
+
+      return Row(
+        children: [
+          Icon(
+            taken ? Icons.check_circle : Icons.remove_circle_outline,
+            size: 20,
+            color: color,
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              taken
+                  ? 'Taken at ${_formatTime12Hour(TimeOfDay.fromDateTime(record.loggedAt))}'
+                  : 'Skipped',
+              style: TextStyle(color: color, fontWeight: FontWeight.w600),
+            ),
+          ),
+          TextButton(
+            onPressed: () => dao.clearScheduled(
+              medicationId: medication.id,
+              day: day,
+              minutes: minutes,
+            ),
+            child: const Text('Undo'),
+          ),
+        ],
+      );
+    }
+
+    final now = TimeOfDay.now();
+    final overdue = _minutesOfDay(now) > minutes;
+
+    return Row(
+      children: [
+        FilledButton.tonalIcon(
+          onPressed: () => mark(IntakeStatus.taken),
+          icon: const Icon(Icons.check, size: 18),
+          label: const Text('Taken'),
+        ),
+        const SizedBox(width: 8),
+        OutlinedButton(
+          onPressed: () => mark(IntakeStatus.skipped),
+          child: const Text('Skip'),
+        ),
+        if (overdue) ...[
+          const SizedBox(width: 10),
+          Text(
+            'Not recorded yet',
+            style: TextStyle(
+              color: Colors.red.shade700,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _ProgressBar extends StatelessWidget {
+  final int taken;
+  final int total;
+
+  const _ProgressBar({required this.taken, required this.total});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$taken of $total scheduled doses taken today',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 6),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: LinearProgressIndicator(
+            value: total == 0 ? 0 : taken / total,
+            minHeight: 8,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -257,7 +420,13 @@ class _MedicationDoseCard extends StatelessWidget {
 class _PrnMedicationCard extends StatelessWidget {
   final Medication medication;
 
-  const _PrnMedicationCard({required this.medication});
+  /// PRN doses already logged today for this medication.
+  final List<MedicationIntake> doses;
+
+  const _PrnMedicationCard({
+    required this.medication,
+    required this.doses,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -305,6 +474,40 @@ class _PrnMedicationCard extends StatelessWidget {
                     ),
               ),
             ],
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                FilledButton.tonalIcon(
+                  onPressed: () => context
+                      .read<AppDatabase>()
+                      .medicationIntakesDao
+                      .logPrnDose(
+                        profileId: medication.profileId,
+                        medicationId: medication.id,
+                      ),
+                  icon: const Icon(Icons.add, size: 18),
+                  label: const Text('Log dose'),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    doses.isEmpty
+                        ? 'None taken today'
+                        : 'Taken today: ${doses.length} '
+                            '(last at ${_formatTime12Hour(TimeOfDay.fromDateTime(doses.last.loggedAt))})',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+                if (doses.isNotEmpty)
+                  TextButton(
+                    onPressed: () => context
+                        .read<AppDatabase>()
+                        .medicationIntakesDao
+                        .deleteIntake(doses.last.id),
+                    child: const Text('Undo'),
+                  ),
+              ],
+            ),
           ],
         ),
       ),
@@ -384,6 +587,19 @@ bool _isActiveOn(Medication medication, DateTime date) {
   if (date.isBefore(start)) return false;
   if (end != null && date.isAfter(end)) return false;
   return true;
+}
+
+MedicationIntake? _findScheduled(
+  List<MedicationIntake> intakes,
+  int medicationId,
+  int minutes,
+) {
+  for (final i in intakes) {
+    if (i.medicationId == medicationId && i.scheduledMinutes == minutes) {
+      return i;
+    }
+  }
+  return null;
 }
 
 DateTime _dateOnly(DateTime date) => DateTime(date.year, date.month, date.day);

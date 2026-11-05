@@ -17,8 +17,6 @@ class Profiles extends Table {
   IntColumn get age => integer()();
   TextColumn get primaryCondition => text()();
 
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 /// ---------------------------------------------------------------------
@@ -45,8 +43,6 @@ class VitalsTable extends Table {
   DateTimeColumn get recordedAt =>
       dateTime().withDefault(currentDateAndTime)();
 
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 /// ---------------------------------------------------------------------
@@ -97,8 +93,6 @@ class Medications extends Table {
   TextColumn get specialInstructions => text().nullable()();
   TextColumn get prescriberName => text().nullable()();
 
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 /// ---------------------------------------------------------------------
@@ -126,8 +120,6 @@ class Symptoms extends Table {
   DateTimeColumn get loggedAt =>
       dateTime().withDefault(currentDateAndTime)();
 
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 /// ---------------------------------------------------------------------
@@ -159,8 +151,48 @@ class Appointments extends Table {
   DateTimeColumn get createdAt =>
       dateTime().withDefault(currentDateAndTime)();
 
-  @override
-  Set<Column> get primaryKey => {id};
+}
+
+/// ---------------------------------------------------------------------
+/// MEDICATION INTAKES
+/// ---------------------------------------------------------------------
+
+enum IntakeStatus {
+  taken,
+  skipped,
+}
+
+/// One record per dose that was taken or skipped.
+/// Scheduled doses have [scheduledMinutes] (minutes since midnight);
+/// as-needed (PRN) doses leave it null and can repeat during the day.
+class MedicationIntakes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get profileId =>
+      integer().references(
+        Profiles,
+        #id,
+        onDelete: KeyAction.cascade,
+      )();
+
+  IntColumn get medicationId =>
+      integer().references(
+        Medications,
+        #id,
+        onDelete: KeyAction.cascade,
+      )();
+
+  /// The day the dose belongs to (local midnight).
+  DateTimeColumn get scheduledDate => dateTime()();
+
+  /// Minutes since midnight for scheduled doses; null for PRN.
+  IntColumn get scheduledMinutes => integer().nullable()();
+
+  TextColumn get status => textEnum<IntakeStatus>()();
+
+  /// When the caregiver actually recorded it.
+  DateTimeColumn get loggedAt =>
+      dateTime().withDefault(currentDateAndTime)();
 }
 
 /// =====================================================================
@@ -395,6 +427,112 @@ class AppointmentsDao extends DatabaseAccessor<AppDatabase>
   }
 }
 
+/// ---------------------------------------------------------------------
+/// MEDICATION INTAKES DAO
+/// ---------------------------------------------------------------------
+
+@DriftAccessor(tables: [MedicationIntakes])
+class MedicationIntakesDao extends DatabaseAccessor<AppDatabase>
+    with _$MedicationIntakesDaoMixin {
+  MedicationIntakesDao(super.db);
+
+  DateTime _day(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  /// Intake records of one profile for one day.
+  Stream<List<MedicationIntake>> watchForDay(
+    int profileId,
+    DateTime day,
+  ) {
+    return (select(medicationIntakes)
+          ..where(
+            (t) =>
+                t.profileId.equals(profileId) &
+                t.scheduledDate.equals(_day(day)),
+          )
+          ..orderBy([(t) => OrderingTerm(expression: t.loggedAt)]))
+        .watch();
+  }
+
+  /// Records of one profile within [start, end] (inclusive days).
+  Future<List<MedicationIntake>> getInRange(
+    int profileId,
+    DateTime start,
+    DateTime end,
+  ) {
+    return (select(medicationIntakes)
+          ..where(
+            (t) =>
+                t.profileId.equals(profileId) &
+                t.scheduledDate.isBiggerOrEqualValue(_day(start)) &
+                t.scheduledDate.isSmallerOrEqualValue(_day(end)),
+          ))
+        .get();
+  }
+
+  /// Marks a scheduled dose as taken or skipped (replaces any earlier mark).
+  Future<void> setScheduledStatus({
+    required int profileId,
+    required int medicationId,
+    required DateTime day,
+    required int minutes,
+    required IntakeStatus status,
+  }) {
+    return transaction(() async {
+      await clearScheduled(
+        medicationId: medicationId,
+        day: day,
+        minutes: minutes,
+      );
+      await into(medicationIntakes).insert(
+        MedicationIntakesCompanion.insert(
+          profileId: profileId,
+          medicationId: medicationId,
+          scheduledDate: _day(day),
+          scheduledMinutes: Value(minutes),
+          status: status,
+        ),
+      );
+    });
+  }
+
+  /// Removes the mark from a scheduled dose (undo).
+  Future<void> clearScheduled({
+    required int medicationId,
+    required DateTime day,
+    required int minutes,
+  }) {
+    return (delete(medicationIntakes)
+          ..where(
+            (t) =>
+                t.medicationId.equals(medicationId) &
+                t.scheduledDate.equals(_day(day)) &
+                t.scheduledMinutes.equals(minutes),
+          ))
+        .go();
+  }
+
+  /// Logs one as-needed (PRN) dose taken right now.
+  Future<int> logPrnDose({
+    required int profileId,
+    required int medicationId,
+  }) {
+    return into(medicationIntakes).insert(
+      MedicationIntakesCompanion.insert(
+        profileId: profileId,
+        medicationId: medicationId,
+        scheduledDate: _day(DateTime.now()),
+        status: IntakeStatus.taken,
+      ),
+    );
+  }
+
+  Future<void> deleteIntake(int id) {
+    return (delete(medicationIntakes)
+          ..where((t) => t.id.equals(id)))
+        .go();
+  }
+}
+
 /// =====================================================================
 /// DATABASE
 /// =====================================================================
@@ -406,6 +544,7 @@ class AppointmentsDao extends DatabaseAccessor<AppDatabase>
     Medications,
     Symptoms,
     Appointments,
+    MedicationIntakes,
   ],
   daos: [
     ProfilesDao,
@@ -413,13 +552,14 @@ class AppointmentsDao extends DatabaseAccessor<AppDatabase>
     MedicationsDao,
     SymptomsDao,
     AppointmentsDao,
+    MedicationIntakesDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration =>
@@ -453,6 +593,11 @@ class AppDatabase extends _$AppDatabase {
           if (from < 5) {
             // v4 -> v5: added Appointments.
             await m.createTable(appointments);
+          }
+
+          if (from < 6) {
+            // v5 -> v6: added medication intake tracking.
+            await m.createTable(medicationIntakes);
           }
         },
       );
