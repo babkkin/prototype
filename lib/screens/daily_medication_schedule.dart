@@ -1,12 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../data/app_database.dart';
 import 'manage_medications.dart';
 
-class DailyMedicationSchedule extends StatelessWidget {
+class DailyMedicationSchedule extends StatefulWidget {
   final Profile profile;
 
   const DailyMedicationSchedule({super.key, required this.profile});
+
+  @override
+  State<DailyMedicationSchedule> createState() =>
+      _DailyMedicationScheduleState();
+}
+
+class _DailyMedicationScheduleState extends State<DailyMedicationSchedule> {
+  Profile get profile => widget.profile;
+
+  /// Key of the time slot closest to "now" (the one we center on).
+  final GlobalKey _currentKey = GlobalKey();
+  bool _centered = false;
+
+  /// Scrolls the current time slot to the middle, once, when first shown.
+  void _centerOnCurrent() {
+    if (_centered) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _centered) return;
+      final target = _currentKey.currentContext;
+      if (target == null) return;
+
+      _centered = true;
+      Scrollable.ensureVisible(
+        target,
+        alignment: 0.5,
+        duration: Duration.zero,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +106,17 @@ class DailyMedicationSchedule extends StatelessWidget {
 
           final orderedMinutes = grouped.keys.toList()..sort();
 
+          // The slot closest to the current time.
+          final nowMinutes = _minutesOfDay(TimeOfDay.now());
+          int? currentMinutes;
+          for (final m in orderedMinutes) {
+            if (currentMinutes == null ||
+                (m - nowMinutes).abs() < (currentMinutes - nowMinutes).abs()) {
+              currentMinutes = m;
+            }
+          }
+          if (currentMinutes != null) _centerOnCurrent();
+
           return StreamBuilder<List<MedicationIntake>>(
             stream: context
                 .read<AppDatabase>()
@@ -95,7 +137,7 @@ class DailyMedicationSchedule extends StatelessWidget {
                   .length;
 
           return ListView(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
             children: [
               Row(
                 children: [
@@ -113,20 +155,23 @@ class DailyMedicationSchedule extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 6),
               if (scheduledEntries.isNotEmpty) ...[
                 _ProgressBar(
                   taken: takenCount,
                   total: scheduledEntries.length,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
               ],
               if (orderedMinutes.isEmpty)
                 const _NoScheduledMedicationMessage()
               else
                 ...orderedMinutes.map((minutes) {
                   final entries = grouped[minutes]!;
+                  final isCurrent = minutes == currentMinutes;
                   return _TimeGroup(
+                    key: isCurrent ? _currentKey : null,
+                    isCurrent: isCurrent,
                     time: entries.first.time,
                     entries: entries,
                     day: today,
@@ -173,8 +218,11 @@ class _TimeGroup extends StatelessWidget {
   final List<_DoseEntry> entries;
   final DateTime day;
   final List<MedicationIntake> intakes;
+  final bool isCurrent;
 
   const _TimeGroup({
+    super.key,
+    this.isCurrent = false,
     required this.time,
     required this.entries,
     required this.day,
@@ -196,13 +244,16 @@ class _TimeGroup extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 86,
+            width: 70,
             padding: const EdgeInsets.symmetric(
-              horizontal: 8,
+              horizontal: 6,
               vertical: 14,
             ),
-            decoration: const BoxDecoration(
-              border: Border(
+            decoration: BoxDecoration(
+              color: isCurrent
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : null,
+              border: const Border(
                 right: BorderSide(
                   color: Color(0xFFE0E0E0),
                   width: 1,
@@ -211,7 +262,7 @@ class _TimeGroup extends StatelessWidget {
             ),
             child: Text(
               _formatTime12Hour(time),
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -255,82 +306,20 @@ class _MedicationDoseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = _medicationDisplayName(medication);
-    final doseAndRoute = [medication.dosage, medication.route]
-        .where((value) => value.trim().isNotEmpty)
-        .join(' • ');
-    final isOverdue = intake == null &&
-        _minutesOfDay(TimeOfDay.now()) > _minutesOfDay(time);  
-
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFFE0E0E0),
-            width: 1,
-          ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 10,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-                  Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                if (isOverdue)
-                  Text(
-                    'Overdue',
-                    style: TextStyle(
-                      color: Colors.red.shade700,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-              ],
-            ),  
-            if (doseAndRoute.isNotEmpty) ...[
-              const SizedBox(height: 4),
-              Text(doseAndRoute),
-            ],
-            if (_hasText(medication.relationToMeals)) ...[
-              const SizedBox(height: 4),
-              Text(
-                medication.relationToMeals!.trim(),
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-            if (_hasText(medication.specialInstructions)) ...[
-              const SizedBox(height: 4),
-              Text(
-                medication.specialInstructions!.trim(),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontStyle: FontStyle.italic,
-                    ),
-              ),
-            ],
-            const SizedBox(height: 8),
-            _buildIntakeRow(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIntakeRow(BuildContext context) {
     final dao = context.read<AppDatabase>().medicationIntakesDao;
     final minutes = _minutesOfDay(time);
+    final record = intake;
+    final isOverdue =
+        record == null && _minutesOfDay(TimeOfDay.now()) > minutes;
+
+    // Dose line: dose • route • meal timing (wraps, never cut to one line).
+    final doseLine = [
+      medication.dosage,
+      medication.route,
+      medication.relationToMeals,
+    ].where((v) => v != null && v.trim().isNotEmpty).map((v) => v!.trim()).join(' • ');
+
+    final instructions = medication.specialInstructions?.trim() ?? '';
 
     Future<void> mark(IntakeStatus status) {
       return dao.setScheduledStatus(
@@ -342,67 +331,276 @@ class _MedicationDoseCard extends StatelessWidget {
       );
     }
 
-    final record = intake;
-
+    final Widget trailing;
     if (record != null) {
       final taken = record.status == IntakeStatus.taken;
       final color = taken ? Colors.green.shade700 : Colors.grey.shade700;
 
-      return Row(
+      trailing = InkWell(
+        borderRadius: BorderRadius.circular(6),
+        onTap: () => _showEditSheet(context, record),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                taken ? Icons.check_circle : Icons.remove_circle_outline,
+                size: 20,
+                color: color,
+              ),
+              Text(
+                taken
+                    ? _formatTime12Hour(
+                        TimeOfDay.fromDateTime(record.loggedAt),
+                      )
+                    : 'Skipped',
+                style: TextStyle(fontSize: 10, color: color),
+              ),
+              Text(
+                'tap to edit',
+                style: TextStyle(fontSize: 8, color: Colors.grey.shade500),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      trailing = Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            taken ? Icons.check_circle : Icons.remove_circle_outline,
-            size: 20,
-            color: color,
+          IconButton.filledTonal(
+            tooltip: 'Taken',
+            visualDensity: VisualDensity.compact,
+            constraints: const BoxConstraints.tightFor(width: 40, height: 40),
+            padding: EdgeInsets.zero,
+            icon: const Icon(Icons.check, size: 20),
+            onPressed: () => _chooseTakenTime(context),
           ),
-          const SizedBox(width: 6),
-          Expanded(
-            child: Text(
-              taken
-                  ? 'Taken at ${_formatTime12Hour(TimeOfDay.fromDateTime(record.loggedAt))}'
-                  : 'Skipped',
-              style: TextStyle(color: color, fontWeight: FontWeight.w600),
-            ),
-          ),
-          TextButton(
-            onPressed: () => dao.clearScheduled(
-              medicationId: medication.id,
-              day: day,
-              minutes: minutes,
-            ),
-            child: const Text('Undo'),
+          const SizedBox(width: 4),
+          IconButton.outlined(
+            tooltip: 'Skip',
+            visualDensity: VisualDensity.compact,
+            constraints: const BoxConstraints.tightFor(width: 40, height: 40),
+            padding: EdgeInsets.zero,
+            icon: const Icon(Icons.close, size: 18),
+            onPressed: () => mark(IntakeStatus.skipped),
           ),
         ],
       );
     }
 
-
-
-    return Row(
-      children: [
-        Expanded(
-          child: FilledButton.tonalIcon(
-            onPressed: () => mark(IntakeStatus.taken),
-            icon: const Icon(Icons.check, size: 18),
-            label: const Text('Taken'),
-            style: FilledButton.styleFrom(
-              minimumSize: const Size(0, 40),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(color: Color(0xFFE0E0E0), width: 1),
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        _medicationDisplayName(medication),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    if (isOverdue) ...[
+                      const SizedBox(width: 6),
+                      Text(
+                        'Overdue',
+                        style: TextStyle(
+                          color: Colors.red.shade700,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+                if (doseLine.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      doseLine,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+                  ),
+                if (instructions.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      instructions,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: OutlinedButton(
-            onPressed: () => mark(IntakeStatus.skipped),
-            style: OutlinedButton.styleFrom(
-              minimumSize: const Size(0, 40),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+          const SizedBox(width: 8),
+          trailing,
+        ],
+      ),
+    );
+  }
+
+  /// Asked when the caregiver presses Taken: record now, or type a time.
+  Future<void> _chooseTakenTime(BuildContext context) async {
+    final dao = context.read<AppDatabase>().medicationIntakesDao;
+    final now = DateTime.now();
+
+    final choice = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(
+                _medicationDisplayName(medication),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text('Scheduled ${_formatTime12Hour(time)}'),
             ),
-            child: const Text('Skip'),
-          ),
+            ListTile(
+              leading: const Icon(Icons.check_circle_outline),
+              title: Text(
+                'Taken now (${_formatTime12Hour(TimeOfDay.fromDateTime(now))})',
+              ),
+              onTap: () => Navigator.pop(sheetContext, 'now'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit_outlined),
+              title: const Text('Taken at a different time'),
+              onTap: () => Navigator.pop(sheetContext, 'other'),
+            ),
+          ],
         ),
-      ],
+      ),
+    );
+
+    if (choice == null || !context.mounted) return;
+
+    var takenAt = now;
+
+    if (choice == 'other') {
+      final picked = await _pickTime(context, TimeOfDay.fromDateTime(now));
+      if (picked == null) return;
+
+      takenAt = DateTime(
+        day.year,
+        day.month,
+        day.day,
+        picked.hour,
+        picked.minute,
+      );
+    }
+
+    await dao.setScheduledStatus(
+      profileId: medication.profileId,
+      medicationId: medication.id,
+      day: day,
+      minutes: _minutesOfDay(time),
+      status: IntakeStatus.taken,
+      loggedAt: takenAt,
+    );
+  }
+
+  /// Options for an already recorded dose: change the time, or undo.
+  Future<void> _showEditSheet(
+    BuildContext context,
+    MedicationIntake record,
+  ) async {
+    final dao = context.read<AppDatabase>().medicationIntakesDao;
+    final taken = record.status == IntakeStatus.taken;
+
+    final action = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(
+                _medicationDisplayName(medication),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text('Scheduled ${_formatTime12Hour(time)}'),
+            ),
+            if (taken)
+              ListTile(
+                leading: const Icon(Icons.schedule),
+                title: const Text('Change time taken'),
+                onTap: () => Navigator.pop(sheetContext, 'time'),
+              )
+            else
+              ListTile(
+                leading: const Icon(Icons.check),
+                title: const Text('Mark as taken'),
+                onTap: () => Navigator.pop(sheetContext, 'taken'),
+              ),
+            ListTile(
+              leading: const Icon(Icons.undo),
+              title: const Text('Undo'),
+              onTap: () => Navigator.pop(sheetContext, 'undo'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (action == null || !context.mounted) return;
+
+    if (action == 'undo') {
+      await dao.clearScheduled(
+        medicationId: medication.id,
+        day: day,
+        minutes: _minutesOfDay(time),
+      );
+      return;
+    }
+
+    if (action == 'taken') {
+      await _chooseTakenTime(context);
+      return;
+    }
+
+    // action == 'time'
+    final picked = await _pickTime(
+      context,
+      TimeOfDay.fromDateTime(record.loggedAt),
+    );
+    if (picked == null) return;
+
+    await dao.updateLoggedAt(
+      record.id,
+      DateTime(day.year, day.month, day.day, picked.hour, picked.minute),
     );
   }
 }
@@ -419,15 +617,15 @@ class _ProgressBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '$taken of $total scheduled doses taken today',
-          style: Theme.of(context).textTheme.bodyMedium,
+          '$taken of $total doses taken',
+          style: Theme.of(context).textTheme.bodySmall,
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: total == 0 ? 0 : taken / total,
-            minHeight: 8,
+            minHeight: 5,
           ),
         ),
       ],
@@ -596,6 +794,161 @@ class _DoseEntry {
     required this.medication,
     required this.time,
   });
+}
+
+/// Type-in time picker (hour, minute, AM/PM) in a bottom sheet. No clock dial.
+Future<TimeOfDay?> _pickTime(BuildContext context, TimeOfDay initial) {
+  return showModalBottomSheet<TimeOfDay>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    builder: (_) => _TypedTimeSheet(initial: initial),
+  );
+}
+
+class _TypedTimeSheet extends StatefulWidget {
+  final TimeOfDay initial;
+
+  const _TypedTimeSheet({required this.initial});
+
+  @override
+  State<_TypedTimeSheet> createState() => _TypedTimeSheetState();
+}
+
+class _TypedTimeSheetState extends State<_TypedTimeSheet> {
+  late final TextEditingController _hour;
+  late final TextEditingController _minute;
+  late bool _isPm;
+
+  @override
+  void initState() {
+    super.initState();
+    final h = widget.initial.hourOfPeriod == 0 ? 12 : widget.initial.hourOfPeriod;
+    _hour = TextEditingController(text: h.toString());
+    _minute = TextEditingController(
+      text: widget.initial.minute.toString().padLeft(2, '0'),
+    );
+    _isPm = widget.initial.hour >= 12;
+  }
+
+  @override
+  void dispose() {
+    _hour.dispose();
+    _minute.dispose();
+    super.dispose();
+  }
+
+  TimeOfDay? get _value {
+    final h = int.tryParse(_hour.text);
+    final m = int.tryParse(_minute.text);
+    if (h == null || m == null) return null;
+    if (h < 1 || h > 12 || m < 0 || m > 59) return null;
+
+    return TimeOfDay(hour: (h % 12) + (_isPm ? 12 : 0), minute: m);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final valid = _value != null;
+
+    InputDecoration box(String label) => InputDecoration(
+          labelText: label,
+          counterText: '',
+          border: const OutlineInputBorder(),
+        );
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        0,
+        20,
+        20 + MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Time taken',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 76,
+                child: TextField(
+                  controller: _hour,
+                  autofocus: true,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  maxLength: 2,
+                  style: const TextStyle(fontSize: 22),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: box('Hour'),
+                  onChanged: (_) => setState(() {}),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 12, 8, 0),
+                child: Text(':', style: TextStyle(fontSize: 26)),
+              ),
+              SizedBox(
+                width: 76,
+                child: TextField(
+                  controller: _minute,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  maxLength: 2,
+                  style: const TextStyle(fontSize: 22),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: box('Minute'),
+                  onChanged: (_) => setState(() {}),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: SegmentedButton<bool>(
+                  showSelectedIcon: false,
+                  segments: const [
+                    ButtonSegment(value: false, label: Text('AM')),
+                    ButtonSegment(value: true, label: Text('PM')),
+                  ],
+                  selected: {_isPm},
+                  onSelectionChanged: (s) => setState(() => _isPm = s.first),
+                ),
+              ),
+            ],
+          ),
+          if (!valid)
+            const Padding(
+              padding: EdgeInsets.only(top: 4),
+              child: Text(
+                'Enter an hour from 1 to 12 and minutes from 00 to 59.',
+                style: TextStyle(fontSize: 12, color: Colors.red),
+              ),
+            ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              const SizedBox(width: 8),
+              FilledButton(
+                onPressed: valid ? () => Navigator.pop(context, _value) : null,
+                child: const Text('Done'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 bool _isActiveOn(Medication medication, DateTime date) {

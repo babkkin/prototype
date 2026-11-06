@@ -118,7 +118,31 @@ class DetailsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(profile.name),
+        titleSpacing: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              profile.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              profile.primaryCondition,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
         actions: [
           PopupMenuButton<String>(
             icon: const Icon(Icons.description_outlined),
@@ -151,7 +175,6 @@ class DetailsPage extends StatelessWidget {
               return _VitalsDashboard(vitals: snapshot.data);
             },
           ),
-          _ProfileInfoContainer(profile: profile),
           _TabButtonsRow(profile: profile),
           const Divider(height: 1),
           Expanded(
@@ -180,20 +203,20 @@ class _VitalsDashboard extends StatelessWidget {
     ];
 
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
       child: GridView.count(
         crossAxisCount: 3,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        childAspectRatio: 1.3,
+        crossAxisSpacing: 6,
+        mainAxisSpacing: 6,
+        childAspectRatio: 2.6,
         children: items.map((item) {
           final (label, value) = item;
           return Container(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
               child: Column(
@@ -202,60 +225,17 @@ class _VitalsDashboard extends StatelessWidget {
                   Text(
                     value ?? '--',
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
+                      height: 1.1,
                     ),
                   ),
-                  Text(label, style: const TextStyle(fontSize: 12)),
+                  Text(label, style: const TextStyle(fontSize: 10)),
                 ],
               ),
             ),
           );
         }).toList(),
-      ),
-    );
-  }
-}
-
-// ── Name / condition container ────────────────────────────────
-class _ProfileInfoContainer extends StatelessWidget {
-  final Profile profile;
-  const _ProfileInfoContainer({required this.profile});
-
-  @override
-  Widget build(BuildContext context) {
-    final firstLetter = profile.name.trim().isEmpty
-        ? '?'
-        : profile.name.trim()[0].toUpperCase();
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 24,
-            child: Text(firstLetter),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  profile.name,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  profile.primaryCondition,
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -311,7 +291,7 @@ class _TabButtonsRow extends StatelessWidget {
     final tabs = ['Medication', 'Symptoms', 'Appointment', 'Vitals'];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 8),

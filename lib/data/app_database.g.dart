@@ -1174,6 +1174,17 @@ class $MedicationsTable extends Medications
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _totalDosesMeta = const VerificationMeta(
+    'totalDoses',
+  );
+  @override
+  late final GeneratedColumn<int> totalDoses = GeneratedColumn<int>(
+    'total_doses',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1194,6 +1205,7 @@ class $MedicationsTable extends Medications
     maxPrnDoseFrequency,
     specialInstructions,
     prescriberName,
+    totalDoses,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1341,6 +1353,12 @@ class $MedicationsTable extends Medications
         ),
       );
     }
+    if (data.containsKey('total_doses')) {
+      context.handle(
+        _totalDosesMeta,
+        totalDoses.isAcceptableOrUnknown(data['total_doses']!, _totalDosesMeta),
+      );
+    }
     return context;
   }
 
@@ -1424,6 +1442,10 @@ class $MedicationsTable extends Medications
         DriftSqlType.string,
         data['${effectivePrefix}prescriber_name'],
       ),
+      totalDoses: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_doses'],
+      ),
     );
   }
 
@@ -1457,6 +1479,10 @@ class Medication extends DataClass implements Insertable<Medication> {
   final String? maxPrnDoseFrequency;
   final String? specialInstructions;
   final String? prescriberName;
+
+  /// Total number of doses the doctor prescribed (optional).
+  /// Each "Taken" counts as one dose.
+  final int? totalDoses;
   const Medication({
     required this.id,
     required this.profileId,
@@ -1476,6 +1502,7 @@ class Medication extends DataClass implements Insertable<Medication> {
     this.maxPrnDoseFrequency,
     this.specialInstructions,
     this.prescriberName,
+    this.totalDoses,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1520,6 +1547,9 @@ class Medication extends DataClass implements Insertable<Medication> {
     if (!nullToAbsent || prescriberName != null) {
       map['prescriber_name'] = Variable<String>(prescriberName);
     }
+    if (!nullToAbsent || totalDoses != null) {
+      map['total_doses'] = Variable<int>(totalDoses);
+    }
     return map;
   }
 
@@ -1561,6 +1591,9 @@ class Medication extends DataClass implements Insertable<Medication> {
       prescriberName: prescriberName == null && nullToAbsent
           ? const Value.absent()
           : Value(prescriberName),
+      totalDoses: totalDoses == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totalDoses),
     );
   }
 
@@ -1594,6 +1627,7 @@ class Medication extends DataClass implements Insertable<Medication> {
         json['specialInstructions'],
       ),
       prescriberName: serializer.fromJson<String?>(json['prescriberName']),
+      totalDoses: serializer.fromJson<int?>(json['totalDoses']),
     );
   }
   @override
@@ -1620,6 +1654,7 @@ class Medication extends DataClass implements Insertable<Medication> {
       'maxPrnDoseFrequency': serializer.toJson<String?>(maxPrnDoseFrequency),
       'specialInstructions': serializer.toJson<String?>(specialInstructions),
       'prescriberName': serializer.toJson<String?>(prescriberName),
+      'totalDoses': serializer.toJson<int?>(totalDoses),
     };
   }
 
@@ -1642,6 +1677,7 @@ class Medication extends DataClass implements Insertable<Medication> {
     Value<String?> maxPrnDoseFrequency = const Value.absent(),
     Value<String?> specialInstructions = const Value.absent(),
     Value<String?> prescriberName = const Value.absent(),
+    Value<int?> totalDoses = const Value.absent(),
   }) => Medication(
     id: id ?? this.id,
     profileId: profileId ?? this.profileId,
@@ -1671,6 +1707,7 @@ class Medication extends DataClass implements Insertable<Medication> {
     prescriberName: prescriberName.present
         ? prescriberName.value
         : this.prescriberName,
+    totalDoses: totalDoses.present ? totalDoses.value : this.totalDoses,
   );
   Medication copyWithCompanion(MedicationsCompanion data) {
     return Medication(
@@ -1710,6 +1747,9 @@ class Medication extends DataClass implements Insertable<Medication> {
       prescriberName: data.prescriberName.present
           ? data.prescriberName.value
           : this.prescriberName,
+      totalDoses: data.totalDoses.present
+          ? data.totalDoses.value
+          : this.totalDoses,
     );
   }
 
@@ -1733,7 +1773,8 @@ class Medication extends DataClass implements Insertable<Medication> {
           ..write('prnIndication: $prnIndication, ')
           ..write('maxPrnDoseFrequency: $maxPrnDoseFrequency, ')
           ..write('specialInstructions: $specialInstructions, ')
-          ..write('prescriberName: $prescriberName')
+          ..write('prescriberName: $prescriberName, ')
+          ..write('totalDoses: $totalDoses')
           ..write(')'))
         .toString();
   }
@@ -1758,6 +1799,7 @@ class Medication extends DataClass implements Insertable<Medication> {
     maxPrnDoseFrequency,
     specialInstructions,
     prescriberName,
+    totalDoses,
   );
   @override
   bool operator ==(Object other) =>
@@ -1780,7 +1822,8 @@ class Medication extends DataClass implements Insertable<Medication> {
           other.prnIndication == this.prnIndication &&
           other.maxPrnDoseFrequency == this.maxPrnDoseFrequency &&
           other.specialInstructions == this.specialInstructions &&
-          other.prescriberName == this.prescriberName);
+          other.prescriberName == this.prescriberName &&
+          other.totalDoses == this.totalDoses);
 }
 
 class MedicationsCompanion extends UpdateCompanion<Medication> {
@@ -1802,6 +1845,7 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
   final Value<String?> maxPrnDoseFrequency;
   final Value<String?> specialInstructions;
   final Value<String?> prescriberName;
+  final Value<int?> totalDoses;
   const MedicationsCompanion({
     this.id = const Value.absent(),
     this.profileId = const Value.absent(),
@@ -1821,6 +1865,7 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
     this.maxPrnDoseFrequency = const Value.absent(),
     this.specialInstructions = const Value.absent(),
     this.prescriberName = const Value.absent(),
+    this.totalDoses = const Value.absent(),
   });
   MedicationsCompanion.insert({
     this.id = const Value.absent(),
@@ -1841,6 +1886,7 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
     this.maxPrnDoseFrequency = const Value.absent(),
     this.specialInstructions = const Value.absent(),
     this.prescriberName = const Value.absent(),
+    this.totalDoses = const Value.absent(),
   }) : profileId = Value(profileId),
        prescriptionType = Value(prescriptionType),
        medicationName = Value(medicationName),
@@ -1868,6 +1914,7 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
     Expression<String>? maxPrnDoseFrequency,
     Expression<String>? specialInstructions,
     Expression<String>? prescriberName,
+    Expression<int>? totalDoses,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1890,6 +1937,7 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
       if (specialInstructions != null)
         'special_instructions': specialInstructions,
       if (prescriberName != null) 'prescriber_name': prescriberName,
+      if (totalDoses != null) 'total_doses': totalDoses,
     });
   }
 
@@ -1912,6 +1960,7 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
     Value<String?>? maxPrnDoseFrequency,
     Value<String?>? specialInstructions,
     Value<String?>? prescriberName,
+    Value<int?>? totalDoses,
   }) {
     return MedicationsCompanion(
       id: id ?? this.id,
@@ -1932,6 +1981,7 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
       maxPrnDoseFrequency: maxPrnDoseFrequency ?? this.maxPrnDoseFrequency,
       specialInstructions: specialInstructions ?? this.specialInstructions,
       prescriberName: prescriberName ?? this.prescriberName,
+      totalDoses: totalDoses ?? this.totalDoses,
     );
   }
 
@@ -1998,6 +2048,9 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
     if (prescriberName.present) {
       map['prescriber_name'] = Variable<String>(prescriberName.value);
     }
+    if (totalDoses.present) {
+      map['total_doses'] = Variable<int>(totalDoses.value);
+    }
     return map;
   }
 
@@ -2021,7 +2074,8 @@ class MedicationsCompanion extends UpdateCompanion<Medication> {
           ..write('prnIndication: $prnIndication, ')
           ..write('maxPrnDoseFrequency: $maxPrnDoseFrequency, ')
           ..write('specialInstructions: $specialInstructions, ')
-          ..write('prescriberName: $prescriberName')
+          ..write('prescriberName: $prescriberName, ')
+          ..write('totalDoses: $totalDoses')
           ..write(')'))
         .toString();
   }
@@ -4841,6 +4895,7 @@ typedef $$MedicationsTableCreateCompanionBuilder =
       Value<String?> maxPrnDoseFrequency,
       Value<String?> specialInstructions,
       Value<String?> prescriberName,
+      Value<int?> totalDoses,
     });
 typedef $$MedicationsTableUpdateCompanionBuilder =
     MedicationsCompanion Function({
@@ -4862,6 +4917,7 @@ typedef $$MedicationsTableUpdateCompanionBuilder =
       Value<String?> maxPrnDoseFrequency,
       Value<String?> specialInstructions,
       Value<String?> prescriberName,
+      Value<int?> totalDoses,
     });
 
 final class $$MedicationsTableReferences
@@ -4999,6 +5055,11 @@ class $$MedicationsTableFilterComposer
 
   ColumnFilters<String> get prescriberName => $composableBuilder(
     column: $table.prescriberName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalDoses => $composableBuilder(
+    column: $table.totalDoses,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5145,6 +5206,11 @@ class $$MedicationsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get totalDoses => $composableBuilder(
+    column: $table.totalDoses,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$ProfilesTableOrderingComposer get profileId {
     final $$ProfilesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -5248,6 +5314,11 @@ class $$MedicationsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<int> get totalDoses => $composableBuilder(
+    column: $table.totalDoses,
+    builder: (column) => column,
+  );
+
   $$ProfilesTableAnnotationComposer get profileId {
     final $$ProfilesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -5344,6 +5415,7 @@ class $$MedicationsTableTableManager
                 Value<String?> maxPrnDoseFrequency = const Value.absent(),
                 Value<String?> specialInstructions = const Value.absent(),
                 Value<String?> prescriberName = const Value.absent(),
+                Value<int?> totalDoses = const Value.absent(),
               }) => MedicationsCompanion(
                 id: id,
                 profileId: profileId,
@@ -5363,6 +5435,7 @@ class $$MedicationsTableTableManager
                 maxPrnDoseFrequency: maxPrnDoseFrequency,
                 specialInstructions: specialInstructions,
                 prescriberName: prescriberName,
+                totalDoses: totalDoses,
               ),
           createCompanionCallback:
               ({
@@ -5384,6 +5457,7 @@ class $$MedicationsTableTableManager
                 Value<String?> maxPrnDoseFrequency = const Value.absent(),
                 Value<String?> specialInstructions = const Value.absent(),
                 Value<String?> prescriberName = const Value.absent(),
+                Value<int?> totalDoses = const Value.absent(),
               }) => MedicationsCompanion.insert(
                 id: id,
                 profileId: profileId,
@@ -5403,6 +5477,7 @@ class $$MedicationsTableTableManager
                 maxPrnDoseFrequency: maxPrnDoseFrequency,
                 specialInstructions: specialInstructions,
                 prescriberName: prescriberName,
+                totalDoses: totalDoses,
               ),
           withReferenceMapper: (p0) => p0
               .map(

@@ -93,6 +93,9 @@ class Medications extends Table {
   TextColumn get specialInstructions => text().nullable()();
   TextColumn get prescriberName => text().nullable()();
 
+  /// Total number of doses the doctor prescribed (optional).
+  /// Each "Taken" counts as one dose.
+  IntColumn get totalDoses => integer().nullable()();
 }
 
 /// ---------------------------------------------------------------------
@@ -476,6 +479,7 @@ class MedicationIntakesDao extends DatabaseAccessor<AppDatabase>
     required DateTime day,
     required int minutes,
     required IntakeStatus status,
+    DateTime? loggedAt,
   }) {
     return transaction(() async {
       await clearScheduled(
@@ -490,9 +494,19 @@ class MedicationIntakesDao extends DatabaseAccessor<AppDatabase>
           scheduledDate: _day(day),
           scheduledMinutes: Value(minutes),
           status: status,
+          loggedAt: loggedAt == null
+              ? const Value.absent()
+              : Value(loggedAt),
         ),
       );
     });
+  }
+
+  /// Changes the time a dose was recorded as taken.
+  Future<void> updateLoggedAt(int id, DateTime at) {
+    return (update(medicationIntakes)
+          ..where((t) => t.id.equals(id)))
+        .write(MedicationIntakesCompanion(loggedAt: Value(at)));
   }
 
   /// Removes the mark from a scheduled dose (undo).
@@ -559,7 +573,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration =>
@@ -598,6 +612,11 @@ class AppDatabase extends _$AppDatabase {
           if (from < 6) {
             // v5 -> v6: added medication intake tracking.
             await m.createTable(medicationIntakes);
+          }
+
+          if (from < 7) {
+            // v6 -> v7: optional total prescribed doses per medication.
+            await m.addColumn(medications, medications.totalDoses);
           }
         },
       );
