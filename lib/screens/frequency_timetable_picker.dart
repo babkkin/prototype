@@ -155,9 +155,9 @@ void initState() {
   }
 
   Future<void> _pickFirstDoseTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _firstDoseTime ?? defaultFirstDose,
+    final picked = await pickTimeTyped(
+      context,
+      _firstDoseTime ?? defaultFirstDose,
     );
     if (picked != null) {
       _firstDoseTime = picked;
@@ -177,10 +177,7 @@ void initState() {
       MealType.dinner => _dinnerTime,
     };
 
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: current,
-    );
+    final picked = await pickTimeTyped(context, current);
 
     if (picked == null) return;
 
@@ -201,10 +198,7 @@ void initState() {
   }
 
   Future<void> _editTime(int index) async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _times[index],
-    );
+    final picked = await pickTimeTyped(context, _times[index]);
     if (picked != null) {
       setState(() => _times[index] = picked);
       _notifyParent();
@@ -343,6 +337,42 @@ void initState() {
               });
               _regenerate();
             },
+          ),
+        ),
+
+        // Quick choices for the number above.
+        Padding(
+          padding: const EdgeInsets.only(left: 120, bottom: 6),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Wrap(
+              spacing: 6,
+              children: [
+                for (final n in _mode == ScheduleMode.timesPerDay
+                    ? const [1, 2, 3, 4]
+                    : const [4, 6, 8, 12])
+                  ChoiceChip(
+                    label: Text(
+                      _mode == ScheduleMode.timesPerDay
+                          ? (n == 1 ? 'Once a day' : '$n times a day')
+                          : 'Every $n hours',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    selected: _enteredValue == n,
+                    visualDensity:
+                        const VisualDensity(horizontal: -3, vertical: -3),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onSelected: (_) {
+                      setState(() {
+                        _valueController.text = n.toString();
+                        _resetDoseMealsForCount();
+                        if (!_canAnchorToMeals) _useMealTimes = false;
+                      });
+                      _regenerate();
+                    },
+                  ),
+              ],
+            ),
           ),
         ),
 
@@ -543,6 +573,165 @@ void initState() {
             ),
           ),
       ],
+    );
+  }
+}
+
+// ── Typed time picker (no clock dial) ─────────────────────────
+
+/// Type-in time picker: hour, minute and an AM/PM toggle in a bottom sheet.
+/// Returns null if cancelled.
+Future<TimeOfDay?> pickTimeTyped(BuildContext context, TimeOfDay initial) {
+  return showModalBottomSheet<TimeOfDay>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    builder: (_) => _TypedTimeSheet(initial: initial),
+  );
+}
+
+class _TypedTimeSheet extends StatefulWidget {
+  final TimeOfDay initial;
+
+  const _TypedTimeSheet({required this.initial});
+
+  @override
+  State<_TypedTimeSheet> createState() => _TypedTimeSheetState();
+}
+
+class _TypedTimeSheetState extends State<_TypedTimeSheet> {
+  late final TextEditingController _hour;
+  late final TextEditingController _minute;
+  late bool _isPm;
+
+  @override
+  void initState() {
+    super.initState();
+    final h =
+        widget.initial.hourOfPeriod == 0 ? 12 : widget.initial.hourOfPeriod;
+    _hour = TextEditingController(text: h.toString());
+    _minute = TextEditingController(
+      text: widget.initial.minute.toString().padLeft(2, '0'),
+    );
+    _isPm = widget.initial.hour >= 12;
+  }
+
+  @override
+  void dispose() {
+    _hour.dispose();
+    _minute.dispose();
+    super.dispose();
+  }
+
+  TimeOfDay? get _value {
+    final h = int.tryParse(_hour.text);
+    final m = int.tryParse(_minute.text);
+    if (h == null || m == null) return null;
+    if (h < 1 || h > 12 || m < 0 || m > 59) return null;
+
+    return TimeOfDay(hour: (h % 12) + (_isPm ? 12 : 0), minute: m);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final valid = _value != null;
+
+    InputDecoration box(String label) => InputDecoration(
+          labelText: label,
+          counterText: '',
+          border: const OutlineInputBorder(),
+        );
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        0,
+        20,
+        20 + MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Set time',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 76,
+                child: TextField(
+                  controller: _hour,
+                  autofocus: true,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  maxLength: 2,
+                  style: const TextStyle(fontSize: 22),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: box('Hour'),
+                  onChanged: (_) => setState(() {}),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 12, 8, 0),
+                child: Text(':', style: TextStyle(fontSize: 26)),
+              ),
+              SizedBox(
+                width: 76,
+                child: TextField(
+                  controller: _minute,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  maxLength: 2,
+                  style: const TextStyle(fontSize: 22),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: box('Minute'),
+                  onChanged: (_) => setState(() {}),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: SegmentedButton<bool>(
+                  showSelectedIcon: false,
+                  segments: const [
+                    ButtonSegment(value: false, label: Text('AM')),
+                    ButtonSegment(value: true, label: Text('PM')),
+                  ],
+                  selected: {_isPm},
+                  onSelectionChanged: (s) => setState(() => _isPm = s.first),
+                ),
+              ),
+            ],
+          ),
+          if (!valid)
+            const Padding(
+              padding: EdgeInsets.only(top: 4),
+              child: Text(
+                'Enter an hour from 1 to 12 and minutes from 00 to 59.',
+                style: TextStyle(fontSize: 12, color: Colors.red),
+              ),
+            ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              const SizedBox(width: 8),
+              FilledButton(
+                onPressed: valid ? () => Navigator.pop(context, _value) : null,
+                child: const Text('Done'),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
