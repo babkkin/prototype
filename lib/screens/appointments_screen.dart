@@ -79,7 +79,7 @@ class AppointmentsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${profile.name} — Appointments'),
+        title: Text('Appointments'),
       ),
       body: StreamBuilder<List<Appointment>>(
         stream: dao.watchAllForProfile(profile.id),

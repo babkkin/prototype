@@ -223,7 +223,7 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Symptoms — ${widget.profile.name}',
+          'Symptoms',
         ),
       ),
 
