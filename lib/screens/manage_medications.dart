@@ -17,7 +17,7 @@ class ManageMedicationsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${profile.name} — Medications'),
+        title: Text('Medications'),
       ),
       // StreamBuilder rebuilds automatically whenever a medication is
       // added, edited, or deleted for this profile.
