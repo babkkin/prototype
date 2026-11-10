@@ -193,9 +193,9 @@ class _VitalsDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = [
-      ('BP', vitals?.bp),
-      ('T', vitals?.temperature),
+    final scheme = Theme.of(context).colorScheme;
+
+    final others = [
       ('PR', vitals?.pulseRate),
       ('RR', vitals?.respiratoryRate),
       ('O2 SAT.', vitals?.oxygenSaturation),
@@ -204,55 +204,153 @@ class _VitalsDashboard extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-      child: GridView.count(
-        crossAxisCount: 3,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 6,
-        mainAxisSpacing: 6,
-        childAspectRatio: 2.6,
-        children: items.map((item) {
-          final (label, value) = item;
-          return Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    value ?? '--',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      height: 1.1,
-                    ),
-                  ),
-                  Text(label, style: const TextStyle(fontSize: 10)),
-                ],
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        color: scheme.primaryContainer,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── h1: Blood Pressure ──
+              Expanded(
+                flex: 4,
+                child: _Highlight(
+                  label: 'BP',
+                  value: vitals?.bp,
+                  valueSize: 26,
+                  labelSize: 12,
+                ),
               ),
-            ),
-          );
-        }).toList(),
+              const _VDivider(),
+
+              // ── h2: Temperature ──
+              Expanded(
+                flex: 3,
+                child: _Highlight(
+                  label: 'Temp',
+                  value: vitals?.temperature,
+                  valueSize: 20,
+                  labelSize: 11,
+                ),
+              ),
+              const _VDivider(),
+
+              // ── h3: Everything else ──
+              Expanded(
+                flex: 4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: others
+                      .map((o) => _MiniRow(label: o.$1, value: o.$2))
+                      .toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
+// Large highlighted vital (used for BP and Temp)
+class _Highlight extends StatelessWidget {
+  final String label;
+  final String? value;
+  final double valueSize;
+  final double labelSize;
+
+  const _Highlight({
+    required this.label,
+    required this.value,
+    required this.valueSize,
+    required this.labelSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            value ?? '--',
+            style: TextStyle(
+              fontSize: valueSize,
+              fontWeight: FontWeight.bold,
+              height: 1.1,
+            ),
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(label, style: TextStyle(fontSize: labelSize)),
+      ],
+    );
+  }
+}
+
+// Compact label/value row for the right column
+class _MiniRow extends StatelessWidget {
+  final String label;
+  final String? value;
+
+  const _MiniRow({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 10)),
+        Text(
+          value ?? '--',
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// Thin vertical divider between zones
+class _VDivider extends StatelessWidget {
+  const _VDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.2),
+    );
+  }
+}
+
 // ── Tab buttons row ────────────────────────────────────────────
-class _TabButtonsRow extends StatelessWidget {
+class _TabButtonsRow extends StatefulWidget {
   final Profile profile;
   const _TabButtonsRow({required this.profile});
 
-  void _onTabPressed(BuildContext context, String label) {
-    switch (label) {
+  @override
+  State<_TabButtonsRow> createState() => _TabButtonsRowState();
+}
+
+class _TabButtonsRowState extends State<_TabButtonsRow> {
+  int _selectedIndex = 0;
+  final tabs = ['Medication', 'Symptoms', 'Appointment', 'Vitals'];
+
+  void _onTabPressed(BuildContext context, int index) {
+    setState(() => _selectedIndex = index);
+
+    switch (tabs[index]) {
       case 'Medication':
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ManageMedicationsScreen(profile: profile),
+            builder: (context) => ManageMedicationsScreen(profile: widget.profile),
           ),
         );
         break;
@@ -260,7 +358,7 @@ class _TabButtonsRow extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SymptomsJournal(profile: profile),
+            builder: (context) => SymptomsJournal(profile: widget.profile),
           ),
         );
         break;
@@ -268,27 +366,26 @@ class _TabButtonsRow extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AppointmentsScreen(profile: profile),
+            builder: (context) => AppointmentsScreen(profile: widget.profile),
           ),
         );
         break;
-          case 'Vitals':
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VitalsScreen(profile: profile),
-              ),
-            );
-            break;
+      case 'Vitals':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VitalsScreen(profile: widget.profile),
+          ),
+        );
+        break;
       default:
-        // TODO: wire up once AppointmentScreen / VitalsScreen exist.
         break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final tabs = ['Medication', 'Symptoms', 'Appointment', 'Vitals'];
+    final scheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -296,18 +393,37 @@ class _TabButtonsRow extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
-          children: tabs.map((label) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: OutlinedButton(
-                onPressed: () => _onTabPressed(context, label),
-                child: Text(label),
+          children: List.generate(tabs.length, (index) {
+            final isSelected = _selectedIndex == index;
+            return InkWell(
+              onTap: () => _onTabPressed(context, index),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: isSelected ? scheme.primary : Colors.transparent,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  tabs[index],
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
+                    color: isSelected ? scheme.primary : scheme.onSurfaceVariant,
+                  ),
+                ),
               ),
             );
-          }).toList(),
+          }),
         ),
       ),
     );
   }
 }
-
