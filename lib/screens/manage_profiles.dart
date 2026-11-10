@@ -53,7 +53,7 @@ class ManageProfilesScreen extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: const Text('Skip'),
+                  child: const Text(' Skip'),
                 ),
                 FilledButton(
                   onPressed: () => Navigator.pop(context, true),
