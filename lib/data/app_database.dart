@@ -456,6 +456,26 @@ class MedicationIntakesDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
+  /// All-time number of doses marked "taken" per medication id.
+  /// Used for course progress against Medications.totalDoses.
+  Stream<Map<int, int>> watchTakenCounts(int profileId) {
+    final countExp = medicationIntakes.id.count();
+    final query = selectOnly(medicationIntakes)
+      ..addColumns([medicationIntakes.medicationId, countExp])
+      ..where(
+        medicationIntakes.profileId.equals(profileId) &
+            medicationIntakes.status
+                .equalsValue(IntakeStatus.taken),
+      )
+      ..groupBy([medicationIntakes.medicationId]);
+
+    return query.watch().map((rows) => {
+          for (final r in rows)
+            r.read(medicationIntakes.medicationId)!:
+                r.read(countExp) ?? 0,
+        });
+  }
+
   /// Records of one profile within [start, end] (inclusive days).
   Future<List<MedicationIntake>> getInRange(
     int profileId,
