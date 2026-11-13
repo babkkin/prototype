@@ -588,13 +588,13 @@ if (!isPrn && _scheduleSelection == null && !keepExistingSchedule) {
 final String frequencyValue = isPrn
     ? 'As needed (PRN)'
     : keepExistingSchedule
-        ? existing!.frequency
+        ? existing.frequency
         : _scheduleSelection!.storedFrequency;
 
 final String? specificTimeValue = isPrn
     ? null
     : keepExistingSchedule
-        ? existing!.specificTime
+        ? existing.specificTime
         : (_generatedTimes.isEmpty
             ? null
             : formatTimesForStorage(_generatedTimes, context));
@@ -602,7 +602,7 @@ final String? specificTimeValue = isPrn
 final String? relationValue = isPrn
     ? null
     : keepExistingSchedule
-        ? existing!.relationToMeals
+        ? existing.relationToMeals
         : _scheduleSelection!.mealTiming.storedRelation;
 
 // EDIT MODE: return an updated Medication (keeps the same id)
@@ -1153,7 +1153,7 @@ class _MedicationNamePickerState extends State<_MedicationNamePicker> {
                   ? const Center(child: Text('No medicines found.'))
                   : ListView.separated(
                       itemCount: filtered.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      separatorBuilder: (_, _) => const Divider(height: 1),
                       itemBuilder: (context, index) {
                         final medicine = filtered[index];
                         final isSelected = medicine == widget.selectedMedicine;

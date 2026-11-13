@@ -324,7 +324,7 @@ class _VDivider extends StatelessWidget {
     return Container(
       width: 1,
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.onPrimaryContainer.withValues(alpha: 0.2),
     );
   }
 }

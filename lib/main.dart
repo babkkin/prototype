@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // 1. Core color scheme — generates a full palette from one seed color
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2E7D6B), // pick any brand color
+          seedColor: const Color.fromARGB(255, 187, 28, 0), // pick any brand color
         ),
         useMaterial3: true,
 

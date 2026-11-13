@@ -22,7 +22,7 @@ class LandingPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch, // makes buttons full-width
                 children: [
                   Text(
-                    'Welcome to Placeholder!',
+                    'Aruga',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class LandingPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
 
-                  OutlinedButton(
+                  /*OutlinedButton( 
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
@@ -77,7 +77,7 @@ class LandingPage extends StatelessWidget {
                       );
                     },
                     child: const Text('Symptoms'),
-                  ),
+                  ), DISABLED */
                 ],
               ),
             ),

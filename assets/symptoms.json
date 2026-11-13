@@ -1,6 +1,6 @@
 [
   {
-    "name": "Urinary Problems",
+    "name": "Urinary Problems (Problema sa Pag-ihi)",
     "group": "Journal",
     "steps": [
       {
@@ -152,7 +152,7 @@
     ]
   },
   {
-    "name": "Shortness of Breath",
+    "name": "Shortness of Breath (Hinihingal)",
     "group": "Journal",
     "steps": [
       {
@@ -279,7 +279,7 @@
     ]
   },
   {
-    "name": "Fatigue or Low Energy",
+    "name": "Fatigue or Low Energy (Pagod o Mababa ang Enerhiya)",
     "group": "Journal",
     "steps": [
       {
@@ -398,7 +398,7 @@
     ]
   },
   {
-    "name": "Sleep Difficulties",
+    "name": "Sleep Difficulties (Hirap sa Pagtulog)",
     "group": "Journal",
     "steps": [
       {
@@ -524,7 +524,7 @@
     ]
   },
   {
-    "name": "Vision Difficulties",
+    "name": "Vision Difficulties (Hirap makakita)",
     "group": "Journal",
     "steps": [
       {
@@ -652,7 +652,7 @@
     ]
   },
   {
-    "name": "Hearing Difficulties",
+    "name": "Hearing Difficulties (Hirap makarinig)",
     "group": "COLDSPA",
     "steps": [
       {
@@ -775,7 +775,7 @@
     ]
   },
   {
-    "name": "Mobility Difficulties",
+    "name": "Mobility Difficulties (Hirap sa Paggalaw)",
     "group": "COLDSPA",
     "steps": [
       {
@@ -1103,7 +1103,7 @@
     ]
   },
   {
-    "name": "Loss of Interest or Enjoyment",
+    "name": "Loss of Interest or Enjoyment (Pagkawala ng Interes o Kasiyahan)",
     "group": "COLDSPA",
     "steps": [
       {
@@ -1221,7 +1221,7 @@
     ]
   },
   {
-    "name": "Sadness or Low Mood",
+    "name": "Sadness or Low Mood (Kalungkutan o mababa ang kalooban) ",
     "group": "COLDSPA",
     "steps": [
       {
@@ -1338,7 +1338,7 @@
     ]
   },
   {
-    "name": "Appetite Changes",
+    "name": "Appetite Changes (Pagbabago sa Ganang Kumain)",
     "group": "NRES",
     "steps": [
       {
@@ -1446,7 +1446,7 @@
     ]
   },
   {
-    "name": "Anxiety or Excessive Worrying",
+    "name": "Anxiety or Excessive Worrying (Sobrang Pag-aalala o Pagkabahala)",
     "group": "NRES",
     "steps": [
       {
@@ -1573,7 +1573,7 @@
     ]
   },
   {
-    "name": "Irritability",
+    "name": "Irritability (Madaling mainis)",
     "group": "NRES",
     "steps": [
       {
@@ -1695,7 +1695,7 @@
     ]
   },
   {
-    "name": "Difficulty Concentrating",
+    "name": "Difficulty Concentrating (Hirap Magtuon ng Pansin)",
     "group": "NRES",
     "steps": [
       {
@@ -1824,7 +1824,7 @@
     ]
   },
   {
-    "name": "Memory Difficulties",
+    "name": "Memory Difficulties (Hirap sa Pag-alala)",
     "group": "NRES",
     "steps": [
       {
