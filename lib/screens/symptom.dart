@@ -64,6 +64,7 @@ class Symptom {
   final List<String> points;
   final List<SymptomStep> steps;
   final String followUp;
+  final String emergencyWarning;
   final List<String> sources;
 
   const Symptom({
@@ -73,6 +74,7 @@ class Symptom {
     this.points = const [],
     this.steps = const [],
     this.followUp = '',
+    this.emergencyWarning = '',
     this.sources = const [],
   });
 
@@ -90,6 +92,7 @@ class Symptom {
           .map((e) => SymptomStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       followUp: (json['followUp'] as String?) ?? '',
+      emergencyWarning: (json['emergencyWarning'] as String?) ?? '',
       sources: list('sources'),
     );
   }
