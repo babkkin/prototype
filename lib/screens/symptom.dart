@@ -3,76 +3,94 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-/// Tailored COLDSPA answer choices for one symptom (assets/symptoms.json).
-/// Every field is optional: anything missing falls back to the shared
-/// generic choices in the symptom tracker.
-class ColdspaChoices {
-  final String? fixedLocation;
-  final String? locationQuestion;
-  final List<String> location;
-  final List<String> character;
-  final List<String> pattern;
-  final List<String> modifiers;
-  final List<String> associated;
+/// One question in a symptom's guided assessment (assets/symptoms.json).
+///
+/// [field] says which Symptoms column the answer is saved into:
+/// character, onset, location, duration, severity, pattern, associated.
+/// Several steps may share a field; their answers are combined.
+class SymptomStep {
+  final String? id;
+  final String field;
+  final String label;
+  final String question;
+  final String hint;
 
-  const ColdspaChoices({
-    this.fixedLocation,
-    this.locationQuestion,
-    this.location = const [],
-    this.character = const [],
-    this.pattern = const [],
-    this.modifiers = const [],
-    this.associated = const [],
+  /// single | multi | scale | text
+  final String type;
+  final List<String> options;
+
+  /// Step is only asked when the step with this id has one of [showIfAnyOf].
+  final String? showIfStep;
+  final List<String> showIfAnyOf;
+
+  const SymptomStep({
+    this.id,
+    required this.field,
+    required this.label,
+    required this.question,
+    this.hint = '',
+    this.type = 'single',
+    this.options = const [],
+    this.showIfStep,
+    this.showIfAnyOf = const [],
   });
 
-  factory ColdspaChoices.fromJson(Map<String, dynamic> json) {
-    List<String> list(String key) => (json[key] as List<dynamic>? ?? const [])
-        .map((e) => e.toString())
-        .toList();
-
-    return ColdspaChoices(
-      fixedLocation: json['fixedLocation'] as String?,
-      locationQuestion: json['locationQuestion'] as String?,
-      location: list('location'),
-      character: list('character'),
-      pattern: list('pattern'),
-      modifiers: list('modifiers'),
-      associated: list('associated'),
+  factory SymptomStep.fromJson(Map<String, dynamic> json) {
+    final showIf = json['showIf'] as Map<String, dynamic>?;
+    return SymptomStep(
+      id: json['id'] as String?,
+      field: json['field'] as String,
+      label: (json['label'] as String?) ?? (json['field'] as String),
+      question: json['question'] as String,
+      hint: (json['hint'] as String?) ?? '',
+      type: (json['type'] as String?) ?? 'single',
+      options: (json['options'] as List<dynamic>? ?? const [])
+          .map((e) => e.toString())
+          .toList(),
+      showIfStep: showIf?['step'] as String?,
+      showIfAnyOf: (showIf?['anyOf'] as List<dynamic>? ?? const [])
+          .map((e) => e.toString())
+          .toList(),
     );
   }
 }
 
-// Every symptom now has a name, a one-line summary, and a list of
-// bullet points with more detail. It may also name the conditions it is
-// commonly seen with, and carry tailored COLDSPA choices.
+/// A symptom with its guided questions. The summary and points are
+/// optional: the reference PDFs do not include them.
 class Symptom {
   final String name;
+  final String group;
   final String summary;
   final List<String> points;
-  final List<String> conditions;
-  final ColdspaChoices? coldspa;
+  final List<SymptomStep> steps;
+  final String followUp;
+  final List<String> sources;
 
   const Symptom({
     required this.name,
-    required this.summary,
-    required this.points,
-    this.conditions = const [],
-    this.coldspa,
+    this.group = '',
+    this.summary = '',
+    this.points = const [],
+    this.steps = const [],
+    this.followUp = '',
+    this.sources = const [],
   });
 
   factory Symptom.fromJson(Map<String, dynamic> json) {
+    List<String> list(String key) => (json[key] as List<dynamic>? ?? const [])
+        .map((e) => e.toString())
+        .toList();
+
     return Symptom(
       name: json['name'] as String,
-      summary: json['summary'] as String,
-      points: (json['points'] as List<dynamic>)
-          .map((point) => point as String)
+      group: (json['group'] as String?) ?? '',
+      summary: (json['summary'] as String?) ?? '',
+      points: list('points'),
+      steps: (json['steps'] as List<dynamic>? ?? const [])
+          .map((e) => SymptomStep.fromJson(e as Map<String, dynamic>))
           .toList(),
-      conditions: (json['conditions'] as List<dynamic>? ?? const [])
-          .map((c) => c.toString())
-          .toList(),
-      coldspa: json['coldspa'] == null
-          ? null
-          : ColdspaChoices.fromJson(json['coldspa'] as Map<String, dynamic>),
+      followUp: (json['followUp'] as String?) ?? '',
+      sources: list('sources'),
     );
   }
 }
@@ -128,11 +146,13 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
               return ListTile(
                 title: Text(symptom.name),
                 // The list row previews the summary, not a bullet.
-                subtitle: Text(
-                  symptom.summary,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                subtitle: symptom.summary.isEmpty
+                    ? null
+                    : Text(
+                        symptom.summary,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
                   Navigator.push(
@@ -167,15 +187,17 @@ class SymptomDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              symptom.summary,
-              style: const TextStyle(
-                fontSize: 16,
-                height: 1.5,
-                fontWeight: FontWeight.w500,
+            if (symptom.summary.isNotEmpty) ...[
+              Text(
+                symptom.summary,
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1.5,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
+            ],
             for (final point in symptom.points) _BulletPoint(text: point),
           ],
         ),

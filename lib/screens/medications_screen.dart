@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../data/app_database.dart';
 import '../models/medicine_info.dart';
 import 'medicine.dart';
+import 'daily_medication_schedule.dart' show DoseProgress;
 
 class MedicationsScreen extends StatefulWidget {
   final List<Medication> medications;
@@ -183,6 +184,14 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
 
     // This list is the screen's main scroller, so it must scroll itself.
     // The bottom padding keeps the last row clear of the add (+) button.
+    return StreamBuilder<Map<int, int>>(
+      stream: context
+          .read<AppDatabase>()
+          .medicationIntakesDao
+          .watchTakenCounts(widget.medications.first.profileId),
+      builder: (context, countSnapshot) {
+        final takenCounts = countSnapshot.data ?? const <int, int>{};
+
     return ListView.separated(
       padding: const EdgeInsets.only(bottom: 88),
       itemCount: widget.medications.length,
@@ -191,6 +200,8 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
         final med = widget.medications[index];
         final isExpanded = _expandedMedicationIds.contains(med.id);
 
+        final taken = takenCounts[med.id] ?? 0;
+
         return Column(
           children: [
             Padding(
@@ -198,7 +209,10 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                 horizontal: 12,
                 vertical: 10,
               ),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              Row(
                 children: [
                   Expanded(
                     flex: 5,
@@ -243,6 +257,9 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                           : Icons.keyboard_arrow_down,
                     ),
                   ),
+                ],
+              ),
+              DoseProgress(medication: med, taken: taken),
                 ],
               ),
             ),
@@ -316,6 +333,12 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                       label: 'End Date',
                       value: _formatDate(med.endDate),
                     ),
+                    _PrescriptionDetailRow(
+                      label: 'Total Doses',
+                      value: med.totalDoses == null
+                          ? '--'
+                          : '${med.totalDoses} ($taken taken)',
+                    ),
                     if (med.prescriptionType == PrescriptionType.prn) ...[
                       _PrescriptionDetailRow(
                         label: 'PRN Indication',
@@ -370,6 +393,8 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
               ),
           ],
         );
+      },
+    );
       },
     );
   }

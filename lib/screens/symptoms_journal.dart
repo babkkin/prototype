@@ -51,13 +51,11 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
                 ),
                 const SizedBox(height: 12),
 
-                Text(
-                  symptom.summary,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    height: 1.5,
+                if (symptom.summary.isNotEmpty)
+                  Text(
+                    symptom.summary,
+                    style: const TextStyle(fontSize: 15, height: 1.5),
                   ),
-                ),
 
                 if (symptom.points.isNotEmpty) ...[
                   const SizedBox(height: 20),
@@ -91,6 +89,36 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                ],
+
+                if (symptom.followUp.isNotEmpty) ...[
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Follow-up screening tools',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    symptom.followUp,
+                    style: const TextStyle(fontSize: 14, height: 1.4),
+                  ),
+                ],
+
+                if (symptom.sources.isNotEmpty) ...[
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Sources',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 6),
+                  for (final source in symptom.sources)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: SelectableText(
+                        source,
+                        style: const TextStyle(fontSize: 12, height: 1.4),
                       ),
                     ),
                 ],
@@ -223,7 +251,7 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Symptoms',
+          'Symptoms — ${widget.profile.name}',
         ),
       ),
 
