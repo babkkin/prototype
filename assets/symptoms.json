@@ -1952,5 +1952,514 @@
       "Kim, J. S., & Kim, E. (2024). Subjective memory complaints and medication adherence among hypertensive Korean older adults with multimorbidity: Mediating effect of depression and social support. BMC Public Health, 24, Article 585. https://doi.org/10.1186/s12889-024-18061-4",
       "Lee, C. D., & Foster, E. R. (2023). Subjective memory complaints predict decline in memory, instrumental activities of daily living, and social participation in older adults: A fixed-effects model. American Journal of Occupational Therapy, 77(4), 7704205100. https://doi.org/10.5014/ajot.2023.050151"
     ]
+  },
+
+  {
+    "name": "Pain (Pananakit)",
+    "group": "COLDSPA",
+    "emergencyWarning": "Call emergency help now if: the pain is in the chest, with sweating, trouble breathing, or pain spreading to the arm or jaw; it is the worst headache of their life; or it follows a fall with a possible broken bone.",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What does the pain feel like?",
+        "type": "multi",
+        "options": [
+          "Dull ache",
+          "Sharp or stabbing",
+          "Burning",
+          "Throbbing or pounding",
+          "Cramping",
+          "Squeezing or pressure",
+          "Pain only when touched or moved",
+          "Tingling or \"electric\" pain",
+          "The person cannot tell me, but I see groaning, grimacing, or restlessness"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did the pain start?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago",
+          "More than 3 months ago"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "What happened then",
+        "question": "Did it start after a fall, an injury, or a new medicine?",
+        "type": "text"
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where is the pain?",
+        "type": "multi",
+        "options": [
+          "Head or face",
+          "Neck or shoulders",
+          "Chest",
+          "Belly",
+          "Back",
+          "Hips",
+          "Knees",
+          "Hands or arms",
+          "Legs or feet",
+          "All over the body"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Spreading",
+        "question": "Does the pain move or spread to another area?",
+        "type": "single",
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long does the pain last?",
+        "type": "single",
+        "options": [
+          "It never goes away",
+          "It comes and goes",
+          "A few minutes at a time",
+          "A few hours at a time",
+          "Days at a time"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bad is the pain?",
+        "type": "scale",
+        "hint": "Scale from 0 (no pain) to 10 (worst pain). You can also point to a faces chart."
+      },
+      {
+        "field": "severity",
+        "label": "Interference with daily life",
+        "question": "How much does it get in the way of these activities?",
+        "type": "multi",
+        "options": [
+          "Walking or moving around",
+          "Sleeping",
+          "Eating",
+          "Dressing or bathing",
+          "Mood or enjoying things"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes the pain better?",
+        "type": "multi",
+        "options": [
+          "Rest",
+          "Changing position",
+          "Heat or a warm bath",
+          "Gentle massage",
+          "Light exercise or stretching",
+          "Pain medicine",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes the pain worse?",
+        "type": "multi",
+        "options": [
+          "Walking or standing",
+          "Moving or being touched",
+          "Lying down",
+          "Cold or damp weather",
+          "Stress or worry",
+          "Certain times of day (morning or night)",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Does the person have any of these with the pain?",
+        "type": "multi",
+        "options": [
+          "Fever",
+          "Swelling, redness, or warmth in a joint or body part",
+          "Trouble sleeping",
+          "Low mood, worry, or crying",
+          "Loss of appetite",
+          "Poor balance or falls",
+          "Nausea or vomiting",
+          "Trouble breathing",
+          "Sweating",
+          "None"
+        ]
+      }
+    ],
+    "sources": [
+      "Hjermstad, M. J., et al. (2011). Studies comparing numerical rating scales, verbal rating scales, and visual analogue scales for assessment of pain intensity in adults: A systematic literature review. Journal of Pain and Symptom Management, 41(6), 1073-1093.",
+      "Warden, V., Hurley, A. C., & Volicer, L. (2003). Development and psychometric evaluation of the Pain Assessment in Advanced Dementia (PAINAD) scale. Journal of the American Medical Directors Association, 4(1), 9-15.",
+      "Herr, K., et al. (2006). Pain assessment in the patient unable to self-report: Position statement with clinical practice recommendations. Pain Management Nursing, 7(2), 44-52.",
+      "American Geriatrics Society Panel on Persistent Pain in Older Persons. (2002). The management of persistent pain in older persons. Journal of the American Geriatrics Society, 50(6 Suppl), S205-S224.",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
+  },
+  {
+    "name": "Numbness (Pamamanhid)",
+    "group": "COLDSPA",
+    "emergencyWarning": "Call emergency help now if: numbness or weakness comes on suddenly, especially on one side of the body, with a drooping face, slurred speech, confusion, or vision loss. Think FAST: Face drooping, Arm weakness, Speech trouble, Time to call.",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What does the numbness feel like?",
+        "type": "multi",
+        "options": [
+          "Can't feel anything at all",
+          "Pins and needles or tingling",
+          "Burning",
+          "Feels like wearing gloves or socks",
+          "Feels \"asleep\"",
+          "Can't tell hot from cold",
+          "Feels heavy or weak",
+          "Clumsy hands or dropping things",
+          "Feet feel unsteady when walking"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did the numbness start?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago",
+          "More than 1 year ago"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "How it started",
+        "question": "Did it start suddenly or slowly? Did it follow a fall, an injury, or a new medicine?",
+        "type": "text"
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where is the numbness?",
+        "type": "multi",
+        "options": [
+          "Face or around the mouth",
+          "One arm or hand",
+          "Both hands",
+          "One leg or foot",
+          "Both feet",
+          "One whole side of the body",
+          "Hands and feet together",
+          "Back, buttocks, or inner thighs"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long does the numbness last?",
+        "type": "single",
+        "options": [
+          "It never goes away",
+          "It comes and goes",
+          "A few minutes at a time",
+          "A few hours at a time",
+          "Only after sitting in one position",
+          "Mostly at night"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How much does the numbness bother the person?",
+        "type": "scale",
+        "hint": "Scale from 1-10."
+      },
+      {
+        "field": "severity",
+        "label": "Effect on daily activities",
+        "question": "How much does it affect these activities?",
+        "type": "multi",
+        "options": [
+          "Walking safely",
+          "Buttoning clothes or holding a cup or spoon",
+          "Noticing cuts, blisters, or burns on the feet or hands",
+          "Sleep",
+          "None of these"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes the numbness better?",
+        "type": "multi",
+        "options": [
+          "Moving around or shaking the arm or leg",
+          "Changing position",
+          "Warmth",
+          "Rest",
+          "Loose shoes",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes the numbness worse?",
+        "type": "multi",
+        "options": [
+          "Sitting with legs crossed",
+          "Sitting or lying a long time",
+          "Standing or walking a long time",
+          "Cold weather",
+          "Tight shoes or socks",
+          "Night time",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Does the person have any of these with the numbness?",
+        "type": "multi",
+        "options": [
+          "Muscle weakness",
+          "Drooping face or slurred speech",
+          "Vision problems",
+          "Dizziness",
+          "Severe headache",
+          "Neck or back pain",
+          "Falls or near-falls",
+          "Sores or wounds on the feet that the person did not feel",
+          "Trouble controlling urine or bowel movements",
+          "Burning pain in the feet",
+          "None"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "History of diabetes",
+        "question": "Does the person have diabetes?",
+        "type": "single",
+        "options": [
+          "Yes",
+          "No",
+          "Not sure"
+        ]
+      }
+    ],
+    "sources": [
+      "Powers, W. J., et al. (2019). Guidelines for the early management of patients with acute ischemic stroke: 2019 update. Stroke, 50(12), e344-e418.",
+      "Hanewinckel, R., et al. (2016). Prevalence of polyneuropathy in the general middle-aged and elderly population. Neurology, 87(18), 1892-1898.",
+      "Feldman, E. L., et al. (1994). A practical two-step quantitative clinical and electrophysiological assessment for the diagnosis and staging of diabetic neuropathy. Diabetes Care, 17(11), 1281-1289.",
+      "National Institute of Neurological Disorders and Stroke (NINDS). Peripheral Neuropathy Fact Sheet. ninds.nih.gov",
+      "MedlinePlus (U.S. National Library of Medicine). Numbness and tingling. medlineplus.gov",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
+  },
+  {
+    "name": "Stomach or Bowel Problems (Problema sa Tiyan o Pagdumi)",
+    "group": "COLDSPA",
+    "emergencyWarning": "Call emergency help now if: the person is vomiting blood, has black tarry or bloody stools, has a very hard or swollen belly with severe pain, or cannot pass stool or gas and keeps vomiting.",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What best describes the stomach or bowel problem?",
+        "type": "multi",
+        "id": "character",
+        "options": [
+          "Stomach pain or cramps",
+          "Bloating or a swollen belly",
+          "Too much gas",
+          "Heartburn or burning in the chest or throat",
+          "Nausea (feeling like vomiting)",
+          "Vomiting",
+          "Feeling full after only a few bites",
+          "Constipation (hard stool, hard to pass, or not going often)",
+          "Diarrhea (loose or watery stool)",
+          "Leaking stool or can't make it to the toilet in time",
+          "Blood in the stool or black stool",
+          "Trouble swallowing"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did it start?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "What happened then",
+        "question": "Did it start after a new medicine, a new food, a fall, or a stay in the hospital?",
+        "type": "text"
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where is it?",
+        "type": "single",
+        "hint": "Only if there is pain or discomfort.",
+        "options": [
+          "Upper belly (below the ribs)",
+          "Around the belly button",
+          "Lower belly, left side",
+          "Lower belly, right side",
+          "All over the belly",
+          "Chest or throat (burning)"
+        ],
+        "showIf": {
+          "step": "character",
+          "anyOf": [
+            "Stomach pain or cramps",
+            "Heartburn or burning in the chest or throat"
+          ]
+        }
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long has this been happening?",
+        "type": "single",
+        "options": [
+          "A few hours",
+          "1-2 days",
+          "Several days",
+          "Several weeks",
+          "Several months",
+          "It comes and goes",
+          "It never goes away"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Frequency per day",
+        "question": "How many times a day does the person pass stool or vomit?",
+        "type": "text"
+      },
+      {
+        "field": "duration",
+        "label": "Last bowel movement",
+        "question": "When was the last bowel movement?",
+        "type": "text"
+      },
+      {
+        "field": "character",
+        "label": "Stool appearance",
+        "question": "What does the stool look like? (Bristol Stool Chart, types 1-7)",
+        "type": "single",
+        "options": [
+          "Types 1-2: hard lumps (constipation)",
+          "Types 3-4: normal",
+          "Types 5-7: soft to watery (diarrhea)"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bothersome is it?",
+        "type": "scale",
+        "hint": "Scale from 1-10."
+      },
+      {
+        "field": "severity",
+        "label": "Effect on daily activities",
+        "question": "How much does it affect these activities?",
+        "type": "multi",
+        "options": [
+          "Eating and drinking",
+          "Sleeping",
+          "Going out",
+          "Bathing and dressing",
+          "Mood"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes it better?",
+        "type": "multi",
+        "options": [
+          "Passing stool or gas",
+          "Drinking more water",
+          "Eating fruits, vegetables, or fiber",
+          "Eating small meals",
+          "Sitting upright after meals",
+          "Walking or moving",
+          "Medicine (for example, antacid)",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes it worse?",
+        "type": "multi",
+        "options": [
+          "Eating certain foods (spicy, fatty, or greasy)",
+          "Large meals",
+          "Lying down right after eating",
+          "Not drinking enough water",
+          "Not moving much",
+          "Certain medicines (for example, pain pills, iron, or antibiotics)",
+          "Stress or worry",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Does the person have any of these?",
+        "type": "multi",
+        "options": [
+          "Fever or chills",
+          "Loss of appetite",
+          "Weight loss without trying",
+          "Weakness or tiredness",
+          "Dry mouth, dark yellow urine, or little urine (signs of not enough water)",
+          "Dizziness when standing",
+          "Yellow skin or eyes",
+          "New confusion or unusual sleepiness",
+          "Blood in the stool or black stool",
+          "Vomiting blood",
+          "None"
+        ]
+      }
+    ],
+    "sources": [
+      "Lewis, S. J., & Heaton, K. W. (1997). Stool form scale as a useful guide to intestinal transit time. Scandinavian Journal of Gastroenterology, 32(9), 920-924.",
+      "Drossman, D. A. (2016). Functional gastrointestinal disorders: History, pathophysiology, clinical features and Rome IV. Gastroenterology, 150(6), 1262-1279.",
+      "Bharucha, A. E., et al. (2013). American Gastroenterological Association technical review on constipation. Gastroenterology, 144(1), 218-238.",
+      "Riddle, M. S., DuPont, H. L., & Connor, B. A. (2016). ACG clinical guideline: Diagnosis, treatment, and prevention of acute diarrheal infections in adults. American Journal of Gastroenterology, 111(5), 602-622.",
+      "Moayyedi, P., et al. (2017). ACG and CAG clinical guideline: Management of dyspepsia. American Journal of Gastroenterology, 112(7), 988-1013.",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
   }
+
 ]

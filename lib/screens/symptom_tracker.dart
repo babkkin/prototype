@@ -410,10 +410,12 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
           child: Column(
             children: [
               Expanded(
-                child: ListView(
+              child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
                     if (_index == 0) _headerCard(context),
+                    if (_index == 0 && _def.emergencyWarning.trim().isNotEmpty)
+                      _emergencyBanner(context),
                     Text(
                       '${_index + 1}. ${step.question}',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -464,6 +466,44 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _emergencyBanner(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: scheme.errorContainer,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: scheme.error.withValues(alpha: 0.4),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.emergency_outlined,
+            color: scheme.onErrorContainer,
+            size: 22,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              _def.emergencyWarning,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                height: 1.4,
+                color: scheme.onErrorContainer,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
