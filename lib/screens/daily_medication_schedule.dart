@@ -126,15 +126,6 @@ class _DailyMedicationScheduleState extends State<DailyMedicationSchedule> {
               final intakes =
                   intakeSnapshot.data ?? const <MedicationIntake>[];
 
-              final takenCount = scheduledEntries
-                  .where((e) =>
-                      _findScheduled(
-                        intakes,
-                        e.medication.id,
-                        _minutesOfDay(e.time),
-                      )?.status ==
-                      IntakeStatus.taken)
-                  .length;
 
           return StreamBuilder<Map<int, int>>(
             stream: context
@@ -142,7 +133,8 @@ class _DailyMedicationScheduleState extends State<DailyMedicationSchedule> {
                 .medicationIntakesDao
                 .watchTakenCounts(profile.id),
             builder: (context, countSnapshot) {
-          final takenCounts = countSnapshot.data ?? const <int, int>{};
+              final takenCounts = countSnapshot.data ?? const <int, int>{};
+
           return ListView(
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
             children: [
@@ -163,13 +155,6 @@ class _DailyMedicationScheduleState extends State<DailyMedicationSchedule> {
                 ],
               ),
               const SizedBox(height: 6),
-              if (scheduledEntries.isNotEmpty) ...[
-                _ProgressBar(
-                  taken: takenCount,
-                  total: scheduledEntries.length,
-                ),
-                const SizedBox(height: 8),
-              ],
               if (orderedMinutes.isEmpty)
                 const _NoScheduledMedicationMessage()
               else
@@ -229,17 +214,17 @@ class _TimeGroup extends StatelessWidget {
   final List<_DoseEntry> entries;
   final DateTime day;
   final List<MedicationIntake> intakes;
-  final Map<int, int> takenCounts;
   final bool isCurrent;
+  final Map<int, int> takenCounts;
 
   const _TimeGroup({
     super.key,
+    required this.takenCounts,
     this.isCurrent = false,
     required this.time,
     required this.entries,
     required this.day,
     required this.intakes,
-    required this.takenCounts,
   });
 
   @override
@@ -310,16 +295,14 @@ class _MedicationDoseCard extends StatelessWidget {
   final TimeOfDay time;
   final DateTime day;
   final MedicationIntake? intake;
-
-  /// All-time doses taken for this medication.
   final int takenTotal;
 
   const _MedicationDoseCard({
+    required this.takenTotal,
     required this.medication,
     required this.time,
     required this.day,
     required this.intake,
-    required this.takenTotal,
   });
 
   @override
@@ -476,15 +459,7 @@ class _MedicationDoseCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (medication.totalDoses != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: _ProgressBar(
-                      taken: takenTotal,
-                      total: medication.totalDoses!,
-                      label: 'doses taken',
-                    ),
-                  ),
+                DoseProgress(medication: medication, taken: takenTotal),
               ],
             ),
           ),
@@ -632,35 +607,50 @@ class _MedicationDoseCard extends StatelessWidget {
   }
 }
 
-class _ProgressBar extends StatelessWidget {
+/// Progress toward the doctor-prescribed total number of doses.
+/// Shows nothing when the medication has no total.
+class DoseProgress extends StatelessWidget {
+  final Medication medication;
   final int taken;
-  final int total;
-  final String label;
 
-  const _ProgressBar({
+  const DoseProgress({
+    super.key,
+    required this.medication,
     required this.taken,
-    required this.total,
-    this.label = 'doses taken',
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '$taken of $total $label',
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        const SizedBox(height: 4),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(
-            value: total <= 0 ? 0 : (taken / total).clamp(0.0, 1.0),
-            minHeight: 5,
+    final total = medication.totalDoses;
+    if (total == null || total <= 0) return const SizedBox.shrink();
+
+    final done = taken >= total;
+    final left = total - taken;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            done
+                ? 'Completed: $taken of $total doses'
+                : '$taken of $total doses taken \u2022 $left left',
+            style: TextStyle(
+              fontSize: 12,
+              color: done ? Colors.green.shade700 : Colors.grey.shade800,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 3),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: (taken / total).clamp(0.0, 1.0),
+              minHeight: 5,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -670,14 +660,12 @@ class _PrnMedicationCard extends StatelessWidget {
 
   /// PRN doses already logged today for this medication.
   final List<MedicationIntake> doses;
-
-  /// All-time doses taken for this medication.
   final int takenTotal;
 
   const _PrnMedicationCard({
+    required this.takenTotal,
     required this.medication,
     required this.doses,
-    required this.takenTotal,
   });
 
   @override
@@ -726,14 +714,7 @@ class _PrnMedicationCard extends StatelessWidget {
                     ),
               ),
             ],
-            if (medication.totalDoses != null) ...[
-              const SizedBox(height: 8),
-              _ProgressBar(
-                taken: takenTotal,
-                total: medication.totalDoses!,
-                label: 'doses taken',
-              ),
-            ],
+            DoseProgress(medication: medication, taken: takenTotal),
             const SizedBox(height: 8),
             Row(
               children: [

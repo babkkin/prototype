@@ -1,381 +1,1956 @@
 [
   {
+    "name": "Urinary Problems",
+    "group": "Journal",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What best describes your urinary problem?",
+        "type": "multi",
+        "id": "character",
+        "options": [
+          "Burning or painful urination - burning",
+          "Burning or painful urination - stinging",
+          "Burning or painful urination - itching",
+          "Discomfort",
+          "Difficulty starting urination",
+          "Urine leaking or cannot control urination",
+          "Sudden strong urge to urinate",
+          "Urinating frequently at night",
+          "Urinating more often than usual",
+          "Passing more urine than usual",
+          "Passing less urine than usual",
+          "Blood in the urine",
+          "Unable to urinate despite feeling the need",
+          "Cloudy or unusual-looking urine"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did you first notice this urinary problem?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where do you feel the discomfort?",
+        "type": "single",
+        "options": [
+          "Lower abdomen/bladder area",
+          "Urethral area",
+          "Lower back/side (flank)",
+          "Other"
+        ],
+        "showIf": {
+          "step": "character",
+          "anyOf": [
+            "Discomfort"
+          ]
+        }
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long has this urinary problem been happening?",
+        "type": "single",
+        "id": "duration",
+        "options": [
+          "A few hours",
+          "1 day",
+          "Several days",
+          "Several weeks",
+          "Several months",
+          "It comes and goes",
+          "It does not go away"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Each episode",
+        "question": "How long does each episode usually last?",
+        "type": "single",
+        "hint": "Asked because the problem comes and goes.",
+        "options": [
+          "A few seconds",
+          "A few minutes",
+          "Several hours"
+        ],
+        "showIf": {
+          "step": "duration",
+          "anyOf": [
+            "It comes and goes"
+          ]
+        }
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bothersome is this urinary problem?",
+        "type": "scale"
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your urinary problem better?",
+        "type": "multi",
+        "options": [
+          "Resting",
+          "Drinking water/fluids",
+          "Emptying my bladder",
+          "Changing position",
+          "Taking medication",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your urinary problem worse?",
+        "type": "multi",
+        "options": [
+          "Drinking more fluids",
+          "Caffeine or coffee",
+          "Alcohol",
+          "Carbonated drinks",
+          "Spicy foods",
+          "Coughing, sneezing, or moving",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you have any other symptoms?",
+        "type": "multi",
+        "options": [
+          "Fever/chills",
+          "Blood in urine",
+          "Cloudy or unusual-smelling urine",
+          "Back/side pain",
+          "Nausea/vomiting",
+          "Increased thirst",
+          "Swelling of legs/feet",
+          "Weakness/tiredness",
+          "None"
+        ]
+      }
+    ],
+    "sources": [
+      "Mohamed, Asmaa Hamdi. Health Assessment. Assistant Professor of Medical-Surgical Nursing, Ain Shams University.",
+      "Weber, J. R., & Kelley, J. H. (2014). Health Assessment in Nursing (5th ed.). Wolters Kluwer Health/Lippincott Williams & Wilkins.",
+      "Medicine LibreTexts. Pain Assessment",
+      "Cleveland Clinic. Lower Urinary Tract Symptoms (LUTS)"
+    ]
+  },
+  {
     "name": "Shortness of Breath",
-    "summary": "A feeling of difficulty breathing or not getting enough air.",
-    "points": [
-      "Can occur during activity or even while resting",
-      "May be linked to heart or lung conditions",
-      "Sudden or severe breathing difficulty needs urgent medical attention"
+    "group": "Journal",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What does your breathing difficulty feel like?",
+        "type": "single",
+        "options": [
+          "I can’t get enough air (Air hunger)",
+          "Breathing feels like hard work (Work/effort)",
+          "My chest feels tight (Chest Tightness)"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did your shortness of breath begin?",
+        "type": "single",
+        "options": [
+          "Developed over hours to days",
+          "Developed over several days to 4 weeks",
+          "Persisted for more than 4 weeks"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where do you feel the discomfort related to your breathing?",
+        "type": "single",
+        "options": [
+          "Chest",
+          "Throat",
+          "Other",
+          "No specific location"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long does each episode of your shortness of breath last?",
+        "type": "single",
+        "options": [
+          "A few minutes",
+          "Several hours",
+          "Persistent/does not go away",
+          "Comes and goes"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How severe is your shortness of breath? (Using the mMRC Dyspnea Scale)",
+        "type": "single",
+        "options": [
+          "Grade 0 - Breathless only with strenuous exercise",
+          "Grade 1 - Breathless when hurrying or walking up a slight hill",
+          "Grade 2 - Walks slower than people of the same age because of breathlessness",
+          "Grade 3 - Stops for breath after walking a short distance",
+          "Grade 4 - Too breathless to leave the house or breathless when dressing"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your shortness of breath better?",
+        "type": "multi",
+        "options": [
+          "Rest",
+          "Sitting upright",
+          "Relaxation/calming activities",
+          "Breathing exercises",
+          "Medication/inhaler",
+          "Oxygen therapy",
+          "Other"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your shortness of breath worse?",
+        "type": "multi",
+        "options": [
+          "Physical activity/exercise",
+          "Walking",
+          "Lying down flat",
+          "Lying on one specific side",
+          "Worsens when in an upright posture",
+          "Stress or anxiety",
+          "Extreme temperatures",
+          "Smoke or air pollutants"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you experience any of these together with your shortness of breath?",
+        "type": "multi",
+        "options": [
+          "Chest tightness",
+          "Chest pain",
+          "Cough",
+          "Wheezing",
+          "Heart palpitations",
+          "Fever",
+          "Chills",
+          "Nausea",
+          "Fainting",
+          "Swelling of feet or ankles",
+          "Blue lips or fingertips",
+          "Gasping",
+          "Other",
+          "None"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
-    ],
-    "coldspa": {
-      "fixedLocation": "Chest / breathing",
-      "character": [
-        "Hard to catch my breath",
-        "Tight chest",
-        "Wheezing or noisy breathing",
-        "Breathless when lying flat",
-        "Waking up at night short of breath",
-        "Breathless with little activity"
-      ],
-      "pattern": [
-        "During activity",
-        "At rest",
-        "When lying flat",
-        "At night",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse when walking or climbing stairs",
-        "Gets worse when lying flat",
-        "Gets better with rest",
-        "Gets better when sitting up",
-        "Gets better after medication"
-      ],
-      "associated": [
-        "Chest discomfort",
-        "Cough",
-        "Leg or ankle swelling",
-        "Palpitations",
-        "Tiredness",
-        "Dizziness"
-      ]
-    }
+    "sources": [
+      "Nishino, T. (2011). “Dyspnoea: underlying mechanisms and treatment.” British Journal of Anaesthesia, 106(4), 463–474.",
+      "WebMD — “Dyspnea / Shortness of Breath.”",
+      "Weber & Kelley — Health Assessment in Nursing",
+      "MRC Dyspnea Scale | Primary Care Respiratory Society",
+      "https://www.sciencedirect.com/science/article/pii/S0007091217332452",
+      "https://www.sciencedirect.com/topics/neuroscience/dyspnea",
+      "https://www.ncbi.nlm.nih.gov/books/NBK499965/"
+    ]
   },
   {
-    "name": "Chest Discomfort",
-    "summary": "Pain, pressure, tightness, or heaviness felt in the chest.",
-    "points": [
-      "Can be related to heart or circulation problems",
-      "May occur together with sweating, nausea, or shortness of breath",
-      "Severe or persistent chest discomfort needs urgent medical attention"
+    "name": "Fatigue or Low Energy",
+    "group": "Journal",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What does your fatigue feel like?",
+        "type": "single",
+        "options": [
+          "I feel tired much of the time (Tiredness)",
+          "I do not feel full of energy (Low energy)",
+          "I have difficulty sleeping/feel sleepy (Sleepiness)",
+          "I experience muscle weakness (Weakness)",
+          "I have trouble concentrating (Cognitive fatigue)",
+          "I feel that life is empty (Emotional fatigue)",
+          "Other"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did the fatigue begin?",
+        "type": "single",
+        "options": [
+          "Suddenly",
+          "Gradually",
+          "Other"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where is the fatigue mainly experienced?",
+        "type": "single",
+        "options": [
+          "Whole body",
+          "Muscles",
+          "Legs",
+          "Eyes",
+          "Shoulders",
+          "Other"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long have you been experiencing fatigue?",
+        "type": "single",
+        "options": [
+          "A few days",
+          "More than a few days",
+          "Several weeks",
+          "6 months or more",
+          "Other"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How severe is your fatigue?",
+        "type": "scale"
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your fatigue worse?",
+        "type": "multi",
+        "options": [
+          "Not enough sleep",
+          "Too little physical activity",
+          "Too much physical activity",
+          "Eating poorly",
+          "Alcohol or drug use",
+          "Stress",
+          "Certain medicines",
+          "Other"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your fatigue better?",
+        "type": "multi",
+        "options": [
+          "Rest",
+          "Getting enough sleep",
+          "Reducing stress",
+          "Eating well",
+          "Drinking plenty of fluids",
+          "Other"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you experience any of the following along with your fatigue?",
+        "type": "multi",
+        "options": [
+          "Difficulty focusing",
+          "Low energy/reduced ability to do things",
+          "Changes in mood or state of mind",
+          "Shortness of breath",
+          "Chest pain",
+          "Fast or irregular heartbeat",
+          "Feeling like you might pass out",
+          "Severe headache",
+          "Severe stomach, pelvic, or back pain",
+          "Unusual bleeding",
+          "Other"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
-    ],
-    "coldspa": {
-      "location": [
-        "Center of the chest",
-        "Left side",
-        "Right side",
-        "Spreads to the arm, neck, jaw or back"
-      ],
-      "locationQuestion": "Where is the chest discomfort?",
-      "character": [
-        "Pressure or squeezing",
-        "Tightness",
-        "Heaviness",
-        "Sharp or stabbing",
-        "Burning",
-        "Dull ache"
-      ],
-      "pattern": [
-        "During physical activity",
-        "At rest",
-        "After eating",
-        "At night",
-        "During stress or emotional upset",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse with activity",
-        "Gets better with rest",
-        "Gets worse when breathing deeply",
-        "Gets worse after eating",
-        "Gets better after medication"
-      ],
-      "associated": [
-        "Shortness of breath",
-        "Sweating",
-        "Nausea",
-        "Dizziness",
-        "Palpitations",
-        "Pain spreading to the arm, jaw or back"
-      ]
-    }
+    "sources": [
+      "Hardy, S. E., & Studenski, S. A. (2010). Qualities of fatigue and associated chronic conditions among older adults. Journal of Pain and Symptom Management, 39(6), 1033–1042. https://doi.org/10.1016/j.jpainsymman.2009.09.026",
+      "Mayo Clinic Staff. (2026, February 20). Fatigue. Mayo Clinic.",
+      "Cleveland Clinic. (2023, April 13). Fatigue: Causes & Treatment."
+    ]
   },
   {
-    "name": "Dizziness",
-    "summary": "A feeling of lightheadedness, spinning, or unsteadiness.",
-    "points": [
-      "Can be linked to low blood pressure or dehydration",
-      "Sometimes caused by medication side effects",
-      "May increase the risk of falls in older adults"
+    "name": "Sleep Difficulties",
+    "group": "Journal",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What kind of sleep difficulty are you experiencing?",
+        "type": "single",
+        "options": [
+          "Difficulty falling asleep",
+          "Waking up during the night",
+          "Waking up too early",
+          "Difficulty going back to sleep after waking",
+          "Sleep does not feel restful",
+          "Excessive sleepiness during the day",
+          "Other"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did you first notice your sleep difficulty?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "When it occurs",
+        "question": "When during your sleep period do you experience the most difficulty?",
+        "type": "single",
+        "options": [
+          "When trying to fall asleep",
+          "During the night",
+          "Early morning",
+          "Throughout the night",
+          "During the daytime",
+          "Other"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long have you been experiencing sleep difficulties?",
+        "type": "single",
+        "options": [
+          "A few days",
+          "Several weeks",
+          "3 months or more",
+          "Comes and goes",
+          "Almost every night"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How severe is your sleep difficulty?",
+        "type": "scale"
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What seems to make your sleep difficulty worse?",
+        "type": "multi",
+        "options": [
+          "Stress or worry",
+          "Irregular sleep schedule",
+          "Daytime naps",
+          "Caffeine",
+          "Alcohol",
+          "Nicotine",
+          "Using phone/TV before bedtime",
+          "Being too active before bedtime",
+          "Uncomfortable sleeping environment",
+          "Pain or discomfort",
+          "Other"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What seems to make your sleep difficulty better?",
+        "type": "multi",
+        "options": [
+          "Regular sleep schedule",
+          "Relaxing before bedtime",
+          "Comfortable sleep environment",
+          "Reducing stress",
+          "Regular physical activity",
+          "Avoiding caffeine/alcohol/nicotine",
+          "Other"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "What other symptoms do you experience along with your sleep difficulty?",
+        "type": "multi",
+        "options": [
+          "Daytime sleepiness",
+          "Tiredness/fatigue",
+          "Difficulty concentrating",
+          "Memory problems",
+          "Irritability",
+          "Anxiety or low mood",
+          "Snoring",
+          "Gasping or choking during sleep",
+          "Frequent night time urination",
+          "Leg discomfort or urge to move the legs",
+          "Headache",
+          "Falls or accidents",
+          "Other"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
-    ],
-    "coldspa": {
-      "fixedLocation": "Head",
-      "character": [
-        "Spinning, like the room is moving",
-        "Lightheaded, about to faint",
-        "Unsteady when standing or walking",
-        "Faint when standing up quickly"
-      ],
-      "pattern": [
-        "When standing up quickly",
-        "After taking medicine",
-        "After meals",
-        "In the morning",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse when standing up",
-        "Gets worse after taking medicine",
-        "Gets better when sitting or lying down",
-        "Gets better after drinking water"
-      ],
-      "associated": [
-        "Headache",
-        "Blurred vision",
-        "Nausea or vomiting",
-        "Palpitations",
-        "Falls or near-falls",
-        "Chest discomfort",
-        "Weakness on one side"
-      ]
-    }
+    "sources": [
+      "https://my.clevelandclinic.org/health/diseases/11429-sleep-disorders",
+      "https://www.mayoclinic.org/diseases-conditions/sleep-disorders/symptoms-causes/syc-20354018"
+    ]
   },
   {
-    "name": "Fatigue",
-    "summary": "A persistent feeling of tiredness or low energy.",
-    "points": [
-      "May occur with diabetes, heart disease, or other chronic conditions",
-      "Not always relieved by resting or sleeping",
-      "Can also be related to medication effects or poor sleep"
+    "name": "Vision Difficulties",
+    "group": "Journal",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What kind of vision difficulty are you experiencing?",
+        "type": "single",
+        "options": [
+          "Blurred or unclear vision",
+          "Difficulty seeing objects to the side",
+          "Difficulty seeing in dim light or at night",
+          "Seeing double",
+          "Difficulty judging distances or depth",
+          "Difficulty seeing differences between objects and their background",
+          "Sensitivity to bright light or glare",
+          "Seeing halos around lights",
+          "Distorted or wavy vision",
+          "Other"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did you first notice your vision difficulty?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where did you notice the vision difficulty?",
+        "type": "single",
+        "options": [
+          "Center of my vision",
+          "Side/peripheral vision",
+          "Both center and sides",
+          "One eye",
+          "Both eyes",
+          "Other"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long have you been experiencing this vision difficulty?",
+        "type": "single",
+        "options": [
+          "A few hours",
+          "A few days",
+          "Several weeks",
+          "Several months",
+          "Long-term",
+          "Comes and goes"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How much does your vision difficulty affect your daily activities?",
+        "type": "single",
+        "options": [
+          "Does not affect my activities",
+          "Slightly affects my activities",
+          "Moderately affects my activities",
+          "Greatly affects my activities",
+          "Prevents me from doing my usual activities"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse when",
+        "question": "When does your vision difficulty become worse?",
+        "type": "multi",
+        "options": [
+          "In bright light or glare",
+          "In dim light",
+          "At night",
+          "When reading",
+          "When looking at distant objects",
+          "When looking at nearby objects",
+          "When moving around unfamiliar places",
+          "Other"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better when",
+        "question": "When does your vision difficulty become better?",
+        "type": "multi",
+        "options": [
+          "With glasses or prescribed visual aids",
+          "In good lighting",
+          "When resting my eyes",
+          "Other"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "What other symptoms or difficulties do you experience along with your vision problem?",
+        "type": "multi",
+        "options": [
+          "Eye strain or tired eyes",
+          "Headache",
+          "Squinting frequently",
+          "Difficulty reading",
+          "Difficulty recognizing faces",
+          "Frequently bumping into objects",
+          "Difficulty judging distances",
+          "Seeing halos around lights",
+          "Other"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
-    ],
-    "coldspa": {
-      "fixedLocation": "Whole body",
-      "character": [
-        "Tired even after resting",
-        "Weak, no strength",
-        "Heavy or sluggish",
-        "Sleepy during the day",
-        "Hard to concentrate"
-      ],
-      "pattern": [
-        "In the morning",
-        "In the afternoon",
-        "In the evening",
-        "After activity",
-        "After taking medicine",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse with activity",
-        "Gets worse after taking medicine",
-        "Gets better with rest",
-        "Gets better with sleep"
-      ],
-      "associated": [
-        "Shortness of breath",
-        "Dizziness",
-        "Swelling in the legs",
-        "Poor sleep",
-        "Loss of appetite",
-        "Low mood"
-      ]
-    }
+    "sources": [
+      "https://www.who.int/news-room/fact-sheets/detail/blindness-and-visual-impairment",
+      "https://www.aoa.org/healthy-eyes/caring-for-your-eyes/low-vision-and-vision-rehab",
+      "https://my.clevelandclinic.org/health/diseases/24446-blindness"
+    ]
   },
   {
-    "name": "Leg or Ankle Swelling",
-    "summary": "Swelling caused by fluid buildup in the legs, ankles, or feet.",
-    "points": [
-      "May occur with heart, kidney, or circulation problems",
-      "Can become more noticeable after standing for long periods",
-      "Sudden swelling on one side should be checked by a healthcare professional"
+    "name": "Hearing Difficulties",
+    "group": "COLDSPA",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What best describes your hearing problem?",
+        "type": "multi",
+        "options": [
+          "Difficulty understanding conversations",
+          "Difficulty hearing in noisy places or groups",
+          "Asking people to repeat themselves",
+          "Muffled or \"blocked\" hearing",
+          "Needing the TV or radio louder than others do",
+          "Difficulty hearing on the phone",
+          "Ringing or buzzing in the ears (tinnitus)",
+          "Ear pain or fullness",
+          "Fluid or discharge from the ear",
+          "Sounds seem too loud or uncomfortable"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did you first notice this hearing problem?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-3 days ago (sudden)",
+          "4-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago",
+          "More than 1 year ago (gradual)"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Which ear",
+        "question": "Which ear is affected?",
+        "type": "single",
+        "options": [
+          "Right ear",
+          "Left ear",
+          "Both ears"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long does the problem last?",
+        "type": "single",
+        "options": [
+          "Constant (all the time)",
+          "Comes and goes",
+          "Lasts minutes",
+          "Lasts hours",
+          "Lasts days"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bothersome is this hearing problem?",
+        "type": "scale",
+        "hint": "How much does it limit conversations, phone calls, TV, or social activities?"
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your hearing problem better?",
+        "type": "multi",
+        "options": [
+          "A quiet place",
+          "Seeing the speaker's face",
+          "People speaking slowly and clearly",
+          "Using a hearing aid or amplifier",
+          "Resting",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your hearing problem worse?",
+        "type": "multi",
+        "options": [
+          "Noisy places or background noise",
+          "Group conversations",
+          "Talking on the phone",
+          "Colds or ear infections",
+          "Earwax build-up",
+          "Tiredness",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you have any other symptoms?",
+        "type": "multi",
+        "options": [
+          "Ringing in the ears",
+          "Ear pain",
+          "Ear discharge",
+          "Dizziness or spinning",
+          "Headache",
+          "Avoiding social activities or feeling embarrassed",
+          "Feeling lonely or sad",
+          "Falls or near-falls",
+          "Trouble concentrating or remembering",
+          "None"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
-    ],
-    "coldspa": {
-      "location": [
-        "Left foot or ankle",
-        "Right foot or ankle",
-        "Both feet or ankles",
-        "Lower legs",
-        "Thighs",
-        "Whole legs"
-      ],
-      "locationQuestion": "Where is the swelling?",
-      "character": [
-        "Soft, leaves a dent when pressed",
-        "Firm or tight",
-        "Painful",
-        "Warm or red",
-        "Heavy feeling"
-      ],
-      "pattern": [
-        "Worse by evening",
-        "Worse in the morning",
-        "After standing or sitting for a long time",
-        "All day",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse after standing or sitting for long",
-        "Gets worse after salty food",
-        "Gets better when legs are raised",
-        "Gets better overnight",
-        "Gets better after medication"
-      ],
-      "associated": [
-        "Shortness of breath",
-        "Weight gain",
-        "Tiredness",
-        "Passing less urine than usual",
-        "Leg pain or redness"
-      ]
-    }
+    "followUp": "Hearing Handicap Inventory for the Elderly – Screening (HHIE-S), whispered voice test, then audiometry if positive.",
+    "sources": [
+      "Bagai, A., Thavendiranathan, P., et al. (2006). Does this patient have hearing impairment? JAMA. https://www.ovid.com/journals/jama/fulltext/00005407-200601250-00025~does-this-patient-have-hearing-impairment",
+      "Identifying hearing loss and audiological rehabilitation candidacy through self-perceived hearing handicap using the Croatian version of the HHIE-S (HHIE-S-CRO). (2025). Audiology Research, 15(5). https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12452682/",
+      "Sensitivity and specificity of hearing tests for screening hearing loss in older adults. PMC (PMC9937813). https://pmc.ncbi.nlm.nih.gov/articles/PMC9937813/",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
   },
   {
-    "name": "Palpitations",
-    "summary": "A feeling that the heart is racing, pounding, or skipping beats.",
-    "points": [
-      "May happen during activity or while resting",
-      "Can be linked to heart rhythm changes or certain medications",
-      "Palpitations with chest pain or fainting need urgent attention"
+    "name": "Mobility Difficulties",
+    "group": "COLDSPA",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What best describes your mobility problem?",
+        "type": "multi",
+        "id": "character",
+        "options": [
+          "Difficulty walking",
+          "Difficulty standing up from a chair or bed",
+          "Difficulty climbing stairs",
+          "Feeling unsteady or off-balance",
+          "Muscle weakness",
+          "Stiffness",
+          "Pain when moving",
+          "Slow walking or shuffling",
+          "Needing a cane, walker, or someone's help",
+          "Difficulty with bathing, dressing, or toileting",
+          "Tiredness or shortness of breath when walking"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did you first notice this mobility problem?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago",
+          "More than 1 year ago"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "How it started",
+        "question": "Did it start suddenly or gradually? Did it follow a fall, illness, or surgery?",
+        "type": "text"
+      },
+      {
+        "field": "location",
+        "label": "Location",
+        "question": "Where do you feel the difficulty?",
+        "type": "multi",
+        "hint": "Asked because you have pain, stiffness, or weakness in a body part.",
+        "options": [
+          "Hips",
+          "Knees",
+          "Ankles or feet",
+          "Back",
+          "Both legs",
+          "One side of the body",
+          "Whole body"
+        ],
+        "showIf": {
+          "step": "character",
+          "anyOf": [
+            "Muscle weakness",
+            "Stiffness",
+            "Pain when moving"
+          ]
+        }
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long does the difficulty last?",
+        "type": "single",
+        "options": [
+          "Constant",
+          "Comes and goes",
+          "Morning stiffness lasting less than 30 minutes",
+          "Morning stiffness lasting more than 30 minutes",
+          "Lasts only after activity"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bothersome is this mobility problem?",
+        "type": "scale"
+      },
+      {
+        "field": "severity",
+        "label": "Help needed",
+        "question": "How much help do you need to move around?",
+        "type": "single",
+        "options": [
+          "None (independent)",
+          "Cane or walker",
+          "Help from another person",
+          "Unable to walk"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your mobility problem better?",
+        "type": "multi",
+        "options": [
+          "Resting",
+          "Moving or warming up slowly",
+          "Warm bath or heat",
+          "Taking pain medication",
+          "Using a cane or walker",
+          "Changing position",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your mobility problem worse?",
+        "type": "multi",
+        "options": [
+          "Sitting or lying for a long time",
+          "Walking long distances",
+          "Climbing stairs",
+          "Cold or damp weather",
+          "Standing up quickly",
+          "Tiredness (late in the day)",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you have any other symptoms?",
+        "type": "multi",
+        "options": [
+          "Joint pain or swelling",
+          "Muscle weakness",
+          "Numbness or tingling in the feet",
+          "Dizziness when standing up",
+          "Falls or near-falls",
+          "Vision problems",
+          "Fatigue",
+          "Fear of falling",
+          "Low mood or loss of interest",
+          "None"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
-    ],
-    "coldspa": {
-      "fixedLocation": "Chest",
-      "character": [
-        "Racing or fast heartbeat",
-        "Pounding or thumping",
-        "Skipping beats",
-        "Fluttering",
-        "Irregular heartbeat"
-      ],
-      "pattern": [
-        "During activity",
-        "At rest",
-        "At night",
-        "During stress or anxiety",
-        "After caffeine or meals",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse with activity",
-        "Gets worse with stress",
-        "Gets better with rest",
-        "Gets better with deep breathing"
-      ],
-      "associated": [
-        "Chest discomfort",
-        "Dizziness or fainting",
-        "Shortness of breath",
-        "Sweating",
-        "Tiredness"
-      ]
-    }
+    "followUp": "Timed Up and Go (TUG), 30-second chair stand, 4-stage balance test, Katz ADL, Lawton IADL.",
+    "sources": [
+      "Is the Timed Up and Go test a useful predictor of risk of falls in community dwelling older adults: a systematic review and meta-analysis. (2014). BMC Geriatrics, 14, 14. https://pmc.ncbi.nlm.nih.gov/articles/PMC3924230",
+      "Discriminative ability and predictive validity of the Timed Up and Go test in identifying older people who fall: systematic review and meta-analysis. (2013). Journal of the American Geriatrics Society, 61(2), 202-208.",
+      "Browne, W., & Nair, B. R. (2019). The Timed Up and Go test. Medical Journal of Australia, 210(1). https://www.mja.com.au/journal/2019/210/1/timed-and-go-test",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
   },
   {
-    "name": "Headache",
-    "summary": "Pain or pressure felt in the head or upper neck.",
-    "points": [
-      "Can be dull and constant, or sharp and throbbing",
-      "May be linked to stress, dehydration, or blood pressure changes",
-      "Sometimes a side effect of medication"
+    "name": "Falls or Tripping",
+    "group": "COLDSPA",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What best describes your fall or tripping problem?",
+        "type": "multi",
+        "options": [
+          "Fell to the ground",
+          "Tripped over an object",
+          "Slipped",
+          "Legs gave way",
+          "Felt dizzy or faint before falling",
+          "Near-falls (caught myself)",
+          "Found myself on the floor and don't remember falling",
+          "Feeling unsteady when standing or walking",
+          "Worry about falling"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Most recent fall",
+        "question": "When was your most recent fall or trip?",
+        "type": "single",
+        "options": [
+          "Today",
+          "1-2 days ago",
+          "3-7 days ago",
+          "More than 1 week ago",
+          "More than 1 month ago",
+          "More than 1 year ago"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Falls in past year",
+        "question": "How many times have you fallen in the past year?",
+        "type": "single",
+        "options": [
+          "Once",
+          "Twice",
+          "Three or more times"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Where it happened",
+        "question": "Where did you fall?",
+        "type": "single",
+        "options": [
+          "Bathroom",
+          "Bedroom",
+          "Kitchen or living area",
+          "Stairs",
+          "Outdoors"
+        ]
+      },
+      {
+        "field": "location",
+        "label": "Where hurt",
+        "question": "Where were you hurt?",
+        "type": "multi",
+        "options": [
+          "Head",
+          "Hip",
+          "Wrist or arm",
+          "Knee or leg",
+          "Back",
+          "Not injured"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "How long has the falling or tripping been happening?",
+        "type": "single",
+        "options": [
+          "First time",
+          "Days",
+          "Weeks",
+          "Months",
+          "More than a year"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Time to get up",
+        "question": "After the fall, how long did it take to get up?",
+        "type": "single",
+        "options": [
+          "Got up right away",
+          "Needed help to get up",
+          "Stayed on the floor for a long time"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bothersome is this problem or your worry about falling?",
+        "type": "scale"
+      },
+      {
+        "field": "severity",
+        "label": "Injury",
+        "question": "What was the injury?",
+        "type": "single",
+        "options": [
+          "None",
+          "Bruise or scrape",
+          "Cut needing treatment",
+          "Fracture or head injury",
+          "Needed emergency care or admission"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your falls or tripping better?",
+        "type": "multi",
+        "options": [
+          "Good lighting",
+          "Using a cane or walker",
+          "Handrails or grab bars",
+          "Sturdy, non-slip footwear",
+          "Sitting down to dress or bathe",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your falls or tripping worse?",
+        "type": "multi",
+        "options": [
+          "Poor lighting or walking at night",
+          "Wet or slippery floors",
+          "Loose rugs or clutter",
+          "Rushing (for example, to the toilet)",
+          "Standing up quickly",
+          "Certain medications or alcohol",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you have any other symptoms?",
+        "type": "multi",
+        "options": [
+          "Dizziness or lightheadedness",
+          "Loss of consciousness",
+          "Palpitations",
+          "Leg weakness",
+          "Vision problems",
+          "Numbness in the feet",
+          "Urinary urgency",
+          "Confusion",
+          "Fear of falling again (avoiding activities)",
+          "None"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
-    ],
-    "coldspa": {
-      "location": [
-        "Forehead",
-        "Temples",
-        "Back of the head",
-        "One side of the head",
-        "Whole head"
-      ],
-      "locationQuestion": "Where is the headache?",
-      "character": [
-        "Throbbing or pulsing",
-        "Pressure or tight band",
-        "Dull, constant ache",
-        "Sharp or stabbing",
-        "Sudden and very severe (the worst ever)"
-      ],
-      "pattern": [
-        "In the morning, on waking",
-        "During the day",
-        "At night",
-        "During stress or emotional upset",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse with stress",
-        "Gets worse with bright light or noise",
-        "Gets better with rest",
-        "Gets better after medication"
-      ],
-      "associated": [
-        "Dizziness",
-        "Blurred vision",
-        "Nausea or vomiting",
-        "Nosebleed",
-        "Chest pain or tightness",
-        "Shortness of breath",
-        "Confusion or trouble speaking",
-        "Weakness on one side"
-      ]
-    }
+    "followUp": "CDC STEADI three key questions (fallen in the past year? feel unsteady when standing or walking? worry about falling?), then Timed Up and Go, 30-second chair stand, 4-stage balance test, orthostatic blood pressure, and medication review.",
+    "sources": [
+      "Operationalization and validation of the Stopping Elderly Accidents, Deaths, and Injuries (STEADI) fall risk algorithm in a nationally representative sample. (2017). CDC Stacks. https://stacks.cdc.gov/view/cdc/50545",
+      "Mielenz, T. J., & Strogatz, D. (2020). Evaluating a two-level vs. three-level Quick-STEADI fall risk screening algorithm. Frontiers in Public Health.",
+      "Is the Timed Up and Go test a useful predictor of risk of falls in community dwelling older adults: a systematic review and meta-analysis. (2014). BMC Geriatrics, 14, 14. https://pmc.ncbi.nlm.nih.gov/articles/PMC3924230",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
   },
   {
-    "name": "Blurred Vision",
-    "summary": "Difficulty seeing clearly or a noticeable change in eyesight.",
-    "points": [
-      "Can occur with diabetes or blood pressure problems",
-      "May affect one or both eyes",
-      "Sudden vision loss or major changes need urgent medical attention"
+    "name": "Loss of Interest or Enjoyment",
+    "group": "COLDSPA",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What best describes your loss of interest or enjoyment?",
+        "type": "multi",
+        "options": [
+          "Little interest in usual activities",
+          "No longer enjoying hobbies",
+          "Withdrawing from family or friends",
+          "Feeling numb or empty",
+          "Difficulty starting things",
+          "Trouble concentrating",
+          "Feeling bored most of the time",
+          "Neglecting self-care",
+          "Avoiding going out"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did you first notice this loss of interest?",
+        "type": "single",
+        "options": [
+          "Less than 2 weeks ago",
+          "About 2 weeks ago",
+          "More than 1 month ago",
+          "More than 6 months ago",
+          "More than 1 year ago"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "What happened then",
+        "question": "Did anything happen around that time (loss, illness, move, stress)?",
+        "type": "text"
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "Over the last 2 weeks, how often have you had little interest or pleasure in doing things?",
+        "type": "single",
+        "options": [
+          "Not at all (0)",
+          "Several days (1)",
+          "More than half the days (2)",
+          "Nearly every day (3)"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bothersome is this loss of interest?",
+        "type": "scale",
+        "hint": "How much does it affect your daily life, relationships, or self-care?"
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your loss of interest better?",
+        "type": "multi",
+        "options": [
+          "Being with family or friends",
+          "Walks or light exercise",
+          "Music or hobbies",
+          "Prayer or spiritual activities",
+          "Going outdoors or sunlight",
+          "Talking to someone",
+          "Medication or treatment",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your loss of interest worse?",
+        "type": "multi",
+        "options": [
+          "Being alone",
+          "Mornings or evenings",
+          "Stress or bad news",
+          "Poor sleep",
+          "Pain",
+          "Difficulty hearing or moving around",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you have any other symptoms?",
+        "type": "multi",
+        "options": [
+          "Sadness or feeling down",
+          "Sleep changes",
+          "Appetite or weight changes",
+          "Tiredness or low energy",
+          "Trouble concentrating or remembering",
+          "Feeling worthless or guilty",
+          "Restlessness or moving slowly",
+          "Worry or anxiety",
+          "Physical pain",
+          "Thoughts of death or hurting yourself (ask directly)",
+          "None"
+        ]
+      }
     ],
-    "conditions": [
-      "Hypertension"
+    "followUp": "PHQ-2 (item 1: little interest or pleasure in doing things). If positive, use PHQ-9 or Geriatric Depression Scale (GDS-15). The GDS-15 has no suicide question, so ask about suicide risk separately.",
+    "sources": [
+      "Salis et al. (2026). Validation of the Patient Health Questionnaire-2 (PHQ-2) in detecting depression among older adults. https://iris.unica.it/handle/11584/488706",
+      "Levis, B., et al. (2020). Accuracy of the PHQ-2 alone and in combination with the PHQ-9 for screening to detect major depression: systematic review and meta-analysis. JAMA. https://pmc.ncbi.nlm.nih.gov/articles/PMC7284301",
+      "Park, S.-H., & Kwak, M.-J. (2021). Performance of the Geriatric Depression Scale-15 with older adults aged over 65 years: An updated review 2000-2019. Clinical Gerontologist, 44(2), 83-96.",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
+  },
+  {
+    "name": "Sadness or Low Mood",
+    "group": "COLDSPA",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Feels like",
+        "question": "What best describes your low mood?",
+        "type": "multi",
+        "options": [
+          "Feeling sad",
+          "Feeling down or depressed",
+          "Feeling hopeless",
+          "Feeling empty",
+          "Crying easily or often",
+          "Feeling irritable",
+          "Feeling worthless or guilty",
+          "Feeling like a burden",
+          "Feeling lonely"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Started",
+        "question": "When did you first notice this low mood?",
+        "type": "single",
+        "options": [
+          "Less than 2 weeks ago",
+          "About 2 weeks ago",
+          "More than 1 month ago",
+          "More than 6 months ago",
+          "More than 1 year ago"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "What happened then",
+        "question": "Did anything happen around that time (loss, illness, move, stress)?",
+        "type": "text"
+      },
+      {
+        "field": "duration",
+        "label": "Duration",
+        "question": "Over the last 2 weeks, how often have you felt down, depressed, or hopeless?",
+        "type": "single",
+        "options": [
+          "Not at all (0)",
+          "Several days (1)",
+          "More than half the days (2)",
+          "Nearly every day (3)"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Severity",
+        "question": "How bothersome is this low mood?",
+        "type": "scale",
+        "hint": "How much does it affect your daily life, sleep, eating, or relationships?"
+      },
+      {
+        "field": "pattern",
+        "label": "Better with",
+        "question": "What makes your low mood better?",
+        "type": "multi",
+        "options": [
+          "Being with family or friends",
+          "Talking to someone",
+          "Walks or light exercise",
+          "Music or hobbies",
+          "Prayer or spiritual activities",
+          "Good sleep",
+          "Medication or treatment",
+          "Nothing makes it better"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Worse with",
+        "question": "What makes your low mood worse?",
+        "type": "multi",
+        "options": [
+          "Being alone or isolated",
+          "Mornings or evenings",
+          "Stress or bad news",
+          "Poor sleep",
+          "Pain",
+          "Difficulty hearing, moving, or falls",
+          "Nothing makes it worse"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Do you have any other symptoms?",
+        "type": "multi",
+        "options": [
+          "Loss of interest or enjoyment",
+          "Sleep changes",
+          "Appetite or weight changes",
+          "Tiredness or low energy",
+          "Trouble concentrating or remembering",
+          "Restlessness or moving slowly",
+          "Worry or anxiety",
+          "Physical pain",
+          "Thoughts of death or hurting yourself (ask directly)",
+          "None"
+        ]
+      }
     ],
-    "coldspa": {
-      "location": [
-        "Left eye",
-        "Right eye",
-        "Both eyes"
-      ],
-      "locationQuestion": "Which eye is affected?",
-      "character": [
-        "Cloudy or foggy",
-        "Double vision",
-        "Spots or floaters",
-        "Flashes of light",
-        "Blind spot or partial loss of vision",
-        "Sudden loss of vision"
-      ],
-      "pattern": [
-        "In the morning",
-        "In the evening",
-        "After reading or screen use",
-        "After a headache",
-        "Any time, without a clear pattern"
-      ],
-      "modifiers": [
-        "Gets worse in bright light",
-        "Gets worse with reading or screen use",
-        "Gets better with rest",
-        "Gets better with glasses"
-      ],
-      "associated": [
-        "Headache",
-        "Dizziness",
-        "Eye pain",
-        "Nausea",
-        "Weakness on one side",
-        "Trouble speaking"
-      ]
-    }
+    "followUp": "PHQ-2 (item 2: feeling down, depressed, or hopeless). If positive (score of 3 or more is the usual cutoff; 2 or more catches more cases but gives more false positives), use PHQ-9 or GDS-15.",
+    "sources": [
+      "Manea, L., et al. (2016). Identifying depression with the PHQ-2: A diagnostic meta-analysis. Journal of Affective Disorders, 203, 382-395. https://pubmed.ncbi.nlm.nih.gov/27371907/",
+      "Levis, B., et al. (2020). Accuracy of the PHQ-2 alone and in combination with the PHQ-9 for screening to detect major depression: systematic review and meta-analysis. JAMA. https://pmc.ncbi.nlm.nih.gov/articles/PMC7284301",
+      "Accuracy in detecting major depressive episodes in older adults using the Swedish versions of the GDS-15 and PHQ-9. Upsala Journal of Medical Sciences. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8559588/",
+      "Framework: Weber, J. R., & Kelley, J. H. Health Assessment in Nursing. Lippincott Williams & Wilkins. (COLDSPA)"
+    ]
+  },
+  {
+    "name": "Appetite Changes",
+    "group": "NRES",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Appetite change",
+        "question": "What change have you noticed in your appetite?",
+        "type": "single",
+        "hint": "Choose the option that best describes how you have been feeling.",
+        "options": [
+          "Decreased appetite",
+          "Increased appetite",
+          "No change in appetite",
+          "My appetite comes and goes"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "Duration",
+        "question": "How long have you noticed this change?",
+        "type": "single",
+        "hint": "Choose the option that best describes the duration.",
+        "options": [
+          "Started today",
+          "A few days",
+          "1–2 weeks",
+          "Several weeks",
+          "One month or longer"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Frequency",
+        "question": "How often does this happen?",
+        "type": "single",
+        "hint": "Choose the option that best fits your experience.",
+        "options": [
+          "Occasionally",
+          "Once a day",
+          "During most meals",
+          "Every day",
+          "On and off",
+          "Not sure"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Degree of change",
+        "question": "How much has your appetite changed?",
+        "type": "single",
+        "hint": "Select the option that best describes the change.",
+        "options": [
+          "Slight change",
+          "Moderate change",
+          "Significant change",
+          "Unable to eat or much hungrier than usual"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Pattern",
+        "question": "When do you notice the change?",
+        "type": "single",
+        "options": [
+          "In the morning",
+          "At lunchtime",
+          "In the evening",
+          "Before or after taking medication",
+          "Throughout the day",
+          "No clear pattern"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Associated symptoms",
+        "question": "Have you noticed anything else along with this change?",
+        "type": "multi",
+        "options": [
+          "Unintentional weight loss",
+          "Unintentional weight gain",
+          "Nausea or vomiting",
+          "Stomach discomfort",
+          "Feeling unusually thirsty",
+          "Feeling tired or weak",
+          "No other symptoms"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Factors affecting appetite",
+        "question": "What makes the appetite change better or worse?",
+        "type": "multi",
+        "options": [
+          "Eating smaller, frequent meals",
+          "Eating certain foods",
+          "Taking medication",
+          "Stress or emotional changes",
+          "Changes in daily routine",
+          "Nothing seems to help"
+        ]
+      }
+    ],
+    "sources": [
+      "de Souto Barreto, P., et al. (2023). Assessment and management of appetite loss in older adults: An ICFSR task force report. The Journal of Frailty & Aging, 12(1), 1–6. https://doi.org/10.14283/jfa.2022.64",
+      "Healthdirect Australia. (2025). Changes to your appetite. https://www.healthdirect.gov.au/symptoms/changes-to-your-appetite"
+    ]
+  },
+  {
+    "name": "Anxiety or Excessive Worrying",
+    "group": "NRES",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Experiencing",
+        "question": "What have you been experiencing lately?",
+        "type": "multi",
+        "options": [
+          "Feeling anxious or worried",
+          "Worrying excessively about different things",
+          "Feeling nervous or restless",
+          "Having difficulty controlling my worries",
+          "Feeling on edge or unable to relax",
+          "No noticeable anxiety or excessive worrying"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "When it started",
+        "question": "When did you first notice these feelings?",
+        "type": "single",
+        "options": [
+          "Started today",
+          "A few days ago",
+          "A few weeks ago",
+          "A few months ago",
+          "More than six months ago"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Frequency",
+        "question": "How often do you feel anxious or excessively worried?",
+        "type": "single",
+        "options": [
+          "Rarely",
+          "A few times a week",
+          "Almost every day",
+          "Every day",
+          "On and off throughout the day"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Difficulty controlling worries",
+        "question": "How difficult is it to control your worrying?",
+        "type": "single",
+        "options": [
+          "Not difficult",
+          "Slightly difficult",
+          "Moderately difficult",
+          "Very difficult",
+          "Unable to control my worrying"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Possible triggers",
+        "question": "What situations or concerns seem to trigger your anxiety or worrying?",
+        "type": "multi",
+        "options": [
+          "Health concerns or illness",
+          "Family or relationship problems",
+          "Financial concerns",
+          "Daily responsibilities",
+          "Changes in routine or environment",
+          "Uncertainty about the future",
+          "No clear reason",
+          "Others"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "What other symptoms do you experience when you feel anxious or worried?",
+        "type": "multi",
+        "options": [
+          "Rapid heartbeat",
+          "Sweating or trembling",
+          "Difficulty sleeping",
+          "Feeling restless or on edge",
+          "Difficulty concentrating",
+          "Muscle tension",
+          "Shortness of breath",
+          "Stomach discomfort",
+          "No other noticeable symptoms",
+          "Others"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Effect on daily activities",
+        "question": "How much does your anxiety or worrying affect your daily activities?",
+        "type": "single",
+        "options": [
+          "No effect",
+          "Slightly affects my activities",
+          "Moderately affects my activities",
+          "Greatly affects my activities",
+          "Prevents me from doing usual activities",
+          "Others"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Helpful coping strategies",
+        "question": "What helps you feel less anxious or worried?",
+        "type": "multi",
+        "options": [
+          "Talking to family or friends",
+          "Practicing deep breathing or relaxation",
+          "Doing enjoyable activities",
+          "Resting or getting enough sleep",
+          "Spending time in a quiet environment",
+          "Seeking help from a healthcare professional",
+          "Nothing seems to help",
+          "Others"
+        ]
+      }
+    ],
+    "sources": [
+      "Ruscio, A. M., et al. (2024). The case for eliminating excessive worry as a requirement for generalized anxiety disorder: a cross-national investigation. Psychological Medicine, 54(12), 3447–3458. https://doi.org/10.1017/S003329172400182X",
+      "Fortea, L., Solanes, A., Pomarol-Clotet, E., et al. (2025). Coping behaviors to reduce anxiety and depressive symptoms: A prospective repeated assessment study. Spanish Journal of Psychiatry and Mental Health, 18(1), 42–50. https://doi.org/10.1016/j.sjpmh.2024.08.003"
+    ]
+  },
+  {
+    "name": "Irritability",
+    "group": "NRES",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Changes noticed",
+        "question": "What changes in mood or behavior have you noticed recently?",
+        "type": "multi",
+        "options": [
+          "Becoming annoyed or irritated easily",
+          "Getting frustrated over small things",
+          "Becoming angry more easily than usual",
+          "Feeling impatient or restless",
+          "Reacting more strongly than usual",
+          "No noticeable irritability"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "When it started",
+        "question": "When did you first notice these changes?",
+        "type": "single",
+        "options": [
+          "Started today",
+          "A few days ago",
+          "A few weeks ago",
+          "A few months ago",
+          "More than six months ago"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Frequency",
+        "question": "How often do you feel irritated or frustrated?",
+        "type": "single",
+        "options": [
+          "Rarely",
+          "A few times a week",
+          "Almost every day",
+          "Several times a day",
+          "On and off throughout the day"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Intensity",
+        "question": "How intense is your irritability when it occurs?",
+        "type": "single",
+        "options": [
+          "Mild: I feel slightly annoyed",
+          "Moderate: It is difficult to stay calm",
+          "Severe: I have difficulty controlling my reactions",
+          "Very severe: It significantly affects my interactions with others"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Possible triggers",
+        "question": "What situations seem to trigger your irritability?",
+        "type": "multi",
+        "options": [
+          "Physical discomfort or pain",
+          "Tiredness or lack of sleep",
+          "Noise or a crowded environment",
+          "Changes in daily routine",
+          "Difficulty completing daily activities",
+          "Family or relationship concerns",
+          "Feeling misunderstood or having difficulty communicating",
+          "No clear reason"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Have you noticed any other symptoms along with irritability?",
+        "type": "multi",
+        "options": [
+          "Feeling anxious or worried",
+          "Feeling sad or having little interest in activities",
+          "Difficulty sleeping",
+          "Difficulty concentrating",
+          "Feeling unusually tired",
+          "Increased confusion or forgetfulness",
+          "No other noticeable symptoms"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Effect on daily life",
+        "question": "How much does irritability affect your daily activities or relationships?",
+        "type": "single",
+        "options": [
+          "No effect",
+          "Slightly affects my activities or interactions",
+          "Moderately affects my activities or relationships",
+          "Greatly affects my activities or relationships",
+          "Causes difficulty managing usual activities or interacting with others"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Helpful coping strategies",
+        "question": "What helps you feel calmer when you become irritated?",
+        "type": "multi",
+        "options": [
+          "Resting or getting enough sleep",
+          "Spending time in a quiet environment",
+          "Talking with family or a trusted person",
+          "Practicing deep breathing or relaxation",
+          "Doing enjoyable activities",
+          "Taking a break from the situation",
+          "Receiving help with daily activities",
+          "Nothing seems to help"
+        ]
+      }
+    ],
+    "sources": [
+      "Rivas-Vazquez, R. A., Rey, G. J., Rivas-Vazquez, E. V., Diaz, S. G., & Rodriguez, C. (2025). Importance of screening for irritability when assessing for geriatric depression. The Primary Care Companion for CNS Disorders, 27(1), 24m03808. https://doi.org/10.4088/PCC.24m03808",
+      "Cho, E., Hwang, S., Yang, M., Kim, E., Cho, J., & Park, C. (2026). Dynamic relationship between sleep patterns and behavioral and psychological symptoms of dementia: Longitudinal observational study. JMIR Aging, 9, e80422. https://doi.org/10.2196/80422"
+    ]
+  },
+  {
+    "name": "Difficulty Concentrating",
+    "group": "NRES",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Difficulties",
+        "question": "What difficulties with concentration have you noticed recently?",
+        "type": "multi",
+        "options": [
+          "Easily distracted",
+          "Difficulty focusing on one task",
+          "Difficulty following conversations",
+          "Losing track of what I am doing",
+          "Difficulty finishing tasks",
+          "Difficulty making decisions",
+          "No noticeable difficulty concentrating",
+          "Others"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "When it started",
+        "question": "When did you first notice these difficulties?",
+        "type": "single",
+        "options": [
+          "Started today",
+          "A few days ago",
+          "A few weeks ago",
+          "A few months ago",
+          "More than six months ago"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Frequency",
+        "question": "How often do you experience difficulty concentrating?",
+        "type": "single",
+        "options": [
+          "Rarely",
+          "A few times a week",
+          "Almost every day",
+          "Several times a day",
+          "On and off throughout the day"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Duration of focus",
+        "question": "How long can you usually concentrate on a task before losing focus?",
+        "type": "single",
+        "options": [
+          "More than 30 minutes",
+          "15–30 minutes",
+          "5–14 minutes",
+          "Less than 5 minutes",
+          "It varies depending on the task"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Possible contributing factors",
+        "question": "What seems to affect your ability to concentrate?",
+        "type": "multi",
+        "options": [
+          "Poor sleep or tiredness",
+          "Stress or anxiety",
+          "Feeling sad or low",
+          "Physical pain or discomfort",
+          "Noise or distractions",
+          "Recent illness",
+          "Medication changes",
+          "No clear reason",
+          "Others"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other symptoms",
+        "question": "Have you noticed any other difficulties along with poor concentration?",
+        "type": "multi",
+        "options": [
+          "Forgetfulness",
+          "Difficulty finding the right words",
+          "Confusion",
+          "Difficulty following instructions",
+          "Feeling unusually tired",
+          "Headache or dizziness",
+          "No other noticeable symptoms",
+          "Others"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Effect on daily activities",
+        "question": "How much does difficulty concentrating affect your daily activities?",
+        "type": "single",
+        "options": [
+          "No effect",
+          "Slightly affects my activities",
+          "Moderately affects my activities",
+          "Greatly affects my activities",
+          "Prevents me from completing usual activities",
+          "Others"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Helpful strategies",
+        "question": "What helps you concentrate better?",
+        "type": "multi",
+        "options": [
+          "Resting or getting enough sleep",
+          "Working in a quiet environment",
+          "Doing one task at a time",
+          "Taking short breaks",
+          "Using written reminders or checklists",
+          "Asking family or a caregiver for assistance",
+          "Nothing seems to help",
+          "Others"
+        ]
+      }
+    ],
+    "sources": [
+      "Fastame, M. C. (2022). Are subjective cognitive complaints associated with executive functions and mental health of older adults? Cognitive Processing, 23, 503–512. https://doi.org/10.1007/s10339-022-01089-y",
+      "Idowu, M. I., Szameitat, A. J., & Parton, A. (2024). The assessment of executive function abilities in healthy and neurodegenerative aging—A selective literature review. Frontiers in Aging Neuroscience, 16, 1334309. https://doi.org/10.3389/fnagi.2024.1334309",
+      "Smit, D., Koerts, J., Bangma, D. F., Fuermaier, A. B. M., Tucha, L., & Tucha, O. (2024). Look who is complaining: Psychological factors predicting subjective cognitive complaints in a large community sample of older adults. Applied Neuropsychology: Adult, 31(3), 203–217. https://doi.org/10.1080/23279095.2021.2007387"
+    ]
+  },
+  {
+    "name": "Memory Difficulties",
+    "group": "NRES",
+    "steps": [
+      {
+        "field": "character",
+        "label": "Difficulties",
+        "question": "What memory difficulties have you noticed recently?",
+        "type": "multi",
+        "options": [
+          "Forgetting recent conversations or events",
+          "Forgetting appointments or important dates",
+          "Misplacing personal belongings",
+          "Repeating the same questions or stories",
+          "Forgetting names or familiar words",
+          "Forgetting to take medications",
+          "Forgetting familiar routes or places",
+          "No noticeable memory difficulties",
+          "Others"
+        ]
+      },
+      {
+        "field": "onset",
+        "label": "When it started",
+        "question": "When did you first notice these memory difficulties?",
+        "type": "single",
+        "options": [
+          "Started today",
+          "A few days ago",
+          "A few weeks ago",
+          "A few months ago",
+          "More than six months ago",
+          "Others"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Frequency",
+        "question": "How often do you experience these memory difficulties?",
+        "type": "single",
+        "options": [
+          "Rarely",
+          "A few times a month",
+          "A few times a week",
+          "Almost every day",
+          "Several times a day",
+          "Others"
+        ]
+      },
+      {
+        "field": "duration",
+        "label": "Changes over time",
+        "question": "Have your memory difficulties changed over time?",
+        "type": "single",
+        "options": [
+          "No noticeable change",
+          "They have improved",
+          "They have become slightly worse",
+          "They have become much worse",
+          "Others"
+        ]
+      },
+      {
+        "field": "associated",
+        "label": "Other difficulties",
+        "question": "What other difficulties have you noticed along with memory problems?",
+        "type": "multi",
+        "options": [
+          "Difficulty concentrating",
+          "Difficulty finding the right words",
+          "Difficulty following instructions",
+          "Difficulty planning or organizing tasks",
+          "Difficulty making decisions",
+          "Difficulty completing familiar activities",
+          "No other noticeable difficulties",
+          "Others"
+        ]
+      },
+      {
+        "field": "severity",
+        "label": "Effect on daily activities",
+        "question": "How much do these memory difficulties affect your daily activities?",
+        "type": "single",
+        "options": [
+          "No effect",
+          "Slightly affect my activities",
+          "Moderately affect my activities",
+          "Greatly affect my activities",
+          "I need help with usual activities",
+          "Others"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Possible contributing factors",
+        "question": "Have you noticed anything that may be affecting your memory?",
+        "type": "multi",
+        "options": [
+          "Poor sleep or tiredness",
+          "Stress or anxiety",
+          "Recent illness",
+          "Changes in medication",
+          "Feeling sad or depressed",
+          "Changes in daily routine",
+          "No clear reason",
+          "Others"
+        ]
+      },
+      {
+        "field": "pattern",
+        "label": "Helpful memory strategies",
+        "question": "What helps you manage your memory difficulties?",
+        "type": "multi",
+        "options": [
+          "Using a calendar or planner",
+          "Setting reminders or alarms",
+          "Keeping belongings in designated places",
+          "Following a regular daily routine",
+          "Using written notes or checklists",
+          "Asking family or a caregiver for reminders",
+          "Nothing seems to help",
+          "Others"
+        ]
+      }
+    ],
+    "sources": [
+      "Kim, J. S., & Kim, E. (2024). Subjective memory complaints and medication adherence among hypertensive Korean older adults with multimorbidity: Mediating effect of depression and social support. BMC Public Health, 24, Article 585. https://doi.org/10.1186/s12889-024-18061-4",
+      "Lee, C. D., & Foster, E. R. (2023). Subjective memory complaints predict decline in memory, instrumental activities of daily living, and social participation in older adults: A fixed-effects model. American Journal of Occupational Therapy, 77(4), 7704205100. https://doi.org/10.5014/ajot.2023.050151"
+    ]
   }
 ]

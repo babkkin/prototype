@@ -9,182 +9,36 @@ import 'symptom.dart' as reference;
 //
 //   SymptomPickerList     ->  symptoms from assets/symptoms.json,
 //                             shown in the journal
-//   _SymptomWizardScreen  ->  one COLDSPA question per screen, then a
-//                             "recorded" summary
+//   _SymptomWizardScreen  ->  one question per screen (the questions come
+//                             from each symptom's "steps" in the JSON),
+//                             then a "recorded" summary
 //
-// Answers are saved into the existing Symptoms table (no migration):
-//   character          "<Symptom> - <how it feels>"
-//   onset / location / duration / severity   (as answered)
-//   pattern            "Occurs: <when>. Better/worse: <what changes it>"
-//   associatedFactors  other symptoms
+// Every step names the Symptoms column it is saved into (no migration):
+//   character / onset / location / duration / severity / pattern /
+//   associated -> associatedFactors
+// When several steps share a column their answers are joined as
+// "Label: answer; Label: answer". The symptom name is added to character.
 // =====================================================================
 
-/// Last option of every question. Picking it shows a text box; if the
-/// box is left empty the answer is saved as "Not sure".
+/// Added as the last option of a question that has no "Other" of its own.
+/// Picking any "Other" option shows a text box; if the box is left empty
+/// the answer is saved as "Not sure".
 const String _kOther = 'Other / Not sure';
 
-// ---------------------------------------------------------------------
-// SYMPTOM (names come from assets/symptoms.json)
-// ---------------------------------------------------------------------
-
-const _onsetOptions = [
-  'Just now',
-  'Earlier today',
-  'Yesterday',
-  '2 to 3 days ago',
-  'About a week ago',
-  'More than a week ago',
-  'More than a month ago',
-];
-
-const _durationOptions = [
-  'A few seconds',
-  'A few minutes',
-  'Several hours',
-  'It comes and goes throughout the day',
-  'It does not go away',
-];
-
-const _defaultLocationQuestion = 'Which part of the body is affected?';
-
-class _SymptomDef {
-  final String name;
-  final IconData icon;
-  final Color color;
-
-  /// When set, the location question is skipped and this is saved.
-  final String? fixedLocation;
-  final String locationQuestion;
-  final List<String> locationOptions;
-  final List<String> characterOptions;
-  final List<String> patternOptions;
-  final List<String> modifierOptions;
-  final List<String> associatedOptions;
-
-  const _SymptomDef({
-    required this.name,
-    required this.icon,
-    required this.color,
-    this.fixedLocation,
-    this.locationQuestion = _defaultLocationQuestion,
-    this.locationOptions = const [],
-    this.characterOptions = const [],
-    this.patternOptions = const [],
-    this.modifierOptions = const [],
-    this.associatedOptions = const [],
-  });
-
-  /// Every choice comes from the symptom's `coldspa` block in
-  /// assets/symptoms.json. A question left out of the JSON offers only
-  /// "Other / Not sure".
-  factory _SymptomDef.fromReference(reference.Symptom s, Color color) {
-    final c = s.coldspa;
-
-    return _SymptomDef(
-      name: s.name,
-      icon: Icons.healing,
-      color: color,
-      fixedLocation: c?.fixedLocation,
-      locationQuestion: c?.locationQuestion ?? _defaultLocationQuestion,
-      locationOptions: c?.location ?? const [],
-      characterOptions: c?.character ?? const [],
-      patternOptions: c?.pattern ?? const [],
-      modifierOptions: c?.modifiers ?? const [],
-      associatedOptions: c?.associated ?? const [],
-    );
-  }
+bool _isOther(String option) {
+  final o = option.trim().toLowerCase();
+  return o == 'other' || o == 'others' || option == _kOther;
 }
 
-// ---------------------------------------------------------------------
-// STEPS
-// ---------------------------------------------------------------------
-
-class _Step {
-  final String key;
-  final String question;
-  final String hint;
-  final List<String> options;
-  final bool multi;
-
-  /// Options that cannot be combined with any other (e.g. "None").
-  final Set<String> exclusive;
-  final bool isSeverity;
-
-  const _Step({
-    required this.key,
-    required this.question,
-    this.hint = '',
-    this.options = const [],
-    this.multi = false,
-    this.exclusive = const {},
-    this.isSeverity = false,
-  });
+/// "None", "No other symptoms", "Nothing makes it better" ... cannot be
+/// combined with other choices in a multi-select question.
+bool _isExclusive(String option) {
+  final o = option.trim().toLowerCase();
+  return o == 'none' || o.startsWith('no ') || o.startsWith('nothing');
 }
 
 const _hintSingle = 'Choose the option that best fits.';
 const _hintMulti = 'You can select more than one if needed.';
-
-/// Tailored lists in symptoms.json don't need to repeat the "none of these"
-/// option; it is added here so it is always available.
-List<String> _withTail(List<String> options, String tail) =>
-    options.contains(tail) ? options : [...options, tail];
-
-List<_Step> _stepsFor(_SymptomDef s) => [
-      if (s.fixedLocation == null)
-        _Step(
-          key: 'location',
-          question: s.locationQuestion,
-          hint: _hintMulti,
-          options: s.locationOptions,
-          multi: true,
-        ),
-      _Step(
-        key: 'character',
-        question: 'What does it feel like?',
-        hint: 'Choose the description that best fits.',
-        options: s.characterOptions,
-      ),
-      const _Step(
-        key: 'onset',
-        question: 'When did it start?',
-        hint: _hintSingle,
-        options: _onsetOptions,
-      ),
-      const _Step(
-        key: 'duration',
-        question: 'How long does it last?',
-        hint: _hintSingle,
-        options: _durationOptions,
-      ),
-      const _Step(
-        key: 'severity',
-        question: 'How bad is it?',
-        hint: 'Tap a number on the scale from 0 to 10.',
-        isSeverity: true,
-      ),
-      _Step(
-        key: 'pattern',
-        question: 'When does it usually happen?',
-        hint: _hintSingle,
-        options: s.patternOptions,
-      ),
-      _Step(
-        key: 'modifiers',
-        question: 'What makes it better or worse?',
-        hint: _hintMulti,
-        options: _withTail(s.modifierOptions, 'Nothing seems to help'),
-        multi: true,
-        exclusive: {'Nothing seems to help'},
-      ),
-      _Step(
-        key: 'associated',
-        question: 'Do you have other symptoms with it?',
-        hint: _hintMulti,
-        options: _withTail(s.associatedOptions, 'No other symptoms'),
-        multi: true,
-        exclusive: {'No other symptoms'},
-      ),
-    ];
 
 // =====================================================================
 // SYMPTOM LIST (embedded in the journal)
@@ -197,7 +51,7 @@ class SymptomPickerList extends StatelessWidget {
   final List<reference.Symptom> symptoms;
   final bool loadFailed;
 
-  /// Opens the reference information (summary and points) for a symptom.
+  /// Opens the reference information (sources, follow-up tools) for a symptom.
   final void Function(reference.Symptom symptom)? onInfo;
 
   const SymptomPickerList({
@@ -208,11 +62,12 @@ class SymptomPickerList extends StatelessWidget {
     this.onInfo,
   });
 
-  Future<void> _open(BuildContext context, _SymptomDef def) async {
+  Future<void> _open(BuildContext context, reference.Symptom symptom) async {
     await Navigator.push<bool>(
       context,
       MaterialPageRoute(
-        builder: (_) => _SymptomWizardScreen(profile: profile, symptom: def),
+        builder: (_) =>
+            _SymptomWizardScreen(profile: profile, symptom: symptom),
       ),
     );
   }
@@ -230,10 +85,7 @@ class SymptomPickerList extends StatelessWidget {
           side: BorderSide(color: scheme.outlineVariant),
         ),
         child: InkWell(
-          onTap: () => _open(
-            context,
-            _SymptomDef.fromReference(symptom, scheme.primary),
-          ),
+          onTap: () => _open(context, symptom),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
@@ -304,7 +156,7 @@ class SymptomPickerList extends StatelessWidget {
 
 class _SymptomWizardScreen extends StatefulWidget {
   final Profile profile;
-  final _SymptomDef symptom;
+  final reference.Symptom symptom;
 
   const _SymptomWizardScreen({
     required this.profile,
@@ -316,67 +168,102 @@ class _SymptomWizardScreen extends StatefulWidget {
 }
 
 class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
-  late final List<_Step> _steps;
-  final Map<String, Set<String>> _selected = {};
-  final Map<String, TextEditingController> _otherControllers = {};
+  // Answers are keyed by the step's position in the JSON list, because
+  // several steps can share a column (and a label).
+  final Map<int, Set<String>> _selected = {};
+  final Map<int, int> _scale = {};
+  final Map<int, TextEditingController> _controllers = {};
 
+  /// Position (in [_visible]) of the question on screen.
   int _index = 0;
-  int? _severity;
   bool _saving = false;
   bool _saved = false;
   List<(String, String)> _summary = const [];
+  bool _mentionedSelfHarm = false;
 
-  _SymptomDef get _def => widget.symptom;
-  _Step get _step => _steps[_index];
+  reference.Symptom get _def => widget.symptom;
+  List<reference.SymptomStep> get _all => _def.steps;
 
   @override
   void initState() {
     super.initState();
-    _steps = _stepsFor(widget.symptom);
-    for (final s in _steps) {
-      if (s.isSeverity) continue;
-      _selected[s.key] = {};
-      _otherControllers[s.key] = TextEditingController();
+    for (var i = 0; i < _all.length; i++) {
+      _selected[i] = {};
+      _controllers[i] = TextEditingController();
     }
   }
 
   @override
   void dispose() {
-    for (final c in _otherControllers.values) {
+    for (final c in _controllers.values) {
       c.dispose();
     }
     super.dispose();
   }
 
-  /// The saved text for one step, or null while it is unanswered.
-  String? _answerFor(_Step step) {
-    if (step.isSeverity) {
-      return _severity == null ? null : '$_severity/10';
+  /// Indexes of the questions that apply to the answers given so far.
+  List<int> get _visible {
+    final result = <int>[];
+    for (var i = 0; i < _all.length; i++) {
+      final s = _all[i];
+      if (s.showIfStep != null) {
+        final dep = _all.indexWhere((x) => x.id == s.showIfStep);
+        final chosen = dep < 0 ? const <String>{} : _selected[dep]!;
+        if (!chosen.any(s.showIfAnyOf.contains)) continue;
+      }
+      result.add(i);
+    }
+    return result;
+  }
+
+  int get _current {
+    final v = _visible;
+    return v[_index < v.length ? _index : v.length - 1];
+  }
+
+  List<String> _optionsFor(reference.SymptomStep s) => [
+        ...s.options,
+        if (!s.options.any(_isOther)) _kOther,
+      ];
+
+  /// The saved text for one question, or null while it is unanswered.
+  /// Text questions are optional and return '' when left blank.
+  String? _answerFor(int i) {
+    final step = _all[i];
+
+    if (step.type == 'scale') {
+      final n = _scale[i];
+      return n == null ? null : '$n/10';
     }
 
-    final chosen = _selected[step.key]!;
+    if (step.type == 'text') return _controllers[i]!.text.trim();
+
+    final chosen = _selected[i]!;
     if (chosen.isEmpty) return null;
 
-    final parts = <String>[
-      for (final o in step.options)
-        if (chosen.contains(o)) o,
-    ];
-
-    if (chosen.contains(_kOther)) {
-      final text = _otherControllers[step.key]!.text.trim();
-      parts.add(text.isEmpty ? 'Not sure' : text);
+    final parts = <String>[];
+    for (final o in _optionsFor(step)) {
+      if (!chosen.contains(o)) continue;
+      if (_isOther(o)) {
+        final text = _controllers[i]!.text.trim();
+        parts.add(text.isEmpty ? 'Not sure' : text);
+      } else {
+        parts.add(o);
+      }
     }
 
     return parts.join(', ');
   }
 
-  bool get _canContinue => _answerFor(_step) != null;
+  bool get _canContinue => _answerFor(_current) != null;
 
-  void _toggle(_Step step, String option) {
+  void _toggle(int i, String option) {
+    final step = _all[i];
+
     setState(() {
-      final set = _selected[step.key]!;
+      final set = _selected[i]!;
 
-      if (!step.multi) {
+      if (step.type != 'multi') {
         set
           ..clear()
           ..add(option);
@@ -388,10 +275,10 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
         return;
       }
 
-      if (step.exclusive.contains(option)) {
+      if (_isExclusive(option)) {
         set.clear();
       } else {
-        set.removeWhere(step.exclusive.contains);
+        set.removeWhere(_isExclusive);
       }
       set.add(option);
     });
@@ -401,7 +288,7 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
     if (!_canContinue || _saving) return;
     FocusScope.of(context).unfocus();
 
-    if (_index < _steps.length - 1) {
+    if (_index < _visible.length - 1) {
       setState(() => _index++);
       return;
     }
@@ -413,6 +300,14 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
     if (_index > 0) setState(() => _index--);
   }
 
+  Iterable<(String, String, String)> _answered() sync* {
+    for (final i in _visible) {
+      final a = _answerFor(i);
+      if (a == null || a.isEmpty) continue;
+      yield (_all[i].field, _all[i].label, a);
+    }
+  }
+
   Future<void> _save() async {
     setState(() => _saving = true);
 
@@ -420,35 +315,39 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
     final messenger = ScaffoldMessenger.of(context);
 
     try {
-      final a = {for (final s in _steps) s.key: _answerFor(s)!};
+      final answered = [for (final (f, l, v) in _answered()) (f, l, v)];
+      String col(String field) {
+        final mine = [
+          for (final (f, l, v) in answered)
+            if (f == field) (l, v),
+        ];
+        if (mine.isEmpty) {
+          return field == 'location' ? 'Not applicable' : 'Not recorded';
+        }
+        if (mine.length == 1) return mine.first.$2;
+        return mine.map((e) => '${e.$1}: ${e.$2}').join('; ');
+      }
 
       await dao.insertSymptom(
         SymptomsCompanion.insert(
           profileId: widget.profile.id,
-          character: '${_def.name} - ${a['character']}',
-          onset: a['onset']!,
-          location: _def.fixedLocation ?? a['location']!,
-          duration: a['duration']!,
-          severity: a['severity']!,
-          pattern:
-              'Occurs: ${a['pattern']}. Better/worse: ${a['modifiers']}',
-          associatedFactors: a['associated']!,
+          character: '${_def.name} - ${col('character')}',
+          onset: col('onset'),
+          location: col('location'),
+          duration: col('duration'),
+          severity: col('severity'),
+          pattern: col('pattern'),
+          associatedFactors: col('associated'),
         ),
       );
 
       if (!mounted) return;
 
       setState(() {
-        _summary = [
-          if (_def.fixedLocation == null) ('Location', a['location']!),
-          ('Feels like', a['character']!),
-          ('Started', a['onset']!),
-          ('Duration', a['duration']!),
-          ('Severity', a['severity']!),
-          ('Occurs', a['pattern']!),
-          ('Better / worse', a['modifiers']!),
-          ('Other symptoms', a['associated']!),
-        ];
+        _summary = [for (final (_, l, v) in answered) (l, v)];
+        _mentionedSelfHarm = answered.any(
+          (e) => e.$3.toLowerCase().contains('thoughts of death'),
+        );
         _saving = false;
         _saved = true;
       });
@@ -467,8 +366,18 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
   Widget build(BuildContext context) {
     if (_saved) return _buildDone(context);
 
-    final step = _step;
-    final isLast = _index == _steps.length - 1;
+    final visible = _visible;
+    final i = _current;
+    final step = _all[i];
+    final isLast = _index == visible.length - 1;
+    final hint = step.hint.isNotEmpty
+        ? step.hint
+        : switch (step.type) {
+            'multi' => _hintMulti,
+            'scale' => 'Tap a number on the scale from 0 to 10.',
+            'text' => 'Optional. Leave blank to skip.',
+            _ => _hintSingle,
+          };
 
     return PopScope(
       canPop: _index == 0,
@@ -483,7 +392,7 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
               padding: const EdgeInsets.only(right: 16),
               child: Center(
                 child: Text(
-                  '${_index + 1} of ${_steps.length}',
+                  '${_index + 1} of ${visible.length}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -492,7 +401,7 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(4),
             child: LinearProgressIndicator(
-              value: (_index + 1) / _steps.length,
+              value: (_index + 1) / visible.length,
               minHeight: 4,
             ),
           ),
@@ -513,14 +422,26 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      step.hint,
+                      hint,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 16),
-                    if (step.isSeverity)
-                      _severityScale(context)
+                    if (step.type == 'scale')
+                      _severityScale(context, i)
+                    else if (step.type == 'text')
+                      TextField(
+                        controller: _controllers[i],
+                        minLines: 2,
+                        maxLines: 4,
+                        textCapitalization: TextCapitalization.sentences,
+                        onChanged: (_) => setState(() {}),
+                        decoration: const InputDecoration(
+                          hintText: 'Type here (optional)',
+                          border: OutlineInputBorder(),
+                        ),
+                      )
                     else
-                      ..._optionList(context, step),
+                      ..._optionList(context, i),
                   ],
                 ),
               ),
@@ -552,12 +473,16 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: _def.color.withValues(alpha: 0.12),
+        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
         children: [
-          _IconBadge(icon: _def.icon, color: _def.color, size: 48),
+          _IconBadge(
+            icon: Icons.healing,
+            color: Theme.of(context).colorScheme.primary,
+            size: 48,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -584,17 +509,17 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
     );
   }
 
-  List<Widget> _optionList(BuildContext context, _Step step) {
-    final all = [...step.options, _kOther];
-    final chosen = _selected[step.key]!;
+  List<Widget> _optionList(BuildContext context, int i) {
+    final all = _optionsFor(_all[i]);
+    final chosen = _selected[i]!;
 
     return [
-      for (final option in all) _optionTile(context, step, option),
-      if (chosen.contains(_kOther))
+      for (final option in all) _optionTile(context, i, option),
+      if (chosen.any(_isOther))
         Padding(
           padding: const EdgeInsets.only(top: 2),
           child: TextField(
-            controller: _otherControllers[step.key],
+            controller: _controllers[i],
             textCapitalization: TextCapitalization.sentences,
             decoration: const InputDecoration(
               hintText: 'Describe it, or leave blank if not sure',
@@ -605,11 +530,11 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
     ];
   }
 
-  Widget _optionTile(BuildContext context, _Step step, String option) {
+  Widget _optionTile(BuildContext context, int i, String option) {
     final scheme = Theme.of(context).colorScheme;
-    final selected = _selected[step.key]!.contains(option);
+    final selected = _selected[i]!.contains(option);
 
-    final IconData icon = step.multi
+    final IconData icon = _all[i].type == 'multi'
         ? (selected ? Icons.check_box : Icons.check_box_outline_blank)
         : (selected
             ? Icons.radio_button_checked
@@ -627,7 +552,7 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
           ),
         ),
         child: InkWell(
-          onTap: () => _toggle(step, option),
+          onTap: () => _toggle(i, option),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             child: Row(
@@ -646,8 +571,9 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
     );
   }
 
-  Widget _severityScale(BuildContext context) {
+  Widget _severityScale(BuildContext context, int i) {
     final scheme = Theme.of(context).colorScheme;
+    final value = _scale[i];
 
     return Column(
       children: [
@@ -659,16 +585,16 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
             for (var n = 0; n <= 10; n++)
               InkWell(
                 customBorder: const CircleBorder(),
-                onTap: () => setState(() => _severity = n),
+                onTap: () => setState(() => _scale[i] = n),
                 child: Container(
                   width: 44,
                   height: 44,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _severity == n ? scheme.primary : scheme.surface,
+                    color: value == n ? scheme.primary : scheme.surface,
                     border: Border.all(
-                      color: _severity == n
+                      color: value == n
                           ? scheme.primary
                           : scheme.outlineVariant,
                     ),
@@ -678,7 +604,7 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color:
-                          _severity == n ? scheme.onPrimary : scheme.onSurface,
+                          value == n ? scheme.onPrimary : scheme.onSurface,
                     ),
                   ),
                 ),
@@ -687,7 +613,7 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
         ),
         const SizedBox(height: 24),
         Text(
-          _severity == null ? '- / 10' : '$_severity / 10',
+          value == null ? '- / 10' : '$value / 10',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -770,7 +696,7 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: 120,
+                                  width: 130,
                                   child: Text(
                                     '$label:',
                                     style: const TextStyle(
@@ -786,6 +712,36 @@ class _SymptomWizardScreenState extends State<_SymptomWizardScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  if (_mentionedSelfHarm) ...[
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: scheme.errorContainer,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.warning_amber_rounded,
+                              size: 20, color: scheme.onErrorContainer),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Thoughts of death or self-harm need prompt '
+                              'attention. Please contact a doctor, a crisis '
+                              'line, or local emergency services right away '
+                              'if there is any danger.',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: scheme.onErrorContainer,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
