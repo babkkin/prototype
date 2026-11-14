@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import '../data/app_database.dart';
 
 class AddSymptomEntry extends StatefulWidget {
@@ -198,4 +198,4 @@ class _AddSymptomEntryState extends State<AddSymptomEntry> {
       ),
     );
   }
-}
+} */
