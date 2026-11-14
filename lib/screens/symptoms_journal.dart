@@ -20,6 +20,10 @@ class SymptomsJournal extends StatefulWidget {
 class _SymptomsJournalState extends State<SymptomsJournal> {
   late final Future<List<reference.Symptom>> _symptomsFuture;
 
+  /// Journal entries shown per page, and the page on screen (0-based).
+  static const int _pageSize = 5;
+  int _page = 0;
+
   @override
   void initState() {
     super.initState();
@@ -369,15 +373,19 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
                 );
               }
 
-              return ListView.separated(
-                shrinkWrap: true,
-                physics:
-                    const NeverScrollableScrollPhysics(),
-                itemCount: entries.length,
-                separatorBuilder: (_, _) =>
-                    const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final entry = entries[index];
+              final pageCount =
+                  (entries.length / _pageSize).ceil();
+              // An entry may have been deleted: stay on a valid page.
+              final page =
+                  _page >= pageCount ? pageCount - 1 : _page;
+              final first = page * _pageSize;
+              final last = (first + _pageSize) > entries.length
+                  ? entries.length
+                  : first + _pageSize;
+              final pageEntries = entries.sublist(first, last);
+
+              Widget tile(Symptom entry) {
+                  
 
                   return ListTile(
                     contentPadding:
@@ -438,7 +446,40 @@ class _SymptomsJournalState extends State<SymptomsJournal> {
                       _showEntryDetails(entry);
                     },
                   );
-                },
+                }
+
+              return Column(
+                children: [
+                  for (var i = 0; i < pageEntries.length; i++) ...[
+                    if (i > 0) const Divider(height: 1),
+                    tile(pageEntries[i]),
+                  ],
+                  if (pageCount > 1) ...[
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton.icon(
+                          onPressed: page > 0
+                              ? () => setState(() => _page = page - 1)
+                              : null,
+                          icon: const Icon(Icons.chevron_left),
+                          label: const Text('Previous'),
+                        ),
+                        Text('Page ${page + 1} of $pageCount'),
+                        TextButton.icon(
+                          onPressed: page < pageCount - 1
+                              ? () => setState(() => _page = page + 1)
+                              : null,
+                          iconAlignment: IconAlignment.end,
+                          icon: const Icon(Icons.chevron_right),
+                          label: const Text('Next'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
               );
             },
           ),

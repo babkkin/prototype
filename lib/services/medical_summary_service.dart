@@ -1,13 +1,16 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart' show DateTimeRange;
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 import '../data/app_database.dart';
+import '../models/medicine_info.dart';
 
 /// Everything the summary needs, loaded in one shot.
 class MedicalSummaryData {
@@ -18,6 +21,8 @@ class MedicalSummaryData {
     required this.medications,
     required this.symptoms,
     required this.appointments,
+    this.intakes = const [],
+    this.medicineInfo = const {},
     this.range,
   });
 
@@ -30,6 +35,13 @@ class MedicalSummaryData {
   /// Most-recent mode: upcoming, not-done appointments (max 10).
   /// Period mode: every appointment inside the period, any status.
   final List<Appointment> appointments;
+
+  /// Every Taken / Skipped record of the profile (all days).
+  final List<MedicationIntake> intakes;
+
+  /// Reference sheet entries from assets/medicines.json, keyed by
+  /// lower-case medicine name.
+  final Map<String, MedicineInfo> medicineInfo;
 
   /// null = "most recent entries" (last few vitals/symptoms, active meds).
   final DateTimeRange? range;
@@ -107,6 +119,21 @@ class MedicalSummaryService {
     }
     final appointments = await appointmentsQuery.get();
 
+    final intakes = await (db.select(db.medicationIntakes)
+          ..where((t) => t.profileId.equals(profileId)))
+        .get();
+
+    final medicineInfo = <String, MedicineInfo>{};
+    try {
+      final raw = await rootBundle.loadString('assets/medicines.json');
+      for (final item in jsonDecode(raw) as List<dynamic>) {
+        final info = MedicineInfo.fromJson(item as Map<String, dynamic>);
+        medicineInfo[info.name.trim().toLowerCase()] = info;
+      }
+    } catch (_) {
+      // The PDF is still built without the reference details.
+    }
+
     return MedicalSummaryData(
       profile: profile,
       latestVitals: vitals.isEmpty ? null : vitals.first,
@@ -114,6 +141,8 @@ class MedicalSummaryService {
       medications: meds,
       symptoms: symptoms,
       appointments: appointments,
+      intakes: intakes,
+      medicineInfo: medicineInfo,
       range: range,
     );
   }
@@ -255,9 +284,14 @@ class MedicalSummaryService {
           if (activeMeds.isEmpty)
             _muted('No active medications recorded.')
           else ...[
-            _medGroup('Maintenance', ofType(PrescriptionType.maintenance)),
-            _medGroup('Temporary', ofType(PrescriptionType.temporary)),
-            _medGroup('As needed (PRN)', ofType(PrescriptionType.prn)),
+            _muted(
+              'Doses are counted only when marked Taken or Skipped in the '
+              'app. A dose that was never marked is not counted as missed.',
+            ),
+            pw.SizedBox(height: 4),
+            _medGroup(d, 'Maintenance', ofType(PrescriptionType.maintenance)),
+            _medGroup(d, 'Temporary', ofType(PrescriptionType.temporary)),
+            _medGroup(d, 'As needed (PRN)', ofType(PrescriptionType.prn)),
           ],
           _section(range == null
               ? 'Upcoming Appointments'
@@ -415,7 +449,7 @@ class MedicalSummaryService {
         cellAlignment: pw.Alignment.centerLeft,
         cellPadding: const pw.EdgeInsets.symmetric(horizontal: 4, vertical: 3),
         oddRowDecoration: const pw.BoxDecoration(color: PdfColors.grey100),
-        headers: ['Date', 'BP', 'Temp', 'Pulse', 'RR', 'SpO2', 'Pain /10'],
+        headers: ['Date', 'BP', 'Temp', 'Pulse', 'RR', 'SpO2', 'Pain'],
         data: list
             .map((v) => [
                   _dateTime.format(v.recordedAt),
@@ -424,12 +458,16 @@ class MedicalSummaryService {
                   _v(v.pulseRate),
                   _v(v.respiratoryRate),
                   _v(v.oxygenSaturation),
-                  _v(v.pain),
+                  v.pain == null ? '-' : '${v.pain}/10',
                 ])
             .toList(),
       );
 
-  pw.Widget _medGroup(String label, List<Medication> meds) {
+  pw.Widget _medGroup(
+    MedicalSummaryData d,
+    String label,
+    List<Medication> meds,
+  ) {
     if (meds.isEmpty) return pw.SizedBox();
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -441,12 +479,44 @@ class MedicalSummaryService {
             style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
           ),
         ),
-        ...meds.map(_medCard),
+        ...meds.map((m) => _medCard(d, m)),
       ],
     );
   }
 
-  pw.Widget _medCard(Medication m) {
+  /// Taken / skipped counts for one medication: inside the period when one
+  /// is chosen, otherwise every recorded day.
+  (int taken, int skipped, int takenAllTime) _counts(
+    MedicalSummaryData d,
+    Medication m,
+  ) {
+    final range = d.range;
+    final from = range == null ? null : _startOfDay(range.start);
+    final to = range == null ? null : _nextDay(range.end);
+
+    var taken = 0, skipped = 0, allTime = 0;
+    for (final i in d.intakes) {
+      if (i.medicationId != m.id) continue;
+      if (i.status == IntakeStatus.taken) allTime++;
+      if (from != null &&
+          (i.scheduledDate.isBefore(from) || !i.scheduledDate.isBefore(to!))) {
+        continue;
+      }
+      if (i.status == IntakeStatus.taken) {
+        taken++;
+      } else {
+        skipped++;
+      }
+    }
+    return (taken, skipped, allTime);
+  }
+
+  pw.Widget _medCard(MedicalSummaryData d, Medication m) {
+    final info = d.medicineInfo[m.medicationName.trim().toLowerCase()];
+    final (taken, skipped, takenAllTime) = _counts(d, m);
+    final scope = d.range == null ? '' : ' (in this period)';
+    final total = m.totalDoses;
+
     final name = m.brandName == null || m.brandName!.trim().isEmpty
         ? m.medicationName
         : '${m.medicationName} (${m.brandName})';
@@ -489,6 +559,25 @@ class MedicalSummaryService {
           _kv('Route', _v(m.route)),
           _kv('Schedule', schedule),
           _kv('Duration', duration),
+          if (total != null && total > 0)
+            _kv(
+              'Course progress',
+              '$takenAllTime of $total doses taken'
+              '${takenAllTime >= total ? ' (completed)' : ' (${total - takenAllTime} left)'}',
+            ),
+          if (m.prescriptionType == PrescriptionType.prn)
+            _kv('Doses taken', '$taken$scope')
+          else
+            _kv(
+              'Doses recorded',
+              taken == 0 && skipped == 0
+                  ? 'None recorded$scope'
+                  : 'Taken $taken, skipped $skipped$scope',
+            ),
+          if (info != null && info.drugClass.isNotEmpty)
+            _kv('Drug class', info.drugClass),
+          if (info != null && info.usedFor.isNotEmpty)
+            _kv('Used for', info.usedFor),
           if (m.prescriptionType == PrescriptionType.prn) ...[
             _kv('Indication', _v(m.prnIndication)),
             _kv('Max frequency', _v(m.maxPrnDoseFrequency)),
@@ -539,7 +628,16 @@ class MedicalSummaryService {
     );
   }
 
-  pw.Widget _symptomCard(Symptom s) => pw.Container(
+  // The wizard saves character as "<Symptom name> - <how it feels>".
+  (String title, String character) _splitCharacter(String raw) {
+    final i = raw.indexOf(' - ');
+    if (i <= 0) return (raw.trim(), '');
+    return (raw.substring(0, i).trim(), raw.substring(i + 3).trim());
+  }
+
+  pw.Widget _symptomCard(Symptom s) {
+    final (title, character) = _splitCharacter(s.character);
+    return pw.Container(
         width: double.infinity,
         margin: const pw.EdgeInsets.only(bottom: 6),
         padding: const pw.EdgeInsets.all(8),
@@ -551,13 +649,17 @@ class MedicalSummaryService {
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.Text(
+              title,
+              style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.Text(
               _dateTime.format(s.loggedAt),
-              style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+              style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700),
             ),
             pw.SizedBox(height: 3),
             // COLDSPA: Character, Onset, Location, Duration,
             //          Severity, Pattern, Associated factors
-            _kv('Character', _v(s.character)),
+            _kv('Character', _v(character.isEmpty ? s.character : character)),
             _kv('Onset', _v(s.onset)),
             _kv('Location', _v(s.location)),
             _kv('Duration', _v(s.duration)),
@@ -567,4 +669,5 @@ class MedicalSummaryService {
           ],
         ),
       );
+  }
 }
