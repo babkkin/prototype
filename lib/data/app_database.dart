@@ -96,6 +96,13 @@ class Medications extends Table {
   /// Total number of doses the doctor prescribed (optional).
   /// Each "Taken" counts as one dose.
   IntColumn get totalDoses => integer().nullable()();
+
+  /// Set when the caregiver stops a medication before / at its end.
+  /// Medications are never removed by "Stop", so their dose history stays.
+  DateTimeColumn get stoppedAt => dateTime().nullable()();
+
+  /// Why it was stopped (e.g. "Doctor stopped it").
+  TextColumn get stopReason => text().nullable()();
 }
 
 /// ---------------------------------------------------------------------
@@ -337,6 +344,39 @@ class MedicationsDao extends DatabaseAccessor<AppDatabase>
           ..where((t) => t.id.equals(id)))
         .go();
   }
+
+  /// Stops a medication: the end date becomes today (the last day it was
+  /// taken), and the stop time and reason are recorded. Nothing is deleted.
+  Future<void> stopMedication(int id, {required String reason}) async {
+    final med = await (select(medications)
+          ..where((t) => t.id.equals(id)))
+        .getSingle();
+
+    final now = DateTime.now();
+    var end = DateTime(now.year, now.month, now.day);
+    final start =
+        DateTime(med.startDate.year, med.startDate.month, med.startDate.day);
+    if (end.isBefore(start)) end = start; // stopped before it ever began
+
+    await (update(medications)..where((t) => t.id.equals(id))).write(
+      MedicationsCompanion(
+        endDate: Value(end),
+        stoppedAt: Value(now),
+        stopReason: Value(reason),
+      ),
+    );
+  }
+
+  /// Undo a stop: the medication is ongoing again.
+  Future<void> resumeMedication(int id) {
+    return (update(medications)..where((t) => t.id.equals(id))).write(
+      const MedicationsCompanion(
+        endDate: Value(null),
+        stoppedAt: Value(null),
+        stopReason: Value(null),
+      ),
+    );
+  }
 }
 
 /// ---------------------------------------------------------------------
@@ -520,6 +560,22 @@ class MedicationIntakesDao extends DatabaseAccessor<AppDatabase>
     });
   }
 
+  /// (taken, skipped) counts per medication, all days.
+  Stream<Map<int, (int, int)>> watchIntakeCounts(int profileId) {
+    return (select(medicationIntakes)
+          ..where((t) => t.profileId.equals(profileId)))
+        .watch()
+        .map((rows) {
+      final counts = <int, (int, int)>{};
+      for (final r in rows) {
+        final (t, k) = counts[r.medicationId] ?? (0, 0);
+        counts[r.medicationId] =
+            r.status == IntakeStatus.taken ? (t + 1, k) : (t, k + 1);
+      }
+      return counts;
+    });
+  }
+
   /// Changes the time a dose was recorded as taken.
   Future<void> updateLoggedAt(int id, DateTime at) {
     return (update(medicationIntakes)
@@ -591,7 +647,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration =>
@@ -635,6 +691,13 @@ class AppDatabase extends _$AppDatabase {
           if (from < 7) {
             // v6 -> v7: optional total prescribed doses per medication.
             await m.addColumn(medications, medications.totalDoses);
+          }
+
+          if (from < 8) {
+            // v7 -> v8: stopping a medication (date + reason) instead of
+            // only deleting it.
+            await m.addColumn(medications, medications.stoppedAt);
+            await m.addColumn(medications, medications.stopReason);
           }
         },
       );

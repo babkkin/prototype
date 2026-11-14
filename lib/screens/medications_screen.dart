@@ -174,6 +174,124 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
     return trimmed.isEmpty ? '--' : trimmed;
   }
 
+  // ---- active vs past ------------------------------------------------
+
+  bool _showPast = false;
+
+  DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  /// Past = stopped by the caregiver, or the end date has gone by.
+  bool _isPast(Medication m) {
+    if (m.stoppedAt != null) return true;
+    final end = m.endDate;
+    if (end == null) return false;
+    return _dateOnly(end).isBefore(_dateOnly(DateTime.now()));
+  }
+
+  String _endReason(Medication m) {
+    if (m.stoppedAt == null) return 'Course ended (end date reached)';
+    final r = m.stopReason?.trim() ?? '';
+    return r.isEmpty ? 'Stopped' : r;
+  }
+
+  static const _stopReasons = [
+    'Course completed',
+    'Doctor stopped it',
+    'Side effects',
+    'No longer needed',
+    'Other',
+  ];
+
+  Future<String?> _askStopReason(BuildContext context, Medication med) {
+    var choice = _stopReasons.first;
+    final other = TextEditingController();
+
+    return showDialog<String>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setLocal) => AlertDialog(
+          title: Text('Stop ${med.medicationName}?'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'It moves to Past medications and leaves the daily '
+                  'schedule. Its dose history is kept.',
+                ),
+                const SizedBox(height: 8),
+                for (final r in _stopReasons)
+                  RadioListTile<String>(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(r),
+                    value: r,
+                    groupValue: choice,
+                    onChanged: (v) => setLocal(() => choice = v ?? choice),
+                  ),
+                if (choice == 'Other')
+                  TextField(
+                    controller: other,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: const InputDecoration(
+                      hintText: 'Reason (optional)',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                final text = other.text.trim();
+                Navigator.pop(
+                  dialogContext,
+                  choice == 'Other' && text.isNotEmpty
+                      ? 'Other: $text'
+                      : choice,
+                );
+              },
+              child: const Text('Stop medication'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _stopMedication(BuildContext context, Medication med) async {
+    final dao = context.read<AppDatabase>().medicationsDao;
+    final messenger = ScaffoldMessenger.of(context);
+
+    final reason = await _askStopReason(context, med);
+    if (reason == null) return;
+
+    await dao.stopMedication(med.id, reason: reason);
+    _expandedMedicationIds.remove(med.id);
+
+    messenger.showSnackBar(
+      SnackBar(content: Text('${med.medicationName} stopped.')),
+    );
+  }
+
+  Future<void> _resumeMedication(BuildContext context, Medication med) async {
+    final dao = context.read<AppDatabase>().medicationsDao;
+    final messenger = ScaffoldMessenger.of(context);
+
+    await dao.resumeMedication(med.id);
+    _expandedMedicationIds.remove(med.id);
+
+    messenger.showSnackBar(
+      SnackBar(content: Text('${med.medicationName} resumed (ongoing).')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.medications.isEmpty) {
@@ -182,36 +300,75 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
       );
     }
 
+    final active = widget.medications.where((m) => !_isPast(m)).toList();
+    final past = widget.medications.where(_isPast).toList()
+      ..sort((a, b) => (b.endDate ?? b.startDate)
+          .compareTo(a.endDate ?? a.startDate));
+
     // This list is the screen's main scroller, so it must scroll itself.
     // The bottom padding keeps the last row clear of the add (+) button.
-    return StreamBuilder<Map<int, int>>(
+    return StreamBuilder<Map<int, (int, int)>>(
       stream: context
           .read<AppDatabase>()
           .medicationIntakesDao
-          .watchTakenCounts(widget.medications.first.profileId),
-      builder: (context, countSnapshot) {
-        final takenCounts = countSnapshot.data ?? const <int, int>{};
+          .watchIntakeCounts(widget.medications.first.profileId),
+      builder: (context, snapshot) {
+        final counts = snapshot.data ?? const <int, (int, int)>{};
 
-    return ListView.separated(
-      padding: const EdgeInsets.only(bottom: 88),
-      itemCount: widget.medications.length,
-      separatorBuilder: (_, _) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        final med = widget.medications[index];
-        final isExpanded = _expandedMedicationIds.contains(med.id);
-
-        final taken = takenCounts[med.id] ?? 0;
-
-        return Column(
+        return ListView(
+          padding: const EdgeInsets.only(bottom: 88),
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 10,
+            if (active.isEmpty)
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('No active medications.'),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            for (final med in active) ...[
+              _medRow(context, med, counts, past: false),
+              const Divider(height: 1),
+            ],
+            if (past.isNotEmpty) ...[
+              ListTile(
+                title: Text('Past medications (${past.length})'),
+                subtitle: const Text(
+                  'Completed or stopped. Dose history is kept.',
+                ),
+                trailing: Icon(
+                  _showPast
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                ),
+                onTap: () => setState(() => _showPast = !_showPast),
+              ),
+              const Divider(height: 1),
+              if (_showPast)
+                for (final med in past) ...[
+                  _medRow(context, med, counts, past: true),
+                  const Divider(height: 1),
+                ],
+            ],
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _medRow(
+    BuildContext context,
+    Medication med,
+    Map<int, (int, int)> counts, {
+    required bool past,
+  }) {
+    final isExpanded = _expandedMedicationIds.contains(med.id);
+    final (taken, skipped) = counts[med.id] ?? (0, 0);
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Row(
                 children: [
                   Expanded(
@@ -241,9 +398,7 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                     flex: 2,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: _TypeBadge(
-                        type: med.prescriptionType,
-                      ),
+                      child: _TypeBadge(type: med.prescriptionType),
                     ),
                   ),
                   IconButton(
@@ -259,11 +414,20 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                   ),
                 ],
               ),
+              if (past)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    '${_formatDate(med.startDate)} - '
+                    '${_formatDate(med.endDate)} | ${_endReason(med)}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
               DoseProgress(medication: med, taken: taken),
-                ],
-              ),
-            ),
-            if (isExpanded)
+            ],
+          ),
+        ),
+        if (isExpanded)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
@@ -333,6 +497,21 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                       label: 'End Date',
                       value: _formatDate(med.endDate),
                     ),
+                    if (past) ...[
+                      _PrescriptionDetailRow(
+                        label: 'Ended Because',
+                        value: _endReason(med),
+                      ),
+                      if (med.stoppedAt != null)
+                        _PrescriptionDetailRow(
+                          label: 'Stopped On',
+                          value: _formatDate(med.stoppedAt),
+                        ),
+                    ],
+                    _PrescriptionDetailRow(
+                      label: 'Doses Recorded',
+                      value: 'Taken $taken, skipped $skipped',
+                    ),
                     _PrescriptionDetailRow(
                       label: 'Total Doses',
                       value: med.totalDoses == null
@@ -368,19 +547,32 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                       _displayNullable(med.specialInstructions),
                     ),
                     const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    Wrap(
+                      alignment: WrapAlignment.end,
+                      spacing: 8,
                       children: [
-                        TextButton.icon(
-                          onPressed: () => _editMedication(context, med),
-                          icon: const Icon(Icons.edit_outlined),
-                          label: const Text('Edit'),
-                        ),
-                        const SizedBox(width: 8),
+                        if (!past)
+                          TextButton.icon(
+                            onPressed: () => _editMedication(context, med),
+                            icon: const Icon(Icons.edit_outlined),
+                            label: const Text('Edit'),
+                          ),
+                        if (!past)
+                          TextButton.icon(
+                            onPressed: () => _stopMedication(context, med),
+                            icon: const Icon(Icons.stop_circle_outlined),
+                            label: const Text('Stop'),
+                          ),
+                        if (past && med.stoppedAt != null)
+                          TextButton.icon(
+                            onPressed: () => _resumeMedication(context, med),
+                            icon: const Icon(Icons.play_circle_outline),
+                            label: const Text('Resume'),
+                          ),
                         TextButton.icon(
                           onPressed: () => _deleteMedication(context, med),
                           icon: const Icon(Icons.delete_outline),
-                          label: const Text('Delete medication'),
+                          label: const Text('Delete'),
                           style: TextButton.styleFrom(
                             foregroundColor:
                                 Theme.of(context).colorScheme.error,
@@ -390,12 +582,8 @@ class _MedicationsScreenState extends State<MedicationsScreen> {
                     ),
                   ],
                 ),
-              ),
-          ],
-        );
-      },
-    );
-      },
+              )
+      ],
     );
   }
 }

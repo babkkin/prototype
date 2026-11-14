@@ -192,7 +192,16 @@ class MedicalSummaryService {
 
   // Same date-only rule as DailyMedicationSchedule: a medication whose end
   // date is today is still active for the whole day.
+  /// Stopped by the caregiver, or the end date has gone by.
+  bool _isPast(Medication m) {
+    if (m.stoppedAt != null) return true;
+    final end = m.endDate;
+    if (end == null) return false;
+    return _startOfDay(end).isBefore(_startOfDay(DateTime.now()));
+  }
+
   bool _isActive(Medication m) {
+    if (m.stoppedAt != null) return false;
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final start =
@@ -229,10 +238,19 @@ class MedicalSummaryService {
     final range = d.range;
     final activeMeds = (range == null
             ? d.medications.where(_isActive)
-            : d.medications.where((m) => _overlapsRange(m, range)))
+            : d.medications
+                .where((m) => !_isPast(m) && _overlapsRange(m, range)))
         .toList();
     List<Medication> ofType(PrescriptionType t) =>
         activeMeds.where((m) => m.prescriptionType == t).toList();
+
+    // Completed or stopped medicines, newest end first.
+    final pastMeds = (range == null
+            ? d.medications.where(_isPast)
+            : d.medications.where((m) => _isPast(m) && _overlapsRange(m, range)))
+        .toList()
+      ..sort((a, b) =>
+          (b.endDate ?? b.startDate).compareTo(a.endDate ?? a.startDate));
 
     doc.addPage(
       pw.MultiPage(
@@ -292,6 +310,15 @@ class MedicalSummaryService {
             _medGroup(d, 'Maintenance', ofType(PrescriptionType.maintenance)),
             _medGroup(d, 'Temporary', ofType(PrescriptionType.temporary)),
             _medGroup(d, 'As needed (PRN)', ofType(PrescriptionType.prn)),
+          ],
+          if (pastMeds.isNotEmpty) ...[
+            _section('Past Medications (Completed or Stopped)'),
+            _muted(
+              'Medicines no longer being taken. Dose counts are what was '
+              'marked Taken or Skipped in the app.',
+            ),
+            pw.SizedBox(height: 4),
+            ...pastMeds.map((m) => _medCard(d, m, past: true)),
           ],
           _section(range == null
               ? 'Upcoming Appointments'
@@ -511,7 +538,7 @@ class MedicalSummaryService {
     return (taken, skipped, allTime);
   }
 
-  pw.Widget _medCard(MedicalSummaryData d, Medication m) {
+  pw.Widget _medCard(MedicalSummaryData d, Medication m, {bool past = false}) {
     final info = d.medicineInfo[m.medicationName.trim().toLowerCase()];
     final (taken, skipped, takenAllTime) = _counts(d, m);
     final scope = d.range == null ? '' : ' (in this period)';
@@ -559,6 +586,13 @@ class MedicalSummaryService {
           _kv('Route', _v(m.route)),
           _kv('Schedule', schedule),
           _kv('Duration', duration),
+          if (past)
+            _kv(
+              'Ended because',
+              m.stoppedAt == null
+                  ? 'Course ended (end date reached)'
+                  : '${_v(m.stopReason)} (stopped ${_date.format(m.stoppedAt!)})',
+            ),
           if (total != null && total > 0)
             _kv(
               'Course progress',
